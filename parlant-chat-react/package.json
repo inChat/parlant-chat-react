@@ -1,11 +1,23 @@
 {
   "name": "parlant-chat-react",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
-  "main": "dist/my-react-package.umd.js",
-  "module": "dist/my-react-package.es.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/parlant-chat-react.umd.js",
+  "module": "dist/parlant-chat-react.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/parlant-chat-react.js",
+      "require": "./dist/parlant-chat-react.umd.js"
+    },
+    "./dist/style.css": "./dist/parlant-chat-react.css"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

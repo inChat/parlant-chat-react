@@ -1,1 +1,2 @@
-export { default as MyComponent } from "./App";
+export { default as Chat } from "./App";
+import "./index.css";
