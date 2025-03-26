@@ -7,6 +7,9 @@ import { ClassNameValue, twJoin, twMerge } from "tailwind-merge";
 import Message from "./message/message";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import sendIcon from '/icons/send.svg';
+
+import '../../App.css';
 
 export type MessageInterface = Event & {
     status: string | null;
@@ -124,7 +127,7 @@ const Chat = ({route, sessionId, classNames}: Props) => {
         <div className={twMerge("flex-1 overflow-auto fixed-scroll", classNames?.messagesArea)}>
             {messages.map((message, i) => <div ref={lastMessageRef} key={i}><Message message={message} className={classNames?.message}/></div>)}
         </div>
-        <div className={twJoin('group w-[80%] m-auto flex-[none] relative border flex-1 border-muted border-solid rounded-[16px] flex flex-row justify-center items-center bg-white p-[0.9rem] ps-[14px] mt-[1rem] pe-0 h-[48.67px] max-w-[1000px] mb-[20px]', classNames?.textarea)}>
+        <div className={twJoin('group w-[80%] m-auto flex-[none] relative border border-muted border-solid rounded-[16px] flex flex-row justify-center items-center bg-white p-[0.9rem] ps-[14px] mt-[1rem] pe-0 h-[48.67px] max-w-[1000px] mb-[20px]', classNames?.textarea)}>
             <Textarea
                 role='textbox'
                 ref={textareaRef}
@@ -139,7 +142,9 @@ const Chat = ({route, sessionId, classNames}: Props) => {
                 {showInfo}
             </p>
             <Button variant='ghost' data-testid='submit-button' className='max-w-[60px] rounded-full hover:bg-white' ref={submitButtonRef} disabled={!message?.trim()} onClick={() => postMessage(message)}>
-                <img src='icons/send.svg' alt='Send' height={19.64} width={21.52} className='h-10' />
+            <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z" fill="#282828"/>
+            </svg>
             </Button>
         </div>
     </div>
