@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"rootDirs": ["."],
+		"module": "ES2022",
+		"moduleResolution": "Bundler",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"lib": ["DOM", "ESNext", "ES2022"],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"jsx": "react-jsx"
+	},
+	"include": ["src"]
+}

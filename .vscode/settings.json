@@ -1,0 +1,11 @@
+{
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#3b036c",
+        "titleBar.border": "#fff",
+        "titleBar.activeForeground": "#fff",
+        "titleBar.inactiveBackground": "#fff",
+        "titleBar.inactiveForeground": "#fff"
+    }
+}
