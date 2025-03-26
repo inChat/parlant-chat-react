@@ -9,7 +9,7 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
 export type MessageInterface = Event & {
-    status: string;
+    status: string | null;
     error?: string;
 }
 
@@ -83,9 +83,12 @@ const Chat = ({route, sessionId, classNames}: Props) => {
 		const newMessages = data?.filter((e) => e.kind === 'message') || [];
 		const withStatusMessages = newMessages.map((newMessage, i) => {
 			const data: MessageInterface = {...newMessage, status: ''};
-			const item: MessageInterface | undefined = correlationsMap?.[newMessage.correlationId.split('::')[0]]?.at(-1)?.data;
-			data.status = (item?.status || (newMessages[i + 1] ? 'ready' : null));
-			if (data.status === 'error') data.error = item?.data?.exception;
+			const item: unknown = correlationsMap?.[newMessage.correlationId.split('::')[0]]?.at(-1)?.data;
+			data.status = ((item as MessageInterface)?.status || (newMessages[i + 1] ? 'ready' : null));
+			if (data.status === 'error') {
+                const itemData = (item as MessageInterface)?.data as {exception?: string}
+                data.error = itemData?.exception;
+            }
 			return data;
 		});
 
@@ -93,7 +96,7 @@ const Chat = ({route, sessionId, classNames}: Props) => {
 			const last = messages.at(-1);
 			if (last?.source === 'customer' && correlationsMap?.[last?.correlationId]) {
 				last.status = (correlationsMap[last.correlationId].at(-1)?.data as any)?.status || last.status;
-				if (last.status === 'error') last.error = correlationsMap[last.correlationId].at(-1)?.data?.data?.exception;
+				if (last.status === 'error') last.error = (correlationsMap[last.correlationId].at(-1)?.data as any)?.exception;
 			}
 			if (!withStatusMessages?.length) return [...messages];
 			if ((pendingMessage?.data as any)?.message) setPendingMessage(emptyPendingMessage());

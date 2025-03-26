@@ -13,6 +13,23 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			"@": path.resolve(".", "./src"),
+      "node-fetch": "cross-fetch",
 		},
 	},
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "MyReactPackage",
+      fileName: (format) => `my-react-package.${format}.js`,
+    },
+    rollupOptions: {
+      external: ["react", "react-dom"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+      },
+    },
+  },
 });
