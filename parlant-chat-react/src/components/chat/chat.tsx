@@ -37,11 +37,11 @@ const Chat = ({route, sessionId, classNames}: ChatProps) => {
     const lastMessageRef = useRef<HTMLDivElement>(null);
     const [abortController] = useState(new AbortController());
 
-    useEffect(() => {
-        return () => {
-            abortController.abort();
-        }
-    }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         abortController.abort();
+    //     }
+    // }, []);
 
 	const [message, setMessage] = useState('');
 
@@ -130,12 +130,12 @@ const Chat = ({route, sessionId, classNames}: ChatProps) => {
                     onKeyDown={handleTextareaKeydown}
                     onChange={(e) => setMessage(e.target.value)}
                     rows={1}
-                    className={twMerge('box-shadow-none placeholder:text-[#282828] resize-none border-none h-full rounded-none min-h-[unset] p-0 whitespace-nowrap no-scrollbar font-inter font-light text-[16px] leading-[18px] bg-white', classNames?.textarea)}
+                    className={twMerge('box-shadow-none placeholder:text-[#282828] text-black resize-none border-none h-full rounded-none min-h-[unset] p-0 whitespace-nowrap no-scrollbar font-inter font-light text-[16px] leading-[47px] bg-white', classNames?.textarea)}
                 />
                 <p className={twMerge('absolute invisible left-[0.25em] -bottom-[40px] font-normal text-[#A9AFB7] text-[14px] font-inter', (showInfo) && 'visible')}>
                     {showInfo}
                 </p>
-                <Button variant='ghost' data-testid='submit-button' className='max-w-[60px] rounded-full hover:bg-white' ref={submitButtonRef} disabled={!message?.trim()} onClick={() => postMessage(message)}>
+                <Button variant='ghost' data-testid='submit-button' className='max-w-[60px] bg-none rounded-full hover:bg-white' ref={submitButtonRef} disabled={!message?.trim()} onClick={() => postMessage(message)}>
                 <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z" fill="#282828"/>
                 </svg>

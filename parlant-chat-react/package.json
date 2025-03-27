@@ -8,9 +8,9 @@
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/App.d.ts",
       "import": "./dist/parlant-chat-react.js",
-      "require": "./dist/parlant-chat-react.umd.js",
-      "types": "./dist/App.d.ts"
+      "require": "./dist/parlant-chat-react.umd.js"
     },
     "./dist/style.css": "./dist/parlant-chat-react.css"
   },
