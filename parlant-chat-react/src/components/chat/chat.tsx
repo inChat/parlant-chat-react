@@ -27,7 +27,7 @@ export const emptyPendingMessage: () => Partial<Event> = () => ({
 	},
 });
 
-const Chat = ({route, sessionId, components, classNames}: ChatProps) => {
+const Chat = ({route, sessionId, components, sendIcon, classNames}: ChatProps) => {
     const [messages, setMessages] = useState<MessageInterface[]>([]);
     const [lastOffset, setLastOffset] = useState(0);
     const [showInfo, setShowInfo] = useState('');
@@ -113,7 +113,7 @@ const Chat = ({route, sessionId, components, classNames}: ChatProps) => {
     useEffect(formatMessagesFromEvents, [data?.length]);
     useEffect(() => {
         setTimeout(() => lastMessageRef?.current?.scrollIntoView({block: 'nearest'}), 0);
-    }, [messages?.length])
+    }, [messages?.length]);
 
   return (
         <div className={twMerge("bg-[#1e1e2e] h-[min(600px,70vh)] rounded-[10px] p-[10px] flex flex-col w-[500px]", classNames?.chatbox)}>
@@ -142,10 +142,11 @@ const Chat = ({route, sessionId, components, classNames}: ChatProps) => {
                 <p className={twMerge('absolute invisible left-[0.25em] -bottom-[40px] font-normal text-[#A9AFB7] text-[14px] font-inter', (showInfo) && 'visible')}>
                     {showInfo}
                 </p>
-                <Button variant='ghost' data-testid='submit-button' className='max-w-[60px] bg-none rounded-full hover:bg-white' ref={submitButtonRef} disabled={!message?.trim()} onClick={() => postMessage(message)}>
+                <Button variant='ghost' data-testid='submit-button' className='max-w-[60px] bg-none rounded-full hover:bg-white !border-0 hover:!border-0' ref={submitButtonRef} disabled={!message?.trim()} onClick={() => postMessage(message)}>
+                {sendIcon || 
                 <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z" fill="#282828"/>
-                </svg>
+                </svg>}
                 </Button>
             </div>
         </div>

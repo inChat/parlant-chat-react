@@ -14,6 +14,7 @@ export interface ChatProps {
   sessionId: string;
   asPopup?: boolean;
   popupButton?: JSX.Element;
+  sendIcon?: JSX.Element;
   classNames?: {
       chatbox?: ClassNameValue;
       messagesArea?: ClassNameValue;
@@ -31,7 +32,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-export const Chatbot = ({route, sessionId, asPopup, popupButton, components, classNames = {}}: ChatProps): JSX.Element => {
+export const Chatbot = ({route, sessionId, asPopup, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [chatOpen, setChatOpen] = useState(false);
   const rect = buttonRef?.current?.getBoundingClientRect();
@@ -44,9 +45,9 @@ export const Chatbot = ({route, sessionId, asPopup, popupButton, components, cla
             <Button ref={buttonRef} onClick={() => setChatOpen(val => !val)} className={twMerge("bg-black !border-none !outline-0 rounded-full min-w-fit size-[50px] p-[10px] m-[10px]", classNames?.defaultPopupButton)}>
               {popupButton || <Icon size={30} color='white' className={twMerge('min-w-[30px] min-h-[30px]', classNames?.defaultPopupButtonIcon)}/>}
             </Button>
-            {chatOpen && <div className='fixed !-translate-[100%]' style={{top: `${(rect?.y || 0)}px`, left: `${rect?.x}px`}}><Chat route={route} sessionId={sessionId} classNames={classNames} components={components}/></div>}
+            {chatOpen && <div className='fixed !-translate-[100%]' style={{top: `${(rect?.y || 0)}px`, left: `${rect?.x}px`}}><Chat route={route} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon}/></div>}
           </>
-        ) : <Chat route={route} sessionId={sessionId} classNames={classNames} components={components}/>}
+        ) : <Chat route={route} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon}/>}
       </QueryClientProvider>
     </>
   )
