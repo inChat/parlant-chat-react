@@ -7,20 +7,21 @@ import { JSX, ReactNode } from 'react';
 // import './parlant-chat-react.css'
 // import ShadowRoot from './components/ui/shadow-wrapper';
 
-interface Props {
+export interface ChatProps {
   route: string;
   sessionId: string;
   classNames?: {
       chatbox?: ClassNameValue;
       messagesArea?: ClassNameValue;
-      message?: ClassNameValue;
+      agentMessage?: ClassNameValue;
+      customerMessage?: ClassNameValue;
       textarea?: ClassNameValue;
   }
 }
 
 const queryClient = new QueryClient();
 
-export const Chatbot = ({route, sessionId, classNames = {}}: Props): JSX.Element => {
+export const Chatbot = ({route, sessionId, classNames = {}}: ChatProps): JSX.Element => {
   return (
     <>
       <QueryClientProvider client={queryClient}>
