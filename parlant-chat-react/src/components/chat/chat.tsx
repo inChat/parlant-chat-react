@@ -27,7 +27,7 @@ export const emptyPendingMessage: () => Partial<Event> = () => ({
 	},
 });
 
-const Chat = ({route, sessionId, classNames}: ChatProps) => {
+const Chat = ({route, sessionId, components, classNames}: ChatProps) => {
     const [messages, setMessages] = useState<MessageInterface[]>([]);
     const [lastOffset, setLastOffset] = useState(0);
     const [showInfo, setShowInfo] = useState('');
@@ -118,7 +118,14 @@ const Chat = ({route, sessionId, classNames}: ChatProps) => {
   return (
         <div className={twMerge("bg-[#1e1e2e] h-[min(600px,70vh)] rounded-[10px] p-[10px] flex flex-col w-[500px]", classNames?.chatbox)}>
             <div className={twMerge("flex-1 overflow-auto fixed-scroll", classNames?.messagesArea)}>
-                {messages.map((message) => <div key={message.id}><Message message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage}/></div>)}
+                {messages.map((message) => {
+                    const Component = (message?.source === 'customer'? components?.customerMessage : components?.agentMessage) || Message;
+                    return (
+                        <div key={message.id}>
+                            <Component message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage}/>
+                        </div>
+                    )
+                })}
                 <div ref={lastMessageRef}/>
             </div>
             <div className={twMerge('group w-[80%] m-auto flex-[none] relative border border-muted border-solid rounded-[16px] flex flex-row justify-center items-center bg-white leading-[3rem] ps-[14px] mt-[1rem] pe-0 h-[48.67px] max-w-[1000px] mb-[20px]', classNames?.textarea)}>
