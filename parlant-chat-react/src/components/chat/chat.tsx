@@ -35,7 +35,13 @@ const Chat = ({route, sessionId, classNames}: ChatProps) => {
     const submitButtonRef = useRef<HTMLButtonElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const lastMessageRef = useRef<HTMLDivElement>(null);
+    const [abortController] = useState(new AbortController());
 
+    useEffect(() => {
+        return () => {
+            abortController.abort();
+        }
+    }, []);
 
 	const [message, setMessage] = useState('');
 
@@ -44,7 +50,7 @@ const Chat = ({route, sessionId, classNames}: ChatProps) => {
     });
     const {data, isLoading, refetch} = useQuery<Event[]>({
 		queryKey: ['events', lastOffset],
-        queryFn: () => parlantClient.sessions.listEvents(sessionId, {waitForData: 60, minOffset: lastOffset}),
+        queryFn: () => parlantClient.sessions.listEvents(sessionId, {waitForData: 60, minOffset: lastOffset}, {abortSignal: abortController.signal}),
 	});
 
     const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
@@ -125,7 +131,7 @@ const Chat = ({route, sessionId, classNames}: ChatProps) => {
                     rows={1}
                     className={twMerge('box-shadow-none placeholder:text-[#282828] resize-none border-none h-full rounded-none min-h-[unset] p-0 whitespace-nowrap no-scrollbar font-inter font-light text-[16px] leading-[18px] bg-white', classNames?.textarea)}
                 />
-                <p className={twMerge('absolute invisible left-[0.25em] -bottom-[28px] font-normal text-[#A9AFB7] text-[14px] font-inter', (showInfo) && 'visible')}>
+                <p className={twMerge('absolute invisible left-[0.25em] -bottom-[40px] font-normal text-[#A9AFB7] text-[14px] font-inter', (showInfo) && 'visible')}>
                     {showInfo}
                 </p>
                 <Button variant='ghost' data-testid='submit-button' className='max-w-[60px] rounded-full hover:bg-white' ref={submitButtonRef} disabled={!message?.trim()} onClick={() => postMessage(message)}>
