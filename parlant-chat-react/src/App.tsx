@@ -1,6 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Chat from './components/chat/chat';
 import { ClassNameValue } from 'tailwind-merge';
+import './App.css'
+import './index.css'
+import { JSX, ReactNode } from 'react';
+// import './parlant-chat-react.css'
 // import ShadowRoot from './components/ui/shadow-wrapper';
 
 interface Props {
@@ -16,15 +20,15 @@ interface Props {
 
 const queryClient = new QueryClient();
 
-function App({route, sessionId, classNames}: Props) {
+export const Chatbot = ({route, sessionId, classNames = {}}: Props): JSX.Element => {
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <ShadowRoot> */}
-        {/* <Chat route={'http://localhost:8800'} sessionId={'l-Zo2YFSqi'}/> */}
-        <Chat route={route} sessionId={sessionId} classNames={classNames}/>
-      {/* </ShadowRoot> */}
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        {/* <ShadowRoot> */}
+          {/* <Chat route={'http://localhost:8800'} sessionId={'l-Zo2YFSqi'}/> */}
+          <Chat route={route} sessionId={sessionId} classNames={classNames}/>
+        {/* </ShadowRoot> */}
+      </QueryClientProvider>
+    </>
   )
 }
-
-export default App;

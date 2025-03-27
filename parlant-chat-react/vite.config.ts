@@ -3,10 +3,12 @@ import react from "@vitejs/plugin-react";
 import path, { resolve } from "node:path";
 import { defineConfig } from "vite";
 import tailwindcss from '@tailwindcss/vite'
+import dts from 'vite-plugin-dts';
+
 
 // https://vite.dev/config/
 export default defineConfig({
-	plugins: [react(), tailwindcss(),],
+	plugins: [react(), tailwindcss(),dts({ insertTypesEntry: true })],
 	css: {
 		postcss: "./postcss.config.cjs",
 	},

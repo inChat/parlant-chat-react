@@ -1,3 +1,3 @@
-export { default as Chat } from "./App";
+export { Chatbot } from "./App";
 
 import "./index.css";
