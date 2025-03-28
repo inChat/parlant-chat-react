@@ -50,7 +50,7 @@ export const Chatbot = ({
   sendIcon,
   classNames,
 }: ChatProps): JSX.Element => {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   
   const [chatOpen, setChatOpen] = useState<boolean>(false);
   
@@ -66,25 +66,26 @@ export const Chatbot = ({
     <QueryClientProvider client={queryClient}>
       {asPopup ? (
         <>
-          <Button 
-            ref={buttonRef} 
-            onClick={toggleChat} 
-            className={twMerge(
-              "bg-black !border-none !outline-0 rounded-full min-w-fit size-[50px] p-[10px] m-[10px]", 
-              classNames?.defaultPopupButton
-            )}
-          >
-            {popupButton || (
-              <IconComponent 
-                size={30} 
-                color="white" 
-                className={twMerge(
-                  'min-w-[30px] min-h-[30px]', 
-                  classNames?.defaultPopupButtonIcon
-                )}
-              />
-            )}
-          </Button>
+          <div ref={buttonRef}>
+            <Button
+              onClick={toggleChat} 
+              className={twMerge(
+                "bg-black !border-none !outline-0 rounded-full min-w-fit size-[50px] p-[10px] m-[10px]", 
+                classNames?.defaultPopupButton
+              )}
+            >
+              {popupButton || (
+                <IconComponent 
+                  size={30} 
+                  color="white" 
+                  className={twMerge(
+                    'min-w-[30px] min-h-[30px]', 
+                    classNames?.defaultPopupButtonIcon
+                  )}
+                />
+              )}
+            </Button>
+          </div>
           
           {chatOpen && (
             <div 
@@ -95,7 +96,8 @@ export const Chatbot = ({
               }}
             >
               <Chat 
-                route={route} 
+                route={route}
+                asPopup={asPopup}
                 sessionId={sessionId} 
                 classNames={classNames} 
                 components={components} 

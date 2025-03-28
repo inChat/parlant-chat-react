@@ -50,6 +50,7 @@ const Chat = ({
   components,
   sendIcon,
   classNames,
+  asPopup
 }: ChatProps): JSX.Element => {
   // State management
   const [messages, setMessages] = useState<MessageInterface[]>([]);
@@ -185,6 +186,10 @@ const Chat = ({
           : ''
     );
   };
+
+  useEffect(() => {
+    if (asPopup) textareaRef?.current?.focus()
+    }, []);
 
   useEffect(() => {
     formatMessagesFromEvents();
