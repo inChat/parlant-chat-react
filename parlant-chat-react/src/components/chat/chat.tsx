@@ -124,17 +124,14 @@ const Chat = ({
     
     if (!lastEvent) return;
 
-    // Update last offset
     const offset = lastEvent?.offset;
     if (offset !== undefined) setLastOffset(offset + 1);
 
-    // Group events by correlation ID
     const correlationsMap = groupBy(
       data || [], 
       (item: Event) => item?.correlationId.split('::')[0]
     );
 
-    // Filter message events and add status
     const newMessages = data?.filter((e) => e.kind === 'message') || [];
     const withStatusMessages = newMessages.map((newMessage, i) => {
       const messageData: MessageInterface = { ...newMessage, status: '' };
@@ -150,11 +147,9 @@ const Chat = ({
       return messageData;
     });
 
-    // Update messages state
     setMessages((currentMessages: MessageInterface[]) => {
       const lastMessage = currentMessages.at(-1);
       
-      // Update status of last customer message if needed
       if (lastMessage?.source === 'customer' && correlationsMap?.[lastMessage?.correlationId]) {
         const lastCorrelationItem = correlationsMap[lastMessage.correlationId].at(-1)?.data as StatusEventData;
         lastMessage.status = lastCorrelationItem?.status || lastMessage.status;
@@ -164,15 +159,12 @@ const Chat = ({
         }
       }
       
-      // Return early if no new messages
       if (!withStatusMessages?.length) return [...currentMessages];
       
-      // Clear pending message if needed
       if ((pendingMessage?.data as { message?: string })?.message) {
         setPendingMessage(createEmptyPendingMessage());
       }
 
-      // Merge existing and new messages, preserving order by offset
       const mergedMessages: (Event | undefined)[] = [];
       
       for (const messageArray of [currentMessages, withStatusMessages]) {
@@ -184,7 +176,6 @@ const Chat = ({
       return mergedMessages.filter((message): message is MessageInterface => !!message);
     });
 
-    // Update status info display
     const lastStatusEventStatus = (lastStatusEvent?.data as StatusEventData)?.status;
     setShowInfo(
       (!!messages?.length && lastStatusEventStatus === 'processing') 
@@ -195,12 +186,10 @@ const Chat = ({
     );
   };
 
-  // Update messages when data changes
   useEffect(() => {
     formatMessagesFromEvents();
   }, [data?.length]);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     setTimeout(() => lastMessageRef?.current?.scrollIntoView({ block: 'nearest' }), 0);
   }, [messages?.length]);
