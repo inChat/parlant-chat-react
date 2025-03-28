@@ -1,23 +1,21 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ClassNameValue, twMerge } from 'tailwind-merge';
 import { JSX, ReactElement, useRef, useState } from 'react';
-import { MessageSquare, X } from 'lucide-react';
+import { Component, MessageSquare, X } from 'lucide-react';
 import Chat, { MessageInterface } from './components/chat/chat';
 import { Button } from './components/ui/button';
 import './App.css';
 import './index.css';
 
-/**
- * Props interface for individual message components
- */
 interface MessageComponentProps {
   message: MessageInterface;
   className?: ClassNameValue;
 }
 
-/**
- * ChatProps interface for configuring the Chat component
- */
+interface PopupButtonComponentProps {
+  toggleChatOpen: () => void;
+}
+
 export interface ChatProps {
   route: string;
   sessionId: string;
@@ -34,6 +32,7 @@ export interface ChatProps {
     defaultPopupButtonIcon?: ClassNameValue;
   };
   components?: {
+    popupButton?: (props: PopupButtonComponentProps) => ReactElement;
     agentMessage?: (props: MessageComponentProps) => ReactElement;
     customerMessage?: (props: MessageComponentProps) => ReactElement;
   };
@@ -62,11 +61,14 @@ export const Chatbot = ({
     setChatOpen(prevState => !prevState);
   };
 
+  const PopupButtonComponent = components?.popupButton && <components.popupButton toggleChatOpen={toggleChat} />;
+
   return (
     <QueryClientProvider client={queryClient}>
       {asPopup ? (
         <>
           <div ref={buttonRef}>
+            {PopupButtonComponent || 
             <Button
               onClick={toggleChat} 
               className={twMerge(
@@ -84,7 +86,7 @@ export const Chatbot = ({
                   )}
                 />
               )}
-            </Button>
+            </Button>}
           </div>
           
           {chatOpen && (
