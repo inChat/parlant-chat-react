@@ -12,11 +12,10 @@
       "import": "./dist/parlant-chat-react.js",
       "require": "./dist/parlant-chat-react.umd.js"
     },
-    "./dist/style.css": "./dist/parlant-chat-react.css"
+    "./style.css": "./dist/parlant-chat-react.css"
   },
   "files": [
     "dist",
-    "src/index.css",
     "LICENSE",
     "README.md"
   ],

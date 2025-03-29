@@ -1,3 +1,3 @@
-export { Chatbot } from "./App";
+import { Chatbot } from "./App";
 
-import "./index.css";
+export default Chatbot;
