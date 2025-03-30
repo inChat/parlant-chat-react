@@ -59,7 +59,7 @@
     "@types/webfontloader": "^1.6.38",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
-    "biome": "^0.3.3",
+    "biome": "^0.2.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",

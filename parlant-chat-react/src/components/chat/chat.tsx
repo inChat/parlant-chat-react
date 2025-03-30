@@ -17,6 +17,7 @@ const useStyles = createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     width: '27.75rem',
+    border: '1px solid #e7e6e6'
   },
   header: {
     height: '4.75rem',
@@ -108,10 +109,6 @@ interface StatusEventData {
   exception?: string;
 }
 
-/**
- * Creates an empty pending message with default values
- * @returns A partial Event object
- */
 export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: string}> => ({
   kind: 'message',
   source: 'customer',
@@ -124,9 +121,6 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
   },
 });
 
-/**
- * Chat component responsible for handling message interactions
- */
 const Chat = ({
   route,
   sessionId,
