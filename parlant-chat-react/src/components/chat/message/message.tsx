@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     width: '100%',
     textAlign: 'start',
     display: 'flex',
-    color: '#A9A9A9',
+    color: '#151515',
     paddingBlock: '1rem'
   },
   customerWrapper: {
@@ -17,26 +17,27 @@ const useStyles = createUseStyles({
   },
   messageWrapper: {
     width: '50%',
+    border: '1px solid #e8e8e8',
     borderRadius: '12px',
     lineHeight: '1.35rem',
     padding: '10px',
     position: 'relative',
     margin: '10px',
-    background: '#2c2f36',
-    color: '#d1d1e9',
+    background: '#FFFFFF',
+    color: '#151515',
     '& .message-metadata': {
       position: 'absolute',
       top: '-23px',
       display: 'flex',
       justifyContent: 'space-between',
-      color: 'white',
+      color: '#151515',
       width: 'calc(100% - 15px)',
       fontSize: '0.8rem',
     }
   },
   customerMessageWrapper: {
-    background: '#4a90e2',
-    color: 'white',
+    // background: '#4a90e2',
+    // color: 'white',
   }
 });
 

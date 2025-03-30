@@ -11,21 +11,29 @@ import clsx from 'clsx';
 
 const useStyles = createUseStyles({
   chatbox: {
-    background: '#1e1e2e',
-    height: 'min(600px,70vh)',
-    borderRadius: '10px',
-    padding: '10px',
+    background: '#FBFBFB',
+    height: 'min(48.75rem,70vh)',
+    borderRadius: '20px',
     display: 'flex',
     flexDirection: 'column',
-    width: '500px',
+    width: '27.75rem',
+  },
+  header: {
+    height: '4.75rem',
+    borderRadius: '20px 20px 0 0',
+    background: '#151515',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    paddingInline: '1rem',
+    fontSize: '1.2rem',
   },
   messagesArea: {
     flex: 1,
     overflow: 'auto',
   },
   textareaWrapper: {
-    width: '80%',
-    margin: 'auto',
+    marginInline: '10px',
     flex: 'none',
     position: 'relative',
     border: '1px solid lightgray',
@@ -266,6 +274,7 @@ const Chat = ({
       classes.chatbox, 
       classNames?.chatbox
     )}>
+      <div className={classes.header}>Welcome!</div>
       <div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
         {messages.map((message) => {
           const Component = (message?.source === 'customer' 
