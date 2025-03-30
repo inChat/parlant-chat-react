@@ -4,8 +4,6 @@ import { JSX, ReactElement, useEffect, useRef, useState } from 'react';
 import { MessageSquare, X } from 'lucide-react';
 import Chat, { MessageInterface } from './components/chat/chat';
 import { Button } from './components/ui/button';
-import './App.css';
-import './index.css';
 import { createUseStyles } from 'react-jss';
 import clsx from 'clsx';
 
@@ -21,12 +19,16 @@ export const loadFonts = () => {
 
 const useStyles = createUseStyles({
   root: {
-    fontFamily: 'Ubuntu Sans'
+    fontFamily: 'Ubuntu Sans',
+    '& .fixed-scroll': {
+      scrollbarWidth: 'thin',
+	    scrollbarColor: '#ebecf0 transparent',
+    }
   },
   popupButton: {
     backgroundColor: 'black',
     border: 'none',
-    outline: '0',
+    outline: '0 !important',
     borderRadius: '50%',
     minWidth: 'fit-content',
     height: '50px',

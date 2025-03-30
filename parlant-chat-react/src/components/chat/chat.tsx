@@ -57,6 +57,9 @@ const useStyles = createUseStyles({
     lineHeight: '52px',
     backgroundColor: 'white',
     fontWeight: '300',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
   status: {
     position: 'absolute',
