@@ -5,7 +5,6 @@ import { Event } from "parlant-client/src/api";
 import { JSX, useEffect, useRef, useState } from "react";
 import Message from "./message/message";
 import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
 import { ChatProps } from "@/App";
 import { createUseStyles } from 'react-jss';
 import clsx from 'clsx';
