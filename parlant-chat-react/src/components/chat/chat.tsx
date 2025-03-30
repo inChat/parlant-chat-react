@@ -273,15 +273,14 @@ const Chat = ({
             : components?.agentMessage) || Message;
             
           return (
-            <div key={message.id}>
               <Component 
+                key={message.id}
                 message={message} 
                 className={message?.source === 'customer' 
                   ? classNames?.customerMessage 
                   : classNames?.agentMessage
                 }
               />
-            </div>
           );
         })}
         <div ref={lastMessageRef} />
