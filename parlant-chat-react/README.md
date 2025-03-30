@@ -150,8 +150,8 @@ Replace default UI components with your own:
 | Property | Description | Props Passed |
 |----------|-------------|--------------|
 | `popupButton` | Custom popup button component | `{ toggleChatOpen }` |
-| `agentMessage` | Custom agent message component | `{ message, className }` |
-| `customerMessage` | Custom customer message component | `{ message, className }` |
+| `agentMessage` | Custom agent message component | `{ message }` |
+| `customerMessage` | Custom customer message component | `{ message }` |
 
 
 ## License
