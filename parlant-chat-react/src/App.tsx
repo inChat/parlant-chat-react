@@ -1,11 +1,48 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ClassNameValue, twMerge } from 'tailwind-merge';
-import { JSX, ReactElement, useRef, useState } from 'react';
-import { Component, MessageSquare, X } from 'lucide-react';
+import { ClassNameValue } from 'tailwind-merge';
+import { JSX, ReactElement, useEffect, useRef, useState } from 'react';
+import { MessageSquare, X } from 'lucide-react';
 import Chat, { MessageInterface } from './components/chat/chat';
 import { Button } from './components/ui/button';
 import './App.css';
 import './index.css';
+import { createUseStyles } from 'react-jss';
+import clsx from 'clsx';
+
+import WebFont from 'webfontloader';
+
+export const loadFonts = () => {
+  WebFont.load({
+    google: {
+      families: ['Ubuntu Sans:400,700']
+    }
+  });
+};
+
+const useStyles = createUseStyles({
+  root: {
+    fontFamily: 'Ubuntu Sans'
+  },
+  popupButton: {
+    backgroundColor: 'black',
+    border: 'none',
+    outline: '0',
+    borderRadius: '50%',
+    minWidth: 'fit-content',
+    height: '50px',
+    width: '50px',
+    padding: '10px',
+    margin: '10px',
+  },
+  iconComponent: {
+    minWidth: '30px',
+    minHeight: '30px',
+  },
+  chatWrapper: {
+    position: 'fixed',
+    transform: 'translateX(-100%) translateY(-100%)',
+  }
+});
 
 interface MessageComponentProps {
   message: MessageInterface;
@@ -49,6 +86,7 @@ export const Chatbot = ({
   sendIcon,
   classNames,
 }: ChatProps): JSX.Element => {
+  const classes = useStyles();
   const buttonRef = useRef<HTMLDivElement>(null);
   
   const [chatOpen, setChatOpen] = useState<boolean>(false);
@@ -56,6 +94,10 @@ export const Chatbot = ({
   const buttonRect = buttonRef?.current?.getBoundingClientRect();
   
   const IconComponent = chatOpen ? X : MessageSquare;
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
 
   const toggleChat = (): void => {
     setChatOpen(prevState => !prevState);
@@ -65,58 +107,60 @@ export const Chatbot = ({
 
   return (
     <QueryClientProvider client={queryClient}>
-      {asPopup ? (
-        <>
-          <div ref={buttonRef}>
-            {PopupButtonComponent || 
-            <Button
-              onClick={toggleChat} 
-              className={twMerge(
-                "bg-black !border-none !outline-0 rounded-full min-w-fit size-[50px] p-[10px] m-[10px]", 
-                classNames?.defaultPopupButton
-              )}
-            >
-              {popupButton || (
-                <IconComponent 
-                  size={30} 
-                  color="white" 
-                  className={twMerge(
-                    'min-w-[30px] min-h-[30px]', 
-                    classNames?.defaultPopupButtonIcon
-                  )}
-                />
-              )}
-            </Button>}
-          </div>
-          
-          {chatOpen && (
-            <div 
-              className="fixed !-translate-[100%]" 
-              style={{
-                top: `${buttonRect?.y || 0}px`, 
-                left: `${buttonRect?.x || 0}px`
-              }}
-            >
-              <Chat 
-                route={route}
-                asPopup={asPopup}
-                sessionId={sessionId} 
-                classNames={classNames} 
-                components={components} 
-                sendIcon={sendIcon}
-              />
+      <span className={classes.root}>
+        {asPopup ? (
+          <>
+            <div ref={buttonRef}>
+              {PopupButtonComponent || 
+              <Button
+                onClick={toggleChat} 
+                className={clsx(
+                  classes.popupButton,
+                  classNames?.defaultPopupButton
+                )}
+              >
+                {popupButton || (
+                  <IconComponent 
+                    size={30} 
+                    color="white" 
+                    className={clsx(
+                      classes.iconComponent,
+                      classNames?.defaultPopupButtonIcon
+                    )}
+                  />
+                )}
+              </Button>}
             </div>
-          )}
-        </>
-      ) : (
-        <Chat 
-          route={route} 
-          sessionId={sessionId} 
-          classNames={classNames} 
-          components={components} 
-          sendIcon={sendIcon}
-        />
-      )}
+            
+            {chatOpen && (
+              <div 
+                className={classes.chatWrapper}
+                style={{
+                  top: `${buttonRect?.y || 0}px`, 
+                  left: `${buttonRect?.x || 0}px`
+                }}
+              >
+                <Chat 
+                  route={route}
+                  asPopup={asPopup}
+                  sessionId={sessionId} 
+                  classNames={classNames} 
+                  components={components} 
+                  sendIcon={sendIcon}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <Chat 
+            route={route} 
+            sessionId={sessionId} 
+            classNames={classNames} 
+            components={components} 
+            sendIcon={sendIcon}
+          />
+        )}
+      </span>
     </QueryClientProvider>
   );
 };

@@ -3,11 +3,92 @@ import { useQuery } from "@tanstack/react-query";
 import { ParlantClient } from "parlant-client";
 import { Event } from "parlant-client/src/api";
 import { JSX, useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import Message from "./message/message";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { ChatProps } from "@/App";
+import { createUseStyles } from 'react-jss';
+import clsx from 'clsx';
+
+const useStyles = createUseStyles({
+  chatbox: {
+    background: '#1e1e2e',
+    height: 'min(600px,70vh)',
+    borderRadius: '10px',
+    padding: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '500px',
+  },
+  messagesArea: {
+    flex: 1,
+    overflow: 'auto',
+  },
+  textareaWrapper: {
+    width: '80%',
+    margin: 'auto',
+    flex: 'none',
+    position: 'relative',
+    border: '1px solid lightgray',
+    borderRadius: '16px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    lineHeight: '3rem',
+    paddingLeft: '0.85rem',
+    marginTop: '1rem',
+    paddingRight: '0',
+    height: '3rem',
+    maxWidth: '1000px',
+    marginBottom: '1.25rem',
+  },
+  textArea: {
+    // no-scrollbar ', 
+    boxShadow: 'none',
+    color: 'black',
+    resize: 'none',
+    border: 'none',
+    height: '100%',
+    borderRadius: '0',
+    minHeight: 'unset',
+    padding: '0',
+    whiteSpace: 'nowrap',
+    fontFamily: 'Inter',
+    fontSize: '1rem',
+    lineHeight: '52px',
+    backgroundColor: 'white',
+    fontWeight: '300',
+  },
+  status: {
+    position: 'absolute',
+    visibility: 'hidden',
+    left: '0.25em',
+    bottom: '-40px',
+    fontFamily: 'Inter',
+    fontSize: '14px',
+    fontWeight: '300',
+    color: '#A9AFB7',
+  },
+  statusVisible: {
+    visibility: 'visible',
+  },
+  sendButton: {
+    maxWidth: '60px',
+    background: 'none',
+    borderRadius: '100%',
+    border: 'none !important',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40px',
+    '&:hover': {
+      background: 'white !important',
+      border: 'none !important'
+    }
+  }
+});
 
 /**
  * Message interface extending Event with status information
@@ -52,24 +133,22 @@ const Chat = ({
   classNames,
   asPopup
 }: ChatProps): JSX.Element => {
-  // State management
+  const classes = useStyles();
+
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [lastOffset, setLastOffset] = useState<number>(0);
   const [showInfo, setShowInfo] = useState<string>('');
   const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
   const [message, setMessage] = useState<string>('');
   
-  // Refs
-  const submitButtonRef = useRef<HTMLButtonElement>(null);
+  const submitButtonRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lastMessageRef = useRef<HTMLDivElement>(null);
 
-  // Initialize Parlant client
   const parlantClient = new ParlantClient({
     environment: route,
   });
 
-  // Fetch events query
   const { data } = useQuery<Event[]>({
     queryKey: ['events', lastOffset],
     queryFn: () => parlantClient.sessions.listEvents(
@@ -78,10 +157,6 @@ const Chat = ({
     ),
   });
 
-  /**
-   * Handles textarea key events to submit on Enter
-   * @param e - Keyboard event
-   */
   const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -91,10 +166,6 @@ const Chat = ({
     }
   };
 
-  /**
-   * Posts a new message to the session
-   * @param content - Message content
-   */
   const postMessage = async (content: string): Promise<void> => {
     if (!content.trim()) return;
     
@@ -116,9 +187,6 @@ const Chat = ({
     );
   };
   
-  /**
-   * Formats and processes events into messages
-   */
   const formatMessagesFromEvents = (): void => {
     const lastEvent = data?.at(-1);
     const lastStatusEvent = data?.findLast((e) => e.kind === 'status');
@@ -200,11 +268,11 @@ const Chat = ({
   }, [messages?.length]);
 
   return (
-    <div className={twMerge(
-      "bg-[#1e1e2e] h-[min(600px,70vh)] rounded-[10px] p-[10px] flex flex-col w-[500px]", 
+    <div className={clsx(
+      classes.chatbox, 
       classNames?.chatbox
     )}>
-      <div className={twMerge("flex-1 overflow-auto fixed-scroll", classNames?.messagesArea)}>
+      <div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
         {messages.map((message) => {
           const Component = (message?.source === 'customer' 
             ? components?.customerMessage 
@@ -225,10 +293,8 @@ const Chat = ({
         <div ref={lastMessageRef} />
       </div>
       
-      <div className={twMerge(
-        'group w-[80%] m-auto flex-[none] relative border border-muted border-solid rounded-[16px] ' +
-        'flex flex-row justify-center items-center bg-white leading-[3rem] ps-[14px] mt-[1rem] ' +
-        'pe-0 h-[48.67px] max-w-[1000px] mb-[20px]', 
+      <div className={clsx(
+        classes.textareaWrapper,
         classNames?.textarea
       )}>
         <Textarea
@@ -239,29 +305,23 @@ const Chat = ({
           onKeyDown={handleTextareaKeydown}
           onChange={(e) => setMessage(e.target.value)}
           rows={1}
-          className={twMerge(
-            'box-shadow-none placeholder:text-[#282828] text-black resize-none border-none ' +
-            'h-full rounded-none min-h-[unset] p-0 whitespace-nowrap no-scrollbar font-inter ' +
-            'font-light text-[16px] leading-[47px] bg-white', 
-            classNames?.textarea
-          )}
+          className={clsx(classes.textArea, classNames?.textarea)}
         />
         
-        <p className={twMerge(
-          'absolute invisible left-[0.25em] -bottom-[40px] font-normal text-[#A9AFB7] ' +
-          'text-[14px] font-inter', 
-          showInfo && 'visible'
+        <p className={clsx(
+          classes.status,
+          showInfo && classes.statusVisible,
         )}>
           {showInfo}
         </p>
         
-        <Button 
-          variant='ghost' 
-          data-testid='submit-button' 
-          className='max-w-[60px] bg-none rounded-full hover:bg-white !border-0 hover:!border-0' 
+        <div 
+          role="button"
+          style={{pointerEvents: message?.trim() ? 'all' : 'none', cursor: message?.trim() ? 'pointer' : 'default', opacity: !message?.trim() ? 0.5 : 1}}
+          className={classes.sendButton}
           ref={submitButtonRef} 
-          disabled={!message?.trim()} 
-          onClick={() => postMessage(message)}
+          tabIndex={!message?.trim() ? -1 : 0}
+          onClick={() => !!message?.trim() && postMessage(message)}
         >
           {sendIcon || 
             <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -271,7 +331,7 @@ const Chat = ({
               />
             </svg>
           }
-        </Button>
+        </div>
       </div>
     </div>
   );

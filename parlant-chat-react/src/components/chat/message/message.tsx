@@ -1,43 +1,59 @@
-import { ClassNameValue, twJoin, twMerge } from 'tailwind-merge';
+import { ClassNameValue } from 'tailwind-merge';
 import { MessageInterface } from '../chat';
 import { JSX } from 'react';
+import { createUseStyles } from 'react-jss';
+import clsx from 'clsx';
 
-/**
- * Message component props interface
- */
+const useStyles = createUseStyles({
+  wrapper: {
+    width: '100%',
+    textAlign: 'start',
+    display: 'flex',
+    color: '#A9A9A9',
+  },
+  customerWrapper: {
+    justifyContent: 'end',
+  },
+  messageWrapper: {
+    width: '50%',
+    borderRadius: '12px',
+    padding: '10px',
+    margin: '10px',
+    background: '#2c2f36',
+    color: '#d1d1e9'
+  },
+  customerMessageWrapper: {
+    background: '#4a90e2',
+    color: 'white',
+  }
+});
+
 interface MessageProps {
   message: MessageInterface;
   className?: ClassNameValue;
 }
 
-/**
- * Message component that displays a chat message
- * Handles different styling for customer vs agent messages
- */
 const Message = ({ message, className }: MessageProps): JSX.Element => {
-  // Determine if this is a customer message for styling purposes
+  const classes = useStyles();
   const isCustomerMessage = message?.source === 'customer';
   
-  // Extract message content safely with type definition
   const messageContent = (message.data as { message?: string })?.message || '';
 
   return (
     <div 
-      className={twJoin(
-        "message w-full text-start flex text-[#A9A9A9]", 
-        isCustomerMessage && 'justify-end'
+      className={clsx(
+        classes.wrapper,
+        isCustomerMessage && classes.customerWrapper
       )}
     >
       <div 
-        className={twMerge(
-          'w-[50%] rounded-[12px] p-[10px] m-[10px]',
-          isCustomerMessage 
-            ? 'bg-[#4a90e2] text-white' 
-            : 'bg-[#2c2f36] text-[#d1d1e9]',
+        className={clsx(
+          classes.messageWrapper,
+          isCustomerMessage && classes.customerMessageWrapper,
           className
         )}
       >
-        <div className="message-content">
+        <div>
           {messageContent}
         </div>
       </div>
