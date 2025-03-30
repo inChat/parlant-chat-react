@@ -44,7 +44,6 @@ const useStyles = createUseStyles({
     marginBottom: '1.25rem',
   },
   textArea: {
-    // no-scrollbar ', 
     boxShadow: 'none',
     color: 'black',
     resize: 'none',
@@ -64,8 +63,7 @@ const useStyles = createUseStyles({
     position: 'absolute',
     visibility: 'hidden',
     left: '0.25em',
-    bottom: '-40px',
-    fontFamily: 'Inter',
+    bottom: '-54px',
     fontSize: '14px',
     fontWeight: '300',
     color: '#A9AFB7',
@@ -90,17 +88,11 @@ const useStyles = createUseStyles({
   }
 });
 
-/**
- * Message interface extending Event with status information
- */
 export interface MessageInterface extends Event {
   status: string | null;
   error?: string;
 }
 
-/**
- * Status event data interface
- */
 interface StatusEventData {
   status?: string;
   exception?: string;
