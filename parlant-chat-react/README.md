@@ -21,9 +21,7 @@ import Chatbot from 'parlant-chat-react';
 function App() {
   return (
     <div>
-      <h1>My Application</h1>
-      
-      {/* Basic embedded chat */}
+      <h1>My Application</h1>      
       <Chatbot 
         sessionId="SESSION_ID" 
         route="ROUTE" 
@@ -55,8 +53,8 @@ Display the chat as a popup that can be toggled with a button:
 ```jsx
 <Chatbot 
   asPopup 
-  sessionId="user-123" 
-  route="/api/chat" 
+  sessionId="SESSION_ID" 
+  route="ROUTE" 
 />
 ```
 
@@ -69,8 +67,8 @@ import { Send } from 'lucide-react';
 
 <Chatbot 
   asPopup 
-  sessionId="user-123" 
-  route="/api/chat"
+  sessionId="SESSION_ID" 
+  route="ROUTE"
   popupButton={<Send color="white" size={24} />} 
 />
 ```
@@ -81,8 +79,8 @@ Apply custom class names to various parts of the chat:
 
 ```jsx
 <Chatbot 
-  sessionId="user-123" 
-  route="/api/chat"
+  sessionId="SESSION_ID" 
+  route="ROUTE"
   classNames={{
     chatbox: "my-chatbox-class",
     messagesArea: "my-messages-class",
@@ -101,8 +99,8 @@ Replace default UI components with your own:
 
 ```jsx
 <Chatbot 
-  sessionId="user-123" 
-  route="/api/chat"
+  sessionId="SESSION_ID" 
+  route="ROUTE"
   components={{
     popupButton: ({ toggleChatOpen }) => (
       <button onClick={toggleChatOpen}>Chat with us</button>
