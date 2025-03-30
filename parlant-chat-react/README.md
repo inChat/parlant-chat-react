@@ -105,15 +105,15 @@ Replace default UI components with your own:
     popupButton: ({ toggleChatOpen }) => (
       <button onClick={toggleChatOpen}>Chat with us</button>
     ),
-    agentMessage: ({ message, className }) => (
-      <div className={className}>
-        <p>{message.content}</p>
-        <span>Agent: {message.sender}</span>
+    agentMessage: ({ message }) => (
+      <div>
+        <p>{message.data.message}</p>
+        <span>Agent</span>
       </div>
     ),
-    customerMessage: ({ message, className }) => (
-      <div className={className}>
-        <p>{message.content}</p>
+    customerMessage: ({ message }) => (
+      <div>
+        <p>{message.data.message}</p>
         <span>You</span>
       </div>
     )
@@ -128,7 +128,7 @@ Replace default UI components with your own:
 | `route` | string | Yes | - | API endpoint for chat communication |
 | `sessionId` | string | Yes | - | Unique identifier for the chat session |
 | `asPopup` | boolean | No | `false` | Whether to display as a popup chat |
-| `popupButton` | JSX.Element | No | `<MessageSquare />` | Custom button element for popup mode |
+| `popupButton` | JSX.Element | No | - | Custom button element for popup mode |
 | `sendIcon` | JSX.Element | No | - | Custom send message icon |
 | `classNames` | object | No | - | Custom CSS class names for styling |
 | `components` | object | No | - | Custom React components to replace defaults |
