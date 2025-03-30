@@ -16,7 +16,7 @@ Here's how to quickly add the chat component to your React application:
 
 ```jsx
 import React from 'react';
-import { Chatbot } from 'parlant-chat-react';
+import Chatbot from 'parlant-chat-react';
 
 function App() {
   return (
@@ -25,8 +25,8 @@ function App() {
       
       {/* Basic embedded chat */}
       <Chatbot 
-        sessionId="user-123" 
-        route="/api/chat" 
+        sessionId="SESSION_ID" 
+        route="ROUTE" 
       />
     </div>
   );
@@ -43,8 +43,8 @@ Add a chat interface directly in your page layout:
 
 ```jsx
 <Chatbot 
-  sessionId="user-123" 
-  route="/api/chat" 
+  sessionId="SESSION_ID" 
+  route="ROUTE" 
 />
 ```
 
