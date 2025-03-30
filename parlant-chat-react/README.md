@@ -16,13 +16,13 @@ Here's how to quickly add the chat component to your React application:
 
 ```jsx
 import React from 'react';
-import Chatbot from 'parlant-chat-react';
+import ParlantChatbot from 'parlant-chat-react';
 
 function App() {
   return (
     <div>
       <h1>My Application</h1>      
-      <Chatbot 
+      <ParlantChatbot 
         sessionId="SESSION_ID" 
         route="ROUTE" 
       />
@@ -40,7 +40,7 @@ export default App;
 Add a chat interface directly in your page layout:
 
 ```jsx
-<Chatbot 
+<ParlantChatbot 
   sessionId="SESSION_ID" 
   route="ROUTE" 
 />
@@ -51,7 +51,7 @@ Add a chat interface directly in your page layout:
 Display the chat as a popup that can be toggled with a button:
 
 ```jsx
-<Chatbot 
+<ParlantChatbot 
   asPopup 
   sessionId="SESSION_ID" 
   route="ROUTE" 
@@ -65,7 +65,7 @@ Use a custom button component:
 ```jsx
 import { Send } from 'lucide-react';
 
-<Chatbot 
+<ParlantChatbot 
   asPopup 
   sessionId="SESSION_ID" 
   route="ROUTE"
@@ -78,7 +78,7 @@ import { Send } from 'lucide-react';
 Apply custom class names to various parts of the chat:
 
 ```jsx
-<Chatbot 
+<ParlantChatbot 
   sessionId="SESSION_ID" 
   route="ROUTE"
   classNames={{
@@ -98,7 +98,7 @@ Apply custom class names to various parts of the chat:
 Replace default UI components with your own:
 
 ```jsx
-<Chatbot 
+<ParlantChatbot 
   sessionId="SESSION_ID" 
   route="ROUTE"
   components={{
