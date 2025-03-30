@@ -1,11 +1,18 @@
 {
   "name": "parlant-chat-react",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "description": "Parlant's chatbot seamlessly integrates into your website",
   "type": "module",
   "main": "dist/parlant-chat-react.umd.js",
   "module": "dist/parlant-chat-react.js",
   "types": "dist/types/index.d.ts",
+  "author": "Emcie-co",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emcie-co/parlant-chat-react/tree/main/parlant-chat-react"
+  },
   "exports": {
     ".": {
       "types": "./dist/App.d.ts",
@@ -15,10 +22,13 @@
     "./style.css": "./dist/parlant-chat-react.css"
   },
   "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
+    "dist"
   ],
+  "keywords": [
+    "parlant",
+    "parlant-chatbot"
+  ],
+  "homepage": "https://github.com/emcie-co/parlant-chat-react/blob/main/parlant-chat-react/README.md",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
