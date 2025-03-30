@@ -1,54 +1,161 @@
-# React + TypeScript + Vite
+# parlant-chat-react
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A flexible and customizable React chat component that can be embedded directly in your application or used as a popup chat interface.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install parlant-chat-react
+# or
+yarn add parlant-chat-react
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Quick Start
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Here's how to quickly add the chat component to your React application:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```jsx
+import React from 'react';
+import { Chatbot } from 'parlant-chat-react';
+
+function App() {
+  return (
+    <div>
+      <h1>My Application</h1>
+      
+      {/* Basic embedded chat */}
+      <Chatbot 
+        sessionId="user-123" 
+        route="/api/chat" 
+      />
+    </div>
+  );
+}
+
+export default App;
 ```
+
+## Usage Examples
+
+### Basic Embedded Chat
+
+Add a chat interface directly in your page layout:
+
+```jsx
+<Chatbot 
+  sessionId="user-123" 
+  route="/api/chat" 
+/>
+```
+
+### Popup Chat
+
+Display the chat as a popup that can be toggled with a button:
+
+```jsx
+<Chatbot 
+  asPopup 
+  sessionId="user-123" 
+  route="/api/chat" 
+/>
+```
+
+### Customized Popup Button
+
+Use a custom button component:
+
+```jsx
+import { Send } from 'lucide-react';
+
+<Chatbot 
+  asPopup 
+  sessionId="user-123" 
+  route="/api/chat"
+  popupButton={<Send color="white" size={24} />} 
+/>
+```
+
+### Advanced Styling
+
+Apply custom class names to various parts of the chat:
+
+```jsx
+<Chatbot 
+  sessionId="user-123" 
+  route="/api/chat"
+  classNames={{
+    chatbox: "my-chatbox-class",
+    messagesArea: "my-messages-class",
+    agentMessage: "agent-bubble",
+    customerMessage: "customer-bubble",
+    textarea: "my-input-class",
+    defaultPopupButton: "my-button-class",
+    defaultPopupButtonIcon: "my-icon-class"
+  }}
+/>
+```
+
+### Custom Component Replacement
+
+Replace default UI components with your own:
+
+```jsx
+<Chatbot 
+  sessionId="user-123" 
+  route="/api/chat"
+  components={{
+    popupButton: ({ toggleChatOpen }) => (
+      <button onClick={toggleChatOpen}>Chat with us</button>
+    ),
+    agentMessage: ({ message, className }) => (
+      <div className={className}>
+        <p>{message.content}</p>
+        <span>Agent: {message.sender}</span>
+      </div>
+    ),
+    customerMessage: ({ message, className }) => (
+      <div className={className}>
+        <p>{message.content}</p>
+        <span>You</span>
+      </div>
+    )
+  }}
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `route` | string | Yes | - | API endpoint for chat communication |
+| `sessionId` | string | Yes | - | Unique identifier for the chat session |
+| `asPopup` | boolean | No | `false` | Whether to display as a popup chat |
+| `popupButton` | JSX.Element | No | `<MessageSquare />` | Custom button element for popup mode |
+| `sendIcon` | JSX.Element | No | - | Custom send message icon |
+| `classNames` | object | No | - | Custom CSS class names for styling |
+| `components` | object | No | - | Custom React components to replace defaults |
+
+### ClassNames Object Properties
+
+| Property | Description |
+|----------|-------------|
+| `chatbox` | Main chat container |
+| `messagesArea` | Messages list container |
+| `agentMessage` | Agent message bubble |
+| `customerMessage` | Customer message bubble |
+| `textarea` | Message input field |
+| `defaultPopupButton` | Default popup toggle button |
+| `defaultPopupButtonIcon` | Icon in the default popup button |
+
+### Components Object Properties
+
+| Property | Description | Props Passed |
+|----------|-------------|--------------|
+| `popupButton` | Custom popup button component | `{ toggleChatOpen }` |
+| `agentMessage` | Custom agent message component | `{ message, className }` |
+| `customerMessage` | Custom customer message component | `{ message, className }` |
+
+
+## License
+
+MIT © Emcie-co
