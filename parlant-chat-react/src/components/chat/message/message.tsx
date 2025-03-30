@@ -47,8 +47,6 @@ const timeAgo = (date: Date): string => {
 	const minutes = Math.floor(seconds / 60);
 	const hours = Math.floor(minutes / 60);
 
-	if (seconds < 60) return 'less than a minute ago';
-	if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
 	if (hours < 24) return date.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: false});
 	else return date.toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false});
 };
