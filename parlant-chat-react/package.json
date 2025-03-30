@@ -24,10 +24,7 @@
   "files": [
     "dist"
   ],
-  "keywords": [
-    "parlant",
-    "parlant-chatbot"
-  ],
+  "keywords": [],
   "homepage": "https://github.com/emcie-co/parlant-chat-react/blob/main/parlant-chat-react/README.md",
   "scripts": {
     "dev": "vite",
