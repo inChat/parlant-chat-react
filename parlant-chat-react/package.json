@@ -1,6 +1,6 @@
 {
   "name": "parlant-chat-react",
-  "private": true,
+  "private": false,
   "version": "0.0.1",
   "description": "Parlant's chatbot seamlessly integrates into your website",
   "type": "module",
