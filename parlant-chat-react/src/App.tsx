@@ -6,6 +6,7 @@ import {MessageSquare, X} from 'lucide-react';
 import Chat from './components/chat/chat';
 import type {MessageInterface} from './components/chat/chat';
 import {Button} from './components/ui/button';
+import {Popover, PopoverContent, PopoverTrigger} from './components/ui/popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 
@@ -43,8 +44,12 @@ const useStyles = createUseStyles({
 		minHeight: '30px',
 	},
 	chatWrapper: {
-		position: 'fixed',
-		transform: 'translateX(-100%) translateY(-100%)',
+		width: '27.75rem',
+		background: '#FBFBFB',
+		border: '1px solid #e7e6e6',
+		borderRadius: '20px',
+		boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+		padding: '0',
 	},
 });
 
@@ -83,20 +88,16 @@ const queryClient = new QueryClient();
 
 export const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
-	const buttonRef = useRef<HTMLDivElement>(null);
+	const [open, setOpen] = useState<boolean>(false);
 
-	const [chatOpen, setChatOpen] = useState<boolean>(false);
-
-	const buttonRect = buttonRef?.current?.getBoundingClientRect();
-
-	const IconComponent = chatOpen ? X : MessageSquare;
+	const IconComponent = open ? X : MessageSquare;
 
 	useEffect(() => {
 		loadFonts();
 	}, []);
 
 	const toggleChat = (): void => {
-		setChatOpen((prevState) => !prevState);
+		setOpen((prevState) => !prevState);
 	};
 
 	const PopupButtonComponent = components?.popupButton && <components.popupButton toggleChatOpen={toggleChat} />;
@@ -105,27 +106,20 @@ export const Chatbot = ({route, sessionId, asPopup = false, popupButton, compone
 		<QueryClientProvider client={queryClient}>
 			<span className={classes.root}>
 				{asPopup ? (
-					<>
-						<div ref={buttonRef}>
-							{PopupButtonComponent || (
-								<Button onClick={toggleChat} className={clsx(classes.popupButton, classNames?.defaultPopupButton)}>
-									{popupButton || <IconComponent size={30} color="white" className={clsx(classes.iconComponent, classNames?.defaultPopupButtonIcon)} />}
-								</Button>
-							)}
-						</div>
-
-						{chatOpen && (
-							<div
-								className={classes.chatWrapper}
-								style={{
-									top: `${buttonRect?.y || 0}px`,
-									left: `${buttonRect?.x || 0}px`,
-								}}
-							>
-								<Chat route={route} asPopup={asPopup} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} />
+					<Popover open={open} onOpenChange={setOpen}>
+						<PopoverTrigger asChild>
+							<div>
+								{PopupButtonComponent || (
+									<Button onClick={toggleChat} className={clsx(classes.popupButton, classNames?.defaultPopupButton)}>
+										{popupButton || <IconComponent size={30} color="white" className={clsx(classes.iconComponent, classNames?.defaultPopupButtonIcon)} />}
+									</Button>
+								)}
 							</div>
-						)}
-					</>
+						</PopoverTrigger>
+						<PopoverContent className={classes.chatWrapper} side="top" align="end" sideOffset={10}>
+							<Chat route={route} asPopup={asPopup} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} />
+						</PopoverContent>
+					</Popover>
 				) : (
 					<Chat route={route} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} />
 				)}
