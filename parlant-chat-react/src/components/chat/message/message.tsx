@@ -3,8 +3,68 @@ import type {MessageInterface} from '../chat';
 import type {JSX} from 'react';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
+import Markdown from '@/components/ui/markdown';
 
 const useStyles = createUseStyles({
+	markdown: {
+		'& *': {
+			fontSize: 'revert',
+			fontWeight: 'revert',
+			padding: 'revert',
+			margin: 'revert',
+			listStyleType: 'revert',
+			color: 'revert',
+			textDecoration: 'revert'
+		},
+		'& code': {
+			whiteSpace: 'break-spaces',
+			maxWidth: '100%',
+			wordBreak: 'break-word',
+			background: 'transparent !important',
+			fontSize: '14px'
+		},
+		'& p': {
+			wordBreak: 'break-word'
+		},
+		'& ul': {
+			all: 'revert',
+			margin: 0,
+			padding: 0,
+			listStyle: 'inside'
+		},
+		'& h2': {
+			fontWeight: 'bold'
+		},
+		'& table': {
+			whiteSpace: 'nowrap',
+			display: 'block',
+			overflow: 'scroll',
+			scrollbarWidth: 'auto',
+			borderRadius: '2px',
+			'& th, & td': {
+				paddingInline: '10px',
+				textAlign: 'start'
+			},
+			'& th': {
+				padding: '10px'
+			},
+			'& tr:last-child td': {
+				paddingBottom: '10px'
+			},
+			'& thead': {
+				border: '1px solid lightgray',
+				borderBottom: 'none',
+				borderRadius: '3px 3px 0 0',
+				padding: '10px'
+			},
+			'& tbody': {
+				border: '1px solid lightgray',
+				borderTop: 'none',
+				borderRadius: '0 0 3px 3px',
+				padding: '10px'
+			}
+		}
+	},
 	wrapper: {
 		width: '100%',
 		textAlign: 'start',
@@ -72,7 +132,7 @@ const Message = ({message, className}: MessageProps): JSX.Element => {
 					<div>{formattedUserName}</div>
 					<div>{timeAgo(new Date(message?.creationUtc))}</div>
 				</div>
-				<div>{messageContent}</div>
+				<Markdown className={classes.markdown}>{messageContent}</Markdown>
 			</div>
 		</div>
 	);
