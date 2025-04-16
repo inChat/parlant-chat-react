@@ -43,6 +43,7 @@ const useStyles = createUseStyles({
 	iconComponent: {
 		minWidth: '30px',
 		minHeight: '30px',
+		userSelect: 'none',
 	},
 	chatWrapper: {
 		width: '27.75rem',
@@ -92,7 +93,7 @@ const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, se
 	const classes = useStyles();
 	const [open, setOpen] = useState<boolean>(false);
 
-	const IconComponent = open ? X : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain'}}/>;
+	const IconComponent = open ? X : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
 
 	useEffect(() => {
 		loadFonts();
