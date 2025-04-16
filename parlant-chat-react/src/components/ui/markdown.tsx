@@ -4,8 +4,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github.css';
 import remarkBreaks from 'remark-breaks';
+import remarkEmoji from 'remark-emoji';
 import { twMerge } from 'tailwind-merge';
-import type { ReactNode } from 'react';
 
 const Markdown = ({children, className}: {children: string; className?: string}) => {
 	return (
@@ -16,7 +16,7 @@ const Markdown = ({children, className}: {children: string; className?: string})
 					img: ({node, ...props}) => <img {...props} loading='lazy' alt='' />
 				}}
 				rehypePlugins={[rehypeHighlight]}
-				remarkPlugins={[remarkGfm, remarkBreaks]}>
+				remarkPlugins={[remarkGfm, remarkBreaks, remarkEmoji]}>
 				{children}
 			</ReactMarkdown>
 		</div>
