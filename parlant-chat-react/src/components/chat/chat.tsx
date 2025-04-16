@@ -9,6 +9,7 @@ import {Textarea} from '../ui/textarea';
 import type {ChatProps} from '@/App';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
+import ParlantLogo from '../../assets/parlant-logo.png';
 
 const useStyles = createUseStyles({
 	chatbox: {
@@ -22,7 +23,7 @@ const useStyles = createUseStyles({
 		border: '1px solid #e7e6e6',
 	},
 	header: {
-		height: '4.75rem',
+		height: '4rem',
 		borderRadius: '20px 20px 0 0',
 		background: '#006E53',
 		color: 'white',
@@ -263,7 +264,11 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup}: Cha
 
 	return (
 		<div className={clsx(classes.chatbox, classNames?.chatbox)}>
-			<div className={classes.header}></div>
+			{components?.header ?
+				<components.header /> :
+				<div className={classes.header}>
+					<img src={ParlantLogo} alt="Parlant Message"  height={40} width={40} style={{objectFit: 'contain'}}/>
+				</div>}
 			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
 				{messages.map((message) => {
 					const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;

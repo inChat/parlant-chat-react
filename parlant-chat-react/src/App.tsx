@@ -9,6 +9,7 @@ import {Button} from './components/ui/button';
 import {Popover, PopoverContent, PopoverTrigger} from './components/ui/popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
+import ParlantLogo from './assets/parlant-logo.png';
 
 import WebFont from 'webfontloader';
 
@@ -81,6 +82,7 @@ export interface ChatProps {
 		popupButton?: (props: PopupButtonComponentProps) => ReactElement;
 		agentMessage?: (props: MessageComponentProps) => ReactElement;
 		customerMessage?: (props: MessageComponentProps) => ReactElement;
+		header?: () => ReactElement;
 	};
 }
 
@@ -90,7 +92,7 @@ const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, se
 	const classes = useStyles();
 	const [open, setOpen] = useState<boolean>(false);
 
-	const IconComponent = open ? X : MessageSquare;
+	const IconComponent = open ? X : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain'}}/>;
 
 	useEffect(() => {
 		loadFonts();
