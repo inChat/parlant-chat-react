@@ -39,8 +39,12 @@ const useStyles = createUseStyles({
 			whiteSpace: 'nowrap',
 			display: 'block',
 			overflow: 'scroll',
-			scrollbarWidth: 'auto',
 			borderRadius: '2px',
+			scrollbarWidth: 'thin',
+			scrollbarColor: '#e8e8e8 transparent',
+			'&:hover': {
+				scrollbarColor: 'gray transparent'
+			},
 			'& th, & td': {
 				paddingInline: '10px',
 				textAlign: 'start'
@@ -76,7 +80,8 @@ const useStyles = createUseStyles({
 		justifyContent: 'end',
 	},
 	messageWrapper: {
-		width: '50%',
+		minWidth: '50%',
+		maxWidth: '70%',
 		border: '1px solid #e8e8e8',
 		borderRadius: '12px',
 		lineHeight: '1.35rem',
