@@ -62,12 +62,14 @@ const Message = ({message, className}: MessageProps): JSX.Element => {
 	const isCustomerMessage = message?.source === 'customer';
 
 	const messageContent = (message.data as {message?: string})?.message || '';
+	const userName = (message?.data as any)?.participant?.display_name;
+	const formattedUserName = userName === '<guest>' ? 'Guest' : userName;
 
 	return (
 		<div className={clsx(classes.wrapper, isCustomerMessage && classes.customerWrapper)}>
 			<div className={clsx(classes.messageWrapper, isCustomerMessage && classes.customerMessageWrapper, className)}>
 				<div className="message-metadata">
-					<div>{(message?.data as any)?.participant?.display_name}</div>
+					<div>{formattedUserName}</div>
 					<div>{timeAgo(new Date(message?.creationUtc))}</div>
 				</div>
 				<div>{messageContent}</div>

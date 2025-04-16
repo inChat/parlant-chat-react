@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
 	header: {
 		height: '4.75rem',
 		borderRadius: '20px 20px 0 0',
-		background: '#151515',
+		background: '#006E53',
 		color: 'white',
 		display: 'flex',
 		alignItems: 'center',
@@ -34,6 +34,19 @@ const useStyles = createUseStyles({
 	messagesArea: {
 		flex: 1,
 		overflow: 'auto',
+		scrollbarWidth: 'thin',
+		scrollbarColor: 'gray transparent',
+		marginTop: '10px',
+		'&::-webkit-scrollbar': {
+			width: '6px',
+		},
+		'&::-webkit-scrollbar-track': {
+			background: 'transparent',
+		},
+		'&::-webkit-scrollbar-thumb': {
+			background: '#006E53',
+			borderRadius: '3px',
+		},
 	},
 	textareaWrapper: {
 		marginInline: '10px',
@@ -79,7 +92,7 @@ const useStyles = createUseStyles({
 		bottom: '-20px',
 		margin: 0,
 		lineHeight: 'normal',
-		fontSize: '14px',
+		fontSize: '12px',
 		fontWeight: '300',
 		color: '#A9AFB7',
 	},
@@ -250,7 +263,7 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup}: Cha
 
 	return (
 		<div className={clsx(classes.chatbox, classNames?.chatbox)}>
-			<div className={classes.header}>Welcome!</div>
+			<div className={classes.header}></div>
 			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
 				{messages.map((message) => {
 					const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;

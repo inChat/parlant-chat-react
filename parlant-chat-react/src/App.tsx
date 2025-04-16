@@ -29,7 +29,7 @@ const useStyles = createUseStyles({
 		},
 	},
 	popupButton: {
-		backgroundColor: 'black',
+		backgroundColor: '#006E53',
 		border: 'none',
 		outline: '0 !important',
 		borderRadius: '50%',
