@@ -13,7 +13,7 @@ const Markdown = ({children, className}: {children: string; className?: string})
 			<ReactMarkdown
 				components={{
 					p: 'div', 
-					img: ({node, ...props}) => <img {...props} loading='lazy' alt='' />
+					img: ({node, ...props}) => <img {...props} loading='lazy' alt='' style={{maxWidth: '100%'}}/>
 				}}
 				rehypePlugins={[rehypeHighlight]}
 				remarkPlugins={[remarkGfm, remarkBreaks, remarkEmoji]}>
