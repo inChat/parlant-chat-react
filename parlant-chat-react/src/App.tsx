@@ -12,7 +12,7 @@ import clsx from 'clsx';
 
 import WebFont from 'webfontloader';
 
-export const loadFonts = () => {
+const loadFonts = () => {
 	WebFont.load({
 		google: {
 			families: ['Ubuntu Sans:400,700'],
@@ -86,7 +86,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-export const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const [open, setOpen] = useState<boolean>(false);
 
