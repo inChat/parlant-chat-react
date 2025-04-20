@@ -91,6 +91,7 @@ const useStyles = createUseStyles({
 		alignItems: 'center',
 		width: '18px',
 		height: '18px',
+		lineHeight: '10px',
 		borderRadius: '6.5px',
 		marginInlineEnd: '5px',
 	},
