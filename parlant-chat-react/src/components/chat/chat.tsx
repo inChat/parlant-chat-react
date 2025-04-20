@@ -21,13 +21,14 @@ const useStyles = createUseStyles({
 		display: 'flex',
 		fontFamily: 'Inter',
 		flexDirection: 'column',
-		transition: 'width 0.3s ease-in-out',
+		transition: 'all 0.3s ease-in-out',
 		width: '27.75rem',
 		border: '1px solid #e7e6e6',
 	},
 	expandedChatbot: {
 		width: '60rem',
 		maxWidth: '90vw',
+		height: 'min(80rem,80vh)',
 	},
 	header: {
 		height: '4rem',
