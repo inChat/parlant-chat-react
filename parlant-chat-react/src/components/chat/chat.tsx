@@ -91,7 +91,7 @@ const useStyles = createUseStyles({
 		marginTop: '1rem',
 		boxShadow: '0px 3px 3px 0px #00000005',
 		paddingRight: '0',
-		height: '3rem',
+		height: '3.375rem',
 		maxWidth: '1000px',
 		marginBottom: '1.25rem',
 		gap: '4px',
@@ -111,6 +111,11 @@ const useStyles = createUseStyles({
 		lineHeight: '52px',
 		backgroundColor: 'white',
 		fontWeight: '300',
+		'&::placeholder': {
+			color: '#282828',
+			fontSize: '14px',
+			fontWeight: '500'
+		},
 		'&::-webkit-scrollbar': {
 			display: 'none',
 		},
