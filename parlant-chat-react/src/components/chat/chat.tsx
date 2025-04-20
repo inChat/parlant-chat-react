@@ -10,6 +10,8 @@ import type {ChatProps} from '@/App';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 import ParlantLogo from '../../assets/parlant-logo.png';
+import { Expand } from 'lucide-react';
+import { Button } from '../ui/button';
 
 const useStyles = createUseStyles({
 	chatbox: {
@@ -19,14 +21,20 @@ const useStyles = createUseStyles({
 		display: 'flex',
 		fontFamily: 'Inter',
 		flexDirection: 'column',
+		transition: 'width 0.3s ease-in-out',
 		width: '27.75rem',
 		border: '1px solid #e7e6e6',
+	},
+	expandedChatbot: {
+		width: '60rem',
+		maxWidth: '90vw',
 	},
 	header: {
 		height: '4rem',
 		borderRadius: '20px 20px 0 0',
 		background: '#006E53',
 		color: 'white',
+		justifyContent: 'space-between',
 		display: 'flex',
 		alignItems: 'center',
 		paddingInline: '1rem',
@@ -100,6 +108,12 @@ const useStyles = createUseStyles({
 	statusVisible: {
 		visibility: 'visible',
 	},
+	expandIcon: {
+		width: '20px',
+		height: '20px',
+		color: 'white',
+		cursor: 'pointer',
+	},
 	sendButton: {
 		maxWidth: '60px',
 		background: 'none',
@@ -139,9 +153,10 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup}: ChatProps): JSX.Element => {
+const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, changeIsExpanded}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 
+	const [isExpanded, setIsExpanded] = useState<boolean>(false);
 	const [messages, setMessages] = useState<MessageInterface[]>([]);
 	const [lastOffset, setLastOffset] = useState<number>(0);
 	const [showInfo, setShowInfo] = useState<string>('');
@@ -262,12 +277,18 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup}: Cha
 		setTimeout(() => lastMessageRef?.current?.scrollIntoView({block: 'nearest'}), 0);
 	}, [messages?.length]);
 
+	const changeIsExpandedFn = (): void => {
+		setIsExpanded(!isExpanded);
+		changeIsExpanded?.();
+	};
+
 	return (
-		<div className={clsx(classes.chatbox, classNames?.chatbox)}>
+		<div className={clsx(classes.chatbox, isExpanded && classes.expandedChatbot, classNames?.chatbox)}>
 			{components?.header ?
 				<components.header /> :
 				<div className={classes.header}>
 					<img src={ParlantLogo} alt="Parlant Message"  height={40} width={40} style={{objectFit: 'contain'}}/>
+					<Expand className={classes.expandIcon} onClick={changeIsExpandedFn}/>
 				</div>}
 			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
 				{messages.map((message) => {

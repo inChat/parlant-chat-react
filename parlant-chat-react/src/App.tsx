@@ -47,12 +47,17 @@ const useStyles = createUseStyles({
 	},
 	chatWrapper: {
 		width: '27.75rem',
+		transition: 'width 0.3s ease-in-out',
 		background: '#FBFBFB',
 		border: '1px solid #e7e6e6',
 		borderRadius: '20px',
 		boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
 		padding: '0',
 	},
+	expandedChatWrapper: {
+		width: '60rem',
+		maxWidth: '90vw',
+	}
 });
 
 interface MessageComponentProps {
@@ -68,6 +73,7 @@ export interface ChatProps {
 	route: string;
 	sessionId: string;
 	asPopup?: boolean;
+	changeIsExpanded?: () => void;
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
 	classNames?: {
@@ -92,7 +98,7 @@ const queryClient = new QueryClient();
 const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const [open, setOpen] = useState<boolean>(false);
-
+	const [isExpanded, setIsExpanded] = useState<boolean>(false);
 	const IconComponent = open ? X : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
 
 	useEffect(() => {
@@ -119,12 +125,12 @@ const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, se
 								)}
 							</div>
 						</PopoverTrigger>
-						<PopoverContent className={classes.chatWrapper} side="top" align="end" sideOffset={10}>
-							<Chat route={route} asPopup={asPopup} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} />
+						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} side="top" align="end" sideOffset={10}>
+							<Chat route={route} asPopup={asPopup} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 						</PopoverContent>
 					</Popover>
 				) : (
-					<Chat route={route} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} />
+					<Chat route={route} sessionId={sessionId} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 				)}
 			</span>
 		</QueryClientProvider>
