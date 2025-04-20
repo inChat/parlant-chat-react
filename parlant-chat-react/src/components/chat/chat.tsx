@@ -155,8 +155,6 @@ const useStyles = createUseStyles({
 		lineHeight: '18px',
 		textAlign: 'center',
 		padding: '2.5px 6px 3.5px 6px',
-		borderRadius: '5px',
-		border: '1px solid #EEEEEE',
 		width: 'fit-content',
 		margin: 'auto',
 		marginBottom: '0.5rem',
