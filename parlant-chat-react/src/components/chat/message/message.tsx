@@ -11,6 +11,7 @@ const useStyles = createUseStyles({
 			fontSize: 'revert',
 			fontWeight: 'revert',
 			padding: 'revert',
+			lineHeight: '1.375rem',
 			margin: 'revert',
 			listStyleType: 'revert',
 			color: 'revert',
@@ -79,26 +80,44 @@ const useStyles = createUseStyles({
 	customerWrapper: {
 		justifyContent: 'end',
 	},
+	agentName: {
+		display: 'flex',
+	},
+	agentNameInitial: {
+		backgroundColor: '#006E53',
+		color: 'white',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '18px',
+		height: '18px',
+		borderRadius: '6.5px',
+		marginInlineEnd: '5px',
+	},
 	messageWrapper: {
 		minWidth: '50%',
 		maxWidth: '70%',
-		border: '1px solid #e8e8e8',
+		// border: '1px solid #e8e8e8',
 		borderRadius: '12px',
 		lineHeight: '1.35rem',
 		padding: '10px',
 		position: 'relative',
 		margin: '10px',
-		background: '#FFFFFF',
+		background: '#F5F9F7',
 		color: '#151515',
 		'& .message-metadata': {
 			position: 'absolute',
-			top: '-23px',
+			top: '-30px',
+			left: '3px',
 			display: 'flex',
 			justifyContent: 'space-between',
 			color: '#151515',
-			width: 'calc(100% - 15px)',
-			fontSize: '0.8rem',
+			width: 'calc(100% - 10px)',
+			fontSize: '0.85rem',
 		},
+	},
+	messageTime: {
+		color: '#A9A9A9',
 	},
 	customerMessageWrapper: {
 		// background: '#4a90e2',
@@ -134,8 +153,11 @@ const Message = ({message, className}: MessageProps): JSX.Element => {
 		<div className={clsx(classes.wrapper, isCustomerMessage && classes.customerWrapper)}>
 			<div className={clsx(classes.messageWrapper, isCustomerMessage && classes.customerMessageWrapper, className)}>
 				<div className="message-metadata">
-					<div>{formattedUserName}</div>
-					<div>{timeAgo(new Date(message?.creationUtc))}</div>
+					<div className={classes.agentName}>
+						{!isCustomerMessage && <div className={classes.agentNameInitial}>{formattedUserName?.[0]?.toUpperCase()}</div>}
+						{formattedUserName}
+					</div>
+					<div className={classes.messageTime}>{timeAgo(new Date(message?.creationUtc))}</div>
 				</div>
 				<Markdown className={classes.markdown}>{messageContent}</Markdown>
 			</div>

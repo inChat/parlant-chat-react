@@ -16,14 +16,14 @@ import WebFont from 'webfontloader';
 const loadFonts = () => {
 	WebFont.load({
 		google: {
-			families: ['Ubuntu Sans:400,700'],
+			families: ['Inter:400,500,600,700'],
 		},
 	});
 };
 
 const useStyles = createUseStyles({
 	root: {
-		fontFamily: 'Ubuntu Sans',
+		fontFamily: 'Inter',
 		'& .fixed-scroll': {
 			scrollbarWidth: 'thin',
 			scrollbarColor: '#ebecf0 transparent',

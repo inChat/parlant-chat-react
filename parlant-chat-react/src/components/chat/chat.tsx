@@ -13,11 +13,11 @@ import ParlantLogo from '../../assets/parlant-logo.png';
 
 const useStyles = createUseStyles({
 	chatbox: {
-		background: '#FBFBFB',
+		background: 'white',
 		height: 'min(48.75rem,70vh)',
 		borderRadius: '20px',
 		display: 'flex',
-		fontFamily: 'Ubuntu Sans',
+		fontFamily: 'Inter',
 		flexDirection: 'column',
 		width: '27.75rem',
 		border: '1px solid #e7e6e6',
