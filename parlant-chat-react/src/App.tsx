@@ -1,8 +1,8 @@
 import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
 import type {ClassNameValue} from 'tailwind-merge';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
-import {MessageSquare, X} from 'lucide-react';
+import {ChevronDown} from 'lucide-react';
 import Chat from './components/chat/chat';
 import type {MessageInterface} from './components/chat/chat';
 import {Button} from './components/ui/button';
@@ -12,7 +12,6 @@ import clsx from 'clsx';
 import ParlantLogo from './assets/parlant-logo.png';
 
 import WebFont from 'webfontloader';
-import { ParlantClient } from 'parlant-client';
 
 const loadFonts = () => {
 	WebFont.load({
@@ -31,7 +30,7 @@ const useStyles = createUseStyles({
 		},
 	},
 	popupButton: {
-		backgroundColor: '#006E53',
+		backgroundColor: '#151515',
 		border: 'none',
 		outline: '0 !important',
 		borderRadius: '50%',
@@ -101,7 +100,7 @@ const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, se
 	
 	const [open, setOpen] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
-	const IconComponent = open ? X : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
+	const IconComponent = open ? ChevronDown : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
 
 	useEffect(() => {
 		loadFonts();

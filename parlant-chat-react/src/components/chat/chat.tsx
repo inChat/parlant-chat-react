@@ -9,8 +9,8 @@ import {Textarea} from '../ui/textarea';
 import type {ChatProps} from '@/App';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
-import ParlantLogo from '../../assets/parlant-logo.png';
 import ExpandIcon from '../../assets/icons/expand.svg';
+import PenIcon from '../../assets/icons/pen.svg';
 import ParlantLogoFull from '../../assets/parlant-logo-full.svg';
 
 const useStyles = createUseStyles({
@@ -78,11 +78,11 @@ const useStyles = createUseStyles({
 		},
 	},
 	textareaWrapper: {
-		marginInline: '10px',
+		marginInline: '20px',
 		flex: 'none',
 		position: 'relative',
-		border: '1px solid lightgray',
-		borderRadius: '16px',
+		border: '1px solid #F2F2F2',
+		borderRadius: '10px',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -90,10 +90,12 @@ const useStyles = createUseStyles({
 		lineHeight: '3rem',
 		paddingLeft: '0.85rem',
 		marginTop: '1rem',
+		boxShadow: '0px 3px 3px 0px #00000005',
 		paddingRight: '0',
 		height: '3rem',
 		maxWidth: '1000px',
 		marginBottom: '1.25rem',
+		gap: '4px',
 	},
 	textArea: {
 		boxShadow: 'none',
@@ -164,6 +166,12 @@ const useStyles = createUseStyles({
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: '0.375rem',
+	},
+	penIcon: {
+		width: '20px',
+		height: '20px',
+		marginRight: '8px',
+		color: '#282828',
 	},
 });
 
@@ -351,6 +359,7 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, chan
 			</div>
 
 			<div className={clsx(classes.textareaWrapper, classNames?.textarea)}>
+				<img src={PenIcon} alt="pen" className={classes.penIcon} />
 				<Textarea
 					role="textbox"
 					ref={textareaRef}
