@@ -1,7 +1,7 @@
 import {groupBy} from '@/utils/object';
 import {useQuery} from '@tanstack/react-query';
 import {ParlantClient} from 'parlant-client';
-import type {Event} from 'parlant-client/src/api';
+import type {Agent, Event, Session} from 'parlant-client/src/api';
 import {useEffect, useRef, useState} from 'react';
 import type {JSX} from 'react';
 import Message from './message/message';
@@ -10,8 +10,8 @@ import type {ChatProps} from '@/App';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 import ParlantLogo from '../../assets/parlant-logo.png';
-import { Expand } from 'lucide-react';
-import { Button } from '../ui/button';
+import ExpandIcon from '../../assets/icons/expand.svg';
+import ParlantLogoFull from '../../assets/parlant-logo-full.svg';
 
 const useStyles = createUseStyles({
 	chatbox: {
@@ -33,13 +33,32 @@ const useStyles = createUseStyles({
 	header: {
 		height: '4rem',
 		borderRadius: '20px 20px 0 0',
-		background: '#006E53',
+		borderBottom: '1px solid #EEEEEE',
 		color: 'white',
 		justifyContent: 'space-between',
 		display: 'flex',
 		alignItems: 'center',
-		paddingInline: '1rem',
+		paddingInline: '20px',
 		fontSize: '1.2rem',
+	},
+	headerAgentName: {
+		fontSize: '1rem',
+		fontWeight: '500',
+		color: '#151515',
+		display: 'flex',
+		alignItems: 'center',
+		gap: '18px',
+	},
+	headerAgentNameInitials: {
+		fontSize: '20px',
+		fontWeight: '700',
+		color: '#FFFFFF',
+		backgroundColor: '#282828',
+		borderRadius: '6.5px',
+		paddingInline: '7.8px',
+		paddingBlock: '5px',
+		lineHeight: '100%',
+		width: 'fit-content',
 	},
 	messagesArea: {
 		flex: 1,
@@ -98,13 +117,13 @@ const useStyles = createUseStyles({
 	status: {
 		position: 'absolute',
 		visibility: 'hidden',
-		left: '0.25em',
+		left: '1rem',
 		bottom: '-20px',
 		margin: 0,
 		lineHeight: 'normal',
-		fontSize: '12px',
-		fontWeight: '300',
-		color: '#A9AFB7',
+		fontSize: '11px',
+		fontWeight: '500',
+		color: '#A9A9A9',
 	},
 	statusVisible: {
 		visibility: 'visible',
@@ -112,7 +131,6 @@ const useStyles = createUseStyles({
 	expandIcon: {
 		width: '20px',
 		height: '20px',
-		color: 'white',
 		cursor: 'pointer',
 	},
 	sendButton: {
@@ -129,6 +147,25 @@ const useStyles = createUseStyles({
 			background: 'white !important',
 			border: 'none !important',
 		},
+	},
+	poweredBy: {
+		fontSize: '12px',
+		fontWeight: '400',
+		color: '#A9A9A9',
+		lineHeight: '18px',
+		textAlign: 'center',
+		padding: '2.5px 6px 3.5px 6px',
+		borderRadius: '5px',
+		border: '1px solid #EEEEEE',
+		width: 'fit-content',
+		margin: 'auto',
+		marginBottom: '0.5rem',
+	},
+	poweredByContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: '0.375rem',
 	},
 });
 
@@ -176,6 +213,17 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, chan
 		queryKey: ['events', lastOffset],
 		queryFn: () => parlantClient.sessions.listEvents(sessionId, {waitForData: 60, minOffset: lastOffset}),
 	});
+	const {data: sessionData} = useQuery<Session>({
+		queryKey: ['session'],
+		queryFn: () => parlantClient.sessions.retrieve(sessionId),
+	});
+
+	const {data: agentData} = useQuery<Agent | null>({
+		queryKey: ['agent'],
+		queryFn: () => sessionData?.agentId ? fetch(`${route}/agents/${sessionData.agentId}`).then(res => res.json()) : null,
+		enabled: !!sessionData?.agentId,
+	});
+
 
 	const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
 		if (e.key === 'Enter' && !e.shiftKey) {
@@ -288,8 +336,12 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, chan
 			{components?.header ?
 				<components.header /> :
 				<div className={classes.header}>
-					<img src={ParlantLogo} alt="Parlant Message"  height={40} width={40} style={{objectFit: 'contain'}}/>
-					<Expand className={classes.expandIcon} onClick={changeIsExpandedFn}/>
+					<div className={classes.headerAgentName}>
+						{agentData?.name && <div className={classes.headerAgentNameInitials}>{agentData.name[0]?.toUpperCase()}</div>}
+						{agentData?.name && <div>{agentData.name}</div>}
+					</div>
+					<img src={ExpandIcon} alt="expand" className={classes.expandIcon} height={40} width={40} onClick={changeIsExpandedFn} style={{objectFit: 'contain'}}/>
+					{/* <Expand className={classes.expandIcon}/> */}
 				</div>}
 			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
 				{messages.map((message) => {
@@ -329,6 +381,12 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, chan
 							<path d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z" fill="#282828" />
 						</svg>
 					)}
+				</div>
+			</div>
+			<div className={classes.poweredBy}>
+				<div className={classes.poweredByContainer}>
+					Powered by
+					<img src={ParlantLogoFull} alt="Parlant"  height={17} width={68} style={{objectFit: 'contain'}}/>
 				</div>
 			</div>
 		</div>

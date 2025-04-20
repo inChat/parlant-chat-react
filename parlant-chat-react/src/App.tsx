@@ -1,4 +1,4 @@
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
 import type {ClassNameValue} from 'tailwind-merge';
 import {useEffect, useRef, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import ParlantLogo from './assets/parlant-logo.png';
 
 import WebFont from 'webfontloader';
+import { ParlantClient } from 'parlant-client';
 
 const loadFonts = () => {
 	WebFont.load({
@@ -97,6 +98,7 @@ const queryClient = new QueryClient();
 
 const Chatbot = ({route, sessionId, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
+	
 	const [open, setOpen] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
 	const IconComponent = open ? X : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
