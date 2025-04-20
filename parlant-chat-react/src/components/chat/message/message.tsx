@@ -146,15 +146,16 @@ const timeAgo = (date: Date): string => {
 
 interface MessageProps {
 	message: MessageInterface;
+	agentName?: string;
 	className?: ClassNameValue;
 }
 
-const Message = ({message, className}: MessageProps): JSX.Element => {
+const Message = ({message, agentName, className}: MessageProps): JSX.Element => {
 	const classes = useStyles();
 	const isCustomerMessage = message?.source === 'customer';
 
 	const messageContent = (message.data as {message?: string})?.message || '';
-	const userName = (message?.data as any)?.participant?.display_name;
+	const userName = agentName || (message?.data as any)?.participant?.display_name;
 	const formattedUserName = userName === '<guest>' ? 'Guest' : userName;
 
 	return (

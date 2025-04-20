@@ -23,7 +23,6 @@ const useStyles = createUseStyles({
 		flexDirection: 'column',
 		transition: 'all 0.3s ease-in-out',
 		width: '27.75rem',
-		border: '1px solid #e7e6e6',
 	},
 	expandedChatbot: {
 		width: '60rem',
@@ -197,7 +196,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, changeIsExpanded}: ChatProps): JSX.Element => {
+const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, asPopup, changeIsExpanded}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -224,9 +223,9 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, chan
 		queryFn: () => parlantClient.sessions.retrieve(sessionId),
 	});
 
-	const {data: agentData} = useQuery<Agent | null>({
+	const {data: agentData} = useQuery<Partial<Agent> | null>({
 		queryKey: ['agent'],
-		queryFn: () => sessionData?.agentId ? fetch(`${route}/agents/${sessionData.agentId}`).then(res => res.json()) : null,
+		queryFn: () => agentName ? {name: agentName} : sessionData?.agentId ? fetch(`${route}/agents/${sessionData.agentId}`).then(res => res.json()) : null,
 		enabled: !!sessionData?.agentId,
 	});
 
@@ -353,7 +352,7 @@ const Chat = ({route, sessionId, components, sendIcon, classNames, asPopup, chan
 				{messages.map((message) => {
 					const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 
-					return <Component key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
+					return <Component agentName={agentData?.name} key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
 				})}
 				<div ref={lastMessageRef} />
 			</div>
