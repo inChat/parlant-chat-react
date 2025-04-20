@@ -1,5 +1,4 @@
 import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
-import type {ClassNameValue} from 'tailwind-merge';
 import {useEffect, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
 import {ChevronDown} from 'lucide-react';
@@ -61,7 +60,7 @@ const useStyles = createUseStyles({
 
 interface MessageComponentProps {
 	message: MessageInterface;
-	className?: ClassNameValue;
+	className?: string;
 }
 
 interface PopupButtonComponentProps {
@@ -77,13 +76,13 @@ export interface ChatProps {
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
 	classNames?: {
-		chatbox?: ClassNameValue;
-		messagesArea?: ClassNameValue;
-		agentMessage?: ClassNameValue;
-		customerMessage?: ClassNameValue;
-		textarea?: ClassNameValue;
-		defaultPopupButton?: ClassNameValue;
-		defaultPopupButtonIcon?: ClassNameValue;
+		chatbox?: string;
+		messagesArea?: string;
+		agentMessage?: string;
+		customerMessage?: string;
+		textarea?: string;
+		defaultPopupButton?: string;
+		defaultPopupButtonIcon?: string;
 	};
 	components?: {
 		popupButton?: (props: PopupButtonComponentProps) => ReactElement;

@@ -1,4 +1,3 @@
-import type {ClassNameValue} from 'tailwind-merge';
 import type {MessageInterface} from '../chat';
 import type {JSX} from 'react';
 import {createUseStyles} from 'react-jss';
@@ -147,7 +146,7 @@ const timeAgo = (date: Date): string => {
 interface MessageProps {
 	message: MessageInterface;
 	agentName?: string;
-	className?: ClassNameValue;
+	className?: string;
 }
 
 const Message = ({message, agentName, className}: MessageProps): JSX.Element => {
