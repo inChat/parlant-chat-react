@@ -333,7 +333,7 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		setTimeout(() => lastMessageRef?.current?.scrollIntoView({block: 'nearest'}), 0);
+		lastMessageRef?.current?.scrollIntoView({block: 'nearest'});
 	}, [messages?.length]);
 
 	const changeIsExpandedFn = (): void => {
@@ -359,7 +359,7 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 
 					return <Component agentName={agentData?.name} key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
 				})}
-				<div ref={lastMessageRef} />
+				 <div ref={lastMessageRef} />
 			</div>
 
 			<div className={clsx(classes.textareaWrapper, classNames?.textarea)}>
