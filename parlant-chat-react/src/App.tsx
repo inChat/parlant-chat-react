@@ -130,7 +130,9 @@ const Chatbot = ({route, sessionId, agentName, asPopup = false, popupButton, com
 						</PopoverContent>
 					</Popover>
 				) : (
-					<Chat route={route} sessionId={sessionId} agentName={agentName} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+					<div className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)}>
+						<Chat route={route} sessionId={sessionId} agentName={agentName} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+					</div>
 				)}
 			</span>
 		</QueryClientProvider>
