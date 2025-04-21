@@ -183,7 +183,20 @@ const useStyles = createUseStyles({
 		marginRight: '8px',
 		color: '#282828',
 	},
+	chatDescription: {
+		width: '340px',
+		marginTop: '20px',
+		marginBottom: '30px',
+		margin: 'auto',
+		textAlign: 'center',
+		fontSize: '14px',
+		fontWeight: '400',
+		color: '#A9A9A9',
+		lineHeight: '22px',
+	},
 });
+
+const defaultChatDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet et magna nec imperdiet.';
 
 export interface MessageInterface extends Event {
 	status: string | null;
@@ -207,7 +220,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, asPopup, changeIsExpanded}: ChatProps): JSX.Element => {
+const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, asPopup, changeIsExpanded, chatDescription}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -360,6 +373,9 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 					{/* <Expand className={classes.expandIcon}/> */}
 				</div>}
 			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
+				<div className={classes.chatDescription}>
+					{chatDescription || defaultChatDescription}
+				</div>
 				{messages.map((message) => {
 					const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 
