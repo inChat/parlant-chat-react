@@ -84,6 +84,7 @@ export interface ChatProps {
 		textarea?: string;
 		defaultPopupButton?: string;
 		defaultPopupButtonIcon?: string;
+		chatDescription?: string;
 	};
 	components?: {
 		popupButton?: (props: PopupButtonComponentProps) => ReactElement;

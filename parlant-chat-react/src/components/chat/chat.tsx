@@ -373,7 +373,7 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 					{/* <Expand className={classes.expandIcon}/> */}
 				</div>}
 			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
-				<div className={classes.chatDescription}>
+				<div className={clsx(classes.chatDescription, classNames?.chatDescription)}>
 					{chatDescription || defaultChatDescription}
 				</div>
 				{messages.map((message) => {
