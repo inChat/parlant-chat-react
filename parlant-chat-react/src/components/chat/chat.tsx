@@ -93,7 +93,6 @@ const useStyles = createUseStyles({
 		paddingRight: '0',
 		height: '3.375rem',
 		maxWidth: '1000px',
-		marginBottom: '1.25rem',
 		gap: '4px',
 	},
 	textArea: {
@@ -120,9 +119,8 @@ const useStyles = createUseStyles({
 			display: 'none',
 		},
 	},
-	status: {
-		position: 'absolute',
-		visibility: 'hidden',
+	bottomLine: {
+		paddingInline: '40px',
 		left: '1rem',
 		bottom: '-20px',
 		margin: 0,
@@ -130,6 +128,15 @@ const useStyles = createUseStyles({
 		fontSize: '11px',
 		fontWeight: '500',
 		color: '#A9A9A9',
+		alignItems: 'center',
+		height: '37px',
+		display: 'flex',
+		'& > div': {
+			flex: 1,
+		}
+	},
+	statusInvisible: {
+		visibility: 'hidden',
 	},
 	statusVisible: {
 		visibility: 'visible',
@@ -160,7 +167,6 @@ const useStyles = createUseStyles({
 		color: '#A9A9A9',
 		lineHeight: '18px',
 		textAlign: 'center',
-		padding: '2.5px 6px 3.5px 6px',
 		width: 'fit-content',
 		margin: 'auto',
 		marginBottom: '0.5rem',
@@ -168,7 +174,7 @@ const useStyles = createUseStyles({
 	poweredByContainer: {
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'end',
 		gap: '0.375rem',
 	},
 	penIcon: {
@@ -375,8 +381,6 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 					className={clsx(classes.textArea, classNames?.textarea)}
 				/>
 
-				<p className={clsx(classes.status, showInfo && classes.statusVisible)}>{showInfo}</p>
-
 				<div
 					role="button"
 					style={{pointerEvents: message?.trim() ? 'all' : 'none', cursor: message?.trim() ? 'pointer' : 'default', opacity: !message?.trim() ? 0.5 : 1}}
@@ -394,10 +398,13 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 					)}
 				</div>
 			</div>
-			<div className={classes.poweredBy}>
-				<div className={classes.poweredByContainer}>
-					Powered by
-					<img src={ParlantLogoFull} alt="Parlant"  height={17} width={68} style={{objectFit: 'contain'}}/>
+			<div className={clsx(classes.bottomLine)}>
+				<div className={clsx(classes.statusInvisible, showInfo && classes.statusVisible)}>{showInfo}</div>
+				<div className={classes.poweredBy}>
+					<div className={classes.poweredByContainer}>
+						Powered by
+						<img src={ParlantLogoFull} alt="Parlant"  height={17} width={68} style={{objectFit: 'contain'}}/>
+					</div>
 				</div>
 			</div>
 		</div>
