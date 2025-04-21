@@ -111,13 +111,18 @@ const Chatbot = ({route, sessionId, agentName, chatDescription, asPopup = false,
 		setOpen((prevState) => !prevState);
 	};
 
+	const handleOnOpenChange = (open: boolean): void => {
+		setOpen(open);
+		setIsExpanded(false);
+	};
+
 	const PopupButtonComponent = components?.popupButton && <components.popupButton toggleChatOpen={toggleChat} />;
 
 	return (
 		<QueryClientProvider client={queryClient}>
 			<span className={classes.root}>
 				{asPopup ? (
-					<Popover open={open} onOpenChange={setOpen}>
+					<Popover open={open} onOpenChange={handleOnOpenChange}>
 						<PopoverTrigger asChild>
 							<div>
 								{PopupButtonComponent || (
