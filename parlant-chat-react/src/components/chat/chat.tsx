@@ -25,9 +25,9 @@ const useStyles = createUseStyles({
 		width: '27.75rem',
 	},
 	expandedChatbot: {
-		width: '60rem',
-		maxWidth: '90vw',
-		height: 'min(80rem,80vh)',
+		width: '899px',
+		height: 'min(880px,80vh)',
+		maxWidth: '95vw',
 	},
 	header: {
 		height: '4rem',
@@ -120,7 +120,7 @@ const useStyles = createUseStyles({
 		},
 	},
 	bottomLine: {
-		paddingInline: '40px',
+		paddingInline: '25px',
 		left: '1rem',
 		bottom: '-20px',
 		margin: 0,
@@ -193,6 +193,44 @@ const useStyles = createUseStyles({
 		fontWeight: '400',
 		color: '#A9A9A9',
 		lineHeight: '22px',
+	},
+	bubblesWrapper: {
+		height: 'fit-content',
+		width: 'fit-content',
+		backgroundColor: '#F5F9F7',
+		padding: '10px',
+		margin: '10px',
+		marginInline: '20px',
+		borderRadius: '15px',
+	},
+	bubbles: {
+		height: '15px',
+		width: '31px',
+		aspectRatio: '2.5',
+		'--_g': 'no-repeat radial-gradient(farthest-side,#282828 90%,#0000)',
+		background: 'var(--_g), var(--_g), var(--_g)',
+		backgroundSize: '25% 50%',
+		animation: '$l43 1s infinite linear'
+	},
+	'@keyframes l43': {
+		'0%': {
+			backgroundPosition: 'calc(0*100%/2) 50%, calc(1*100%/2) 50%, calc(2*100%/2) 50%'
+		},
+		'20%': {
+			backgroundPosition: 'calc(0*100%/2) 0, calc(1*100%/2) 50%, calc(2*100%/2) 50%'
+		},
+		'40%': {
+			backgroundPosition: 'calc(0*100%/2) 100%, calc(1*100%/2) 0, calc(2*100%/2) 50%'
+		},
+		'60%': {
+			backgroundPosition: 'calc(0*100%/2) 50%, calc(1*100%/2) 100%, calc(2*100%/2) 0'
+		},
+		'80%': {
+			backgroundPosition: 'calc(0*100%/2) 50%, calc(1*100%/2) 50%, calc(2*100%/2) 100%'
+		},
+		'100%': {
+			backgroundPosition: 'calc(0*100%/2) 50%, calc(1*100%/2) 50%, calc(2*100%/2) 50%'
+		}
 	},
 });
 
@@ -352,8 +390,8 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		lastMessageRef?.current?.scrollIntoView({block: 'nearest'});
-	}, [messages?.length]);
+		if (showInfo !== 'Typing...') lastMessageRef?.current?.scrollIntoView({block: 'nearest'});
+	}, [messages?.length, showInfo]);
 
 	const changeIsExpandedFn = (): void => {
 		setIsExpanded(!isExpanded);
@@ -381,6 +419,7 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 
 					return <Component agentName={agentData?.name} key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
 				})}
+				{showInfo && <div className={classes.bubblesWrapper}><div className={classes.bubbles}></div></div>}
 				 <div ref={lastMessageRef} />
 			</div>
 

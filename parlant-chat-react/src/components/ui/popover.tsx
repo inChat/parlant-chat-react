@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
+import {useState} from 'react';
 
 const useStyles = createUseStyles({
 	popoverContent: {
@@ -18,24 +19,24 @@ const useStyles = createUseStyles({
 		outline: 'none',
 		transformOrigin: 'var(--radix-popover-content-transform-origin)',
 		willChange: 'transform, opacity',
-		// '&[data-state="open"]': {
-		// 	animation: '$animateIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-		// },
-		// '&[data-state="closed"]': {
-		// 	animation: '$animateOut 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-		// },
-		// '&[data-side="bottom"]': {
-		// 	animationName: '$slideInFromTop',
-		// },
-		// '&[data-side="left"]': {
-		// 	animationName: '$slideInFromRight',
-		// },
-		// '&[data-side="right"]': {
-		// 	animationName: '$slideInFromLeft',
-		// },
-		// '&[data-side="top"]': {
-		// 	animationName: '$slideInFromBottom',
-		// },
+		'&[data-state="open"]': {
+			animation: '$animateIn 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+		},
+		'&[data-state="closed"]': {
+			animation: '$animateOut 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+		},
+		'&[data-side="bottom"]': {
+			animationName: '$slideInFromTop',
+		},
+		'&[data-side="left"]': {
+			animationName: '$slideInFromRight',
+		},
+		'&[data-side="right"]': {
+			animationName: '$slideInFromLeft',
+		},
+		'&[data-side="top"]': {
+			animationName: '$slideInFromBottom',
+		},
 	},
 	'@keyframes animateIn': {
 		from: {
@@ -60,11 +61,11 @@ const useStyles = createUseStyles({
 	'@keyframes slideInFromTop': {
 		from: {
 			opacity: 0,
-			transform: 'scale(0)',
+			transform: 'translateY(-10px)',
 		},
 		to: {
 			opacity: 1,
-			transform: 'scale(1)',
+			transform: 'translateY(0)',
 		},
 	},
 	'@keyframes slideInFromRight': {
@@ -90,11 +91,11 @@ const useStyles = createUseStyles({
 	'@keyframes slideInFromBottom': {
 		from: {
 			opacity: 0,
-			transform: 'scale(0)',
+			transform: 'translateY(10px)',
 		},
 		to: {
 			opacity: 1,
-			transform: 'scale(1)',
+			transform: 'translateY(0)',
 		},
 	},
 });
@@ -106,6 +107,7 @@ const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive.Content>, React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>>(
 	({className, align = 'center', sideOffset = 4, ...props}, ref) => {
 		const classes = useStyles();
+		const [isClosing, setIsClosing] = useState(false);
 
 		return (
 			<PopoverPrimitive.Portal>
@@ -115,7 +117,22 @@ const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive
 					sideOffset={sideOffset} 
 					className={clsx(classes.popoverContent, className)} 
 					{...props}
-				/>
+					onCloseAutoFocus={(event) => {
+						event.preventDefault();
+						props.onCloseAutoFocus?.(event);
+					}}
+					onEscapeKeyDown={(event) => {
+						event.preventDefault();
+						props.onEscapeKeyDown?.(event);
+					}}
+					onOpenAutoFocus={(event) => {
+						event.preventDefault();
+						props.onOpenAutoFocus?.(event);
+					}}
+					forceMount
+				>
+					{props.children}
+				</PopoverPrimitive.Content>
 			</PopoverPrimitive.Portal>
 		);
 	},

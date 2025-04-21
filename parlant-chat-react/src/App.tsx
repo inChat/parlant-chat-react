@@ -53,8 +53,8 @@ const useStyles = createUseStyles({
 		padding: '0',
 	},
 	expandedChatWrapper: {
-		width: '60rem',
-		maxWidth: '90vw',
+		width: '899px',
+		maxWidth: '95vw',
 	}
 });
 

@@ -78,7 +78,7 @@ const useStyles = createUseStyles({
 	},
 	customerWrapper: {
 		justifyContent: 'end',
-		paddingBlock: '0rem',
+		paddingTop: '0rem',
 	},
 	agentName: {
 		display: 'flex',
@@ -100,8 +100,8 @@ const useStyles = createUseStyles({
 		marginInlineEnd: '8px',
 	},
 	messageWrapper: {
-		minWidth: '50%',
-		maxWidth: '70%',
+		minWidth: 'min(50%, 384px)',
+		maxWidth: 'min(80%, 384px)',
 		// border: '1px solid #e8e8e8',
 		borderRadius: '12px',
 		lineHeight: '1.35rem',
