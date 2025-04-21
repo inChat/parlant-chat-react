@@ -18,24 +18,24 @@ const useStyles = createUseStyles({
 		outline: 'none',
 		transformOrigin: 'var(--radix-popover-content-transform-origin)',
 		willChange: 'transform, opacity',
-		'&[data-state="open"]': {
-			animation: '$animateIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-		},
-		'&[data-state="closed"]': {
-			animation: '$animateOut 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-		},
-		'&[data-side="bottom"]': {
-			animationName: '$slideInFromTop',
-		},
-		'&[data-side="left"]': {
-			animationName: '$slideInFromRight',
-		},
-		'&[data-side="right"]': {
-			animationName: '$slideInFromLeft',
-		},
-		'&[data-side="top"]': {
-			animationName: '$slideInFromBottom',
-		},
+		// '&[data-state="open"]': {
+		// 	animation: '$animateIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+		// },
+		// '&[data-state="closed"]': {
+		// 	animation: '$animateOut 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+		// },
+		// '&[data-side="bottom"]': {
+		// 	animationName: '$slideInFromTop',
+		// },
+		// '&[data-side="left"]': {
+		// 	animationName: '$slideInFromRight',
+		// },
+		// '&[data-side="right"]': {
+		// 	animationName: '$slideInFromLeft',
+		// },
+		// '&[data-side="top"]': {
+		// 	animationName: '$slideInFromBottom',
+		// },
 	},
 	'@keyframes animateIn': {
 		from: {
@@ -60,11 +60,11 @@ const useStyles = createUseStyles({
 	'@keyframes slideInFromTop': {
 		from: {
 			opacity: 0,
-			transform: 'translateY(-10px)',
+			transform: 'scale(0)',
 		},
 		to: {
 			opacity: 1,
-			transform: 'translateY(0)',
+			transform: 'scale(1)',
 		},
 	},
 	'@keyframes slideInFromRight': {
@@ -90,11 +90,11 @@ const useStyles = createUseStyles({
 	'@keyframes slideInFromBottom': {
 		from: {
 			opacity: 0,
-			transform: 'translateY(10px)',
+			transform: 'scale(0)',
 		},
 		to: {
 			opacity: 1,
-			transform: 'translateY(0)',
+			transform: 'scale(1)',
 		},
 	},
 });
@@ -109,7 +109,13 @@ const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive
 
 		return (
 			<PopoverPrimitive.Portal>
-				<PopoverPrimitive.Content ref={ref} align={align} sideOffset={sideOffset} className={clsx(classes.popoverContent, className)} {...props} />
+				<PopoverPrimitive.Content 
+					ref={ref} 
+					align={align} 
+					sideOffset={sideOffset} 
+					className={clsx(classes.popoverContent, className)} 
+					{...props}
+				/>
 			</PopoverPrimitive.Portal>
 		);
 	},
@@ -117,4 +123,4 @@ const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive
 
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
-export {Popover, PopoverTrigger, PopoverContent};
+export {Popover, PopoverTrigger, PopoverContent}; 
