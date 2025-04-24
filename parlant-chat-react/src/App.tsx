@@ -71,6 +71,7 @@ export interface ChatProps {
 	route: string;
 	sessionId: string;
 	agentName?: string;
+	agentAvatar?: JSX.Element;
 	chatDescription?: string;
 	asPopup?: boolean;
 	changeIsExpanded?: () => void;
@@ -90,13 +91,13 @@ export interface ChatProps {
 		popupButton?: (props: PopupButtonComponentProps) => ReactElement;
 		agentMessage?: (props: MessageComponentProps) => ReactElement;
 		customerMessage?: (props: MessageComponentProps) => ReactElement;
-		header?: () => ReactElement;
+		header?: ({changeIsExpanded}: {changeIsExpanded: () => void}) => ReactElement;
 	};
 }
 
 const queryClient = new QueryClient();
 
-const Chatbot = ({route, sessionId, agentName, chatDescription, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	
 	const [open, setOpen] = useState<boolean>(false);
@@ -133,12 +134,12 @@ const Chatbot = ({route, sessionId, agentName, chatDescription, asPopup = false,
 							</div>
 						</PopoverTrigger>
 						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} side="top" align="end" sideOffset={10}>
-							<Chat route={route} asPopup={asPopup} sessionId={sessionId} agentName={agentName} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+							<Chat route={route} asPopup={asPopup} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 						</PopoverContent>
 					</Popover>
 				) : (
 					<div className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)}>
-						<Chat route={route} sessionId={sessionId} agentName={agentName} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+						<Chat route={route} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 					</div>
 				)}
 			</span>

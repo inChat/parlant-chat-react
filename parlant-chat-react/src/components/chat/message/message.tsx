@@ -146,10 +146,11 @@ const timeAgo = (date: Date): string => {
 interface MessageProps {
 	message: MessageInterface;
 	agentName?: string;
+	agentAvatar?: JSX.Element;
 	className?: string;
 }
 
-const Message = ({message, agentName, className}: MessageProps): JSX.Element => {
+const Message = ({message, agentName, agentAvatar, className}: MessageProps): JSX.Element => {
 	const classes = useStyles();
 	const isCustomerMessage = message?.source === 'customer';
 
@@ -163,7 +164,7 @@ const Message = ({message, agentName, className}: MessageProps): JSX.Element => 
 				{!isCustomerMessage &&
 				<div className="message-metadata">
 					<div className={classes.agentName}>
-						 <div className={classes.agentNameInitial}>{formattedUserName?.[0]?.toUpperCase()}</div>
+						 {agentAvatar || <div className={classes.agentNameInitial}>{formattedUserName?.[0]?.toUpperCase()}</div>}
 						{formattedUserName}
 					</div>
 					{/* <div className={classes.messageTime}>{timeAgo(new Date(message?.creationUtc))}</div> */}

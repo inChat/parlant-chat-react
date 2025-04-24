@@ -258,7 +258,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, asPopup, changeIsExpanded, chatDescription}: ChatProps): JSX.Element => {
+const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, classNames, asPopup, changeIsExpanded, chatDescription}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -401,10 +401,10 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 	return (
 		<div className={clsx(classes.chatbox, isExpanded && classes.expandedChatbot, classNames?.chatbox)}>
 			{components?.header ?
-				<components.header /> :
+				<components.header changeIsExpanded={changeIsExpandedFn} /> :
 				<div className={classes.header}>
 					<div className={classes.headerAgentName}>
-						{agentData?.name && <div className={classes.headerAgentNameInitials}>{agentData.name[0]?.toUpperCase()}</div>}
+						{agentAvatar || (agentData?.name && <div className={classes.headerAgentNameInitials}>{agentData.name[0]?.toUpperCase()}</div>)}
 						{agentData?.name && <div>{agentData.name}</div>}
 					</div>
 					<img src={ExpandIcon} alt="expand" className={classes.expandIcon} height={40} width={40} onClick={changeIsExpandedFn} style={{objectFit: 'contain'}}/>
@@ -417,7 +417,7 @@ const Chat = ({route, sessionId, agentName, components, sendIcon, classNames, as
 				{messages.map((message) => {
 					const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 
-					return <Component agentName={agentData?.name} key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
+					return <Component agentAvatar={agentAvatar} agentName={agentData?.name} key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
 				})}
 				{showInfo && <div className={classes.bubblesWrapper}><div className={classes.bubbles}></div></div>}
 				 <div ref={lastMessageRef} />
