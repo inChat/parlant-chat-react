@@ -2,6 +2,7 @@ import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
 import clsx from 'clsx';
 import ParlantLogoFull from '../../../assets/parlant-logo-full.svg';
+import { COLORS } from '../../../theme';
 
 interface ChatFooterProps {
   showInfo?: string;
@@ -17,7 +18,7 @@ const useStyles = createUseStyles({
     lineHeight: 'normal',
     fontSize: '11px',
     fontWeight: '500',
-    color: '#A9A9A9',
+    color: COLORS.mutedText,
     alignItems: 'center',
     height: '37px',
     display: 'flex',
@@ -34,7 +35,7 @@ const useStyles = createUseStyles({
   poweredBy: {
     fontSize: '12px',
     fontWeight: '400',
-    color: '#A9A9A9',
+    color: COLORS.mutedText,
     lineHeight: '18px',
     textAlign: 'center',
     width: 'fit-content',

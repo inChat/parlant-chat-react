@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import ParlantLogo from './assets/parlant-logo.png';
 
 import WebFont from 'webfontloader';
+import { COLORS } from './theme';
 
 const loadFonts = () => {
 	WebFont.load({
@@ -29,7 +30,7 @@ const useStyles = createUseStyles({
 		},
 	},
 	popupButton: {
-		backgroundColor: '#151515',
+		backgroundColor: COLORS.primaryText,
 		border: 'none',
 		outline: '0 !important',
 		borderRadius: '50%',

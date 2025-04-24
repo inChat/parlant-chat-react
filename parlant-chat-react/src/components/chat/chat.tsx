@@ -16,6 +16,7 @@ import ChatHeader from './header/ChatHeader';
 import MessageList from './message-list/MessageList';
 import ChatInput from './input/ChatInput';
 import ChatFooter from './footer/ChatFooter';
+import { COLORS } from '@/theme';
 
 const useStyles = createUseStyles({
 	chatbox: {
@@ -47,7 +48,7 @@ const useStyles = createUseStyles({
 	headerAgentName: {
 		fontSize: '1rem',
 		fontWeight: '500',
-		color: '#151515',
+		color: COLORS.primaryText,
 		display: 'flex',
 		alignItems: 'center',
 		gap: '18px',
@@ -56,7 +57,7 @@ const useStyles = createUseStyles({
 		fontSize: '20px',
 		fontWeight: '700',
 		color: '#FFFFFF',
-		backgroundColor: '#282828',
+		backgroundColor: COLORS.darkGrey,
 		borderRadius: '6.5px',
 		paddingInline: '7.8px',
 		paddingBlock: '5px',
@@ -76,7 +77,7 @@ const useStyles = createUseStyles({
 			background: 'transparent',
 		},
 		'&::-webkit-scrollbar-thumb': {
-			background: '#006E53',
+			background: COLORS.accent,
 			borderRadius: '3px',
 		},
 	},
@@ -115,7 +116,7 @@ const useStyles = createUseStyles({
 		backgroundColor: 'white',
 		fontWeight: '300',
 		'&::placeholder': {
-			color: '#282828',
+			color: COLORS.darkGrey,
 			fontSize: '14px',
 			fontWeight: '500'
 		},
@@ -131,7 +132,7 @@ const useStyles = createUseStyles({
 		lineHeight: 'normal',
 		fontSize: '11px',
 		fontWeight: '500',
-		color: '#A9A9A9',
+		color: COLORS.mutedText,
 		alignItems: 'center',
 		height: '37px',
 		display: 'flex',
@@ -168,7 +169,7 @@ const useStyles = createUseStyles({
 	poweredBy: {
 		fontSize: '12px',
 		fontWeight: '400',
-		color: '#A9A9A9',
+		color: COLORS.mutedText,
 		lineHeight: '18px',
 		textAlign: 'center',
 		width: 'fit-content',
@@ -185,7 +186,7 @@ const useStyles = createUseStyles({
 		width: '20px',
 		height: '20px',
 		marginRight: '8px',
-		color: '#282828',
+		color: COLORS.darkGrey,
 	},
 	chatDescription: {
 		width: '340px',
@@ -195,13 +196,13 @@ const useStyles = createUseStyles({
 		textAlign: 'center',
 		fontSize: '14px',
 		fontWeight: '400',
-		color: '#A9A9A9',
+		color: COLORS.mutedText,
 		lineHeight: '22px',
 	},
 	bubblesWrapper: {
 		height: 'fit-content',
 		width: 'fit-content',
-		backgroundColor: '#F5F9F7',
+		backgroundColor: COLORS.backgroundLight,
 		padding: '10px',
 		margin: '10px',
 		marginInline: '20px',

@@ -3,6 +3,7 @@ import type {JSX} from 'react';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 import Markdown from '@/components/ui/markdown';
+import { COLORS } from '@/theme';
 
 const useStyles = createUseStyles({
 	markdown: {
@@ -73,7 +74,7 @@ const useStyles = createUseStyles({
 		width: '100%',
 		textAlign: 'start',
 		display: 'flex',
-		color: '#151515',
+		color: COLORS.primaryText,
 		paddingBlock: '20px',
 	},
 	customerWrapper: {
@@ -85,10 +86,10 @@ const useStyles = createUseStyles({
 		fontSize: '14px',
 		alignItems: 'center',
 		fontWeight: '500',
-		color: '#282828',
+		color: COLORS.darkGrey,
 	},
 	agentNameInitial: {
-		backgroundColor: '#282828',
+		backgroundColor: COLORS.darkGrey,
 		color: 'white',
 		display: 'flex',
 		justifyContent: 'center',
@@ -109,8 +110,8 @@ const useStyles = createUseStyles({
 		position: 'relative',
 		margin: '10px',
 		marginInline: '20px',
-		background: '#F5F9F7',
-		color: '#151515',
+		background: COLORS.backgroundLight,
+		color: COLORS.primaryText,
 		'& .message-metadata': {
 			transform: 'translateY(-100%)',
 			position: 'absolute',
@@ -118,13 +119,13 @@ const useStyles = createUseStyles({
 			left: '3px',
 			display: 'flex',
 			justifyContent: 'space-between',
-			color: '#151515',
+			color: COLORS.primaryText,
 			width: 'calc(100% - 10px)',
 			fontSize: '0.85rem',
 		},
 	},
 	messageTime: {
-		color: '#A9A9A9',
+		color: COLORS.mutedText,
 	},
 	customerMessageWrapper: {
 		// background: '#4a90e2',

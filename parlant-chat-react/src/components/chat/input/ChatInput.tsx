@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Textarea } from '../../ui/textarea';
 import PenIcon from '../../../assets/icons/pen.svg';
 import clsx from 'clsx';
+import { COLORS } from '../../../theme';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => Promise<void>;
@@ -17,7 +18,7 @@ const useStyles = createUseStyles({
     marginInline: '20px',
     flex: 'none',
     position: 'relative',
-    border: '1px solid #F2F2F2',
+    border: `1px solid #EEEEEE`,
     borderRadius: '10px',
     display: 'flex',
     justifyContent: 'center',
@@ -48,7 +49,7 @@ const useStyles = createUseStyles({
     backgroundColor: 'white',
     fontWeight: '300',
     '&::placeholder': {
-      color: '#282828',
+      color: COLORS.darkGrey,
       fontSize: '14px',
       fontWeight: '500'
     },
@@ -60,7 +61,7 @@ const useStyles = createUseStyles({
     width: '20px',
     height: '20px',
     marginRight: '8px',
-    color: '#282828',
+    color: COLORS.darkGrey,
   },
   sendButton: {
     maxWidth: '60px',
@@ -79,7 +80,7 @@ const useStyles = createUseStyles({
       border: 'none !important',
     },
     '&:focus': {
-      outline: '2px solid #006E53',
+      outline: `2px solid ${COLORS.accent}`,
       borderRadius: '4px',
     },
     '&[disabled]': {
@@ -147,7 +148,7 @@ const ChatInput = ({
           <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z"
-              fill="#282828"
+              fill={COLORS.darkGrey}
             />
           </svg>
         )}

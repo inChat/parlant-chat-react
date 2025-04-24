@@ -1,6 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
 import ExpandIcon from '../../../assets/icons/expand.svg';
+import { COLORS } from '../../../theme';
 
 interface ChatHeaderProps {
   agentName?: string;
@@ -13,8 +14,8 @@ interface ChatHeaderProps {
 const useStyles = createUseStyles({
   header: {
     height: '4rem',
-    borderRadius: '20px 20px 0 0',
-    borderBottom: '1px solid #EEEEEE',
+    borderRadius: `20px 20px 0 0`,
+    borderBottom: `1px solid #EEEEEE`,
     color: 'white',
     justifyContent: 'space-between',
     display: 'flex',
@@ -25,7 +26,7 @@ const useStyles = createUseStyles({
   headerAgentName: {
     fontSize: '1rem',
     fontWeight: '500',
-    color: '#151515',
+    color: COLORS.primaryText,
     display: 'flex',
     alignItems: 'center',
     gap: '18px',
@@ -33,8 +34,8 @@ const useStyles = createUseStyles({
   headerAgentNameInitials: {
     fontSize: '20px',
     fontWeight: '700',
-    color: '#FFFFFF',
-    backgroundColor: '#282828',
+    color: 'white',
+    backgroundColor: COLORS.darkGrey,
     borderRadius: '6.5px',
     paddingInline: '7.8px',
     paddingBlock: '5px',
@@ -50,13 +51,19 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     justifyContent: 'center',
     '&:focus': {
-      outline: '2px solid #006E53',
-      borderRadius: '4px',
+      outline: 'none',
+    },
+    '&:focus-visible': {
+      outline: 'none',
     },
   },
   expandIcon: {
     width: '20px',
     height: '20px',
+    objectFit: 'contain',
+    '&:focus-visible': {
+      outline: 'none',
+    },
   },
 });
 

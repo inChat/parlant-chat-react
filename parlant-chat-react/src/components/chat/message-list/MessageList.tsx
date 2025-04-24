@@ -4,6 +4,7 @@ import type { MessageInterface } from '../chat';
 import Message from '../message/message';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
+import { COLORS } from '../../../theme';
 
 interface MessageListProps {
   messages: MessageInterface[];
@@ -37,7 +38,7 @@ const useStyles = createUseStyles({
       background: 'transparent',
     },
     '&::-webkit-scrollbar-thumb': {
-      background: '#006E53',
+      background: COLORS.accent,
       borderRadius: '3px',
     },
   },
@@ -49,13 +50,13 @@ const useStyles = createUseStyles({
     textAlign: 'center',
     fontSize: '14px',
     fontWeight: '400',
-    color: '#A9A9A9',
+    color: COLORS.mutedText,
     lineHeight: '22px',
   },
   bubblesWrapper: {
     height: 'fit-content',
     width: 'fit-content',
-    backgroundColor: '#F5F9F7',
+    backgroundColor: COLORS.backgroundLight,
     padding: '10px',
     margin: '10px',
     marginInline: '20px',
@@ -65,7 +66,7 @@ const useStyles = createUseStyles({
     height: '15px',
     width: '31px',
     aspectRatio: '2.5',
-    '--_g': 'no-repeat radial-gradient(farthest-side,#282828 90%,#0000)',
+    '--_g': `no-repeat radial-gradient(farthest-side, ${COLORS.darkGrey} 90%,#0000)`,
     background: 'var(--_g), var(--_g), var(--_g)',
     backgroundSize: '25% 50%',
     animation: '$l43 1s infinite linear',
