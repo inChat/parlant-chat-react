@@ -12,6 +12,10 @@ import clsx from 'clsx';
 import ExpandIcon from '../../assets/icons/expand.svg';
 import PenIcon from '../../assets/icons/pen.svg';
 import ParlantLogoFull from '../../assets/parlant-logo-full.svg';
+import ChatHeader from './header/ChatHeader';
+import MessageList from './message-list/MessageList';
+import ChatInput from './input/ChatInput';
+import ChatFooter from './footer/ChatFooter';
 
 const useStyles = createUseStyles({
 	chatbox: {
@@ -258,7 +262,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, classNames, asPopup, changeIsExpanded, chatDescription}: ChatProps): JSX.Element => {
+const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, classNames, asPopup, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void;}): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -402,66 +406,32 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 		<div className={clsx(classes.chatbox, isExpanded && classes.expandedChatbot, classNames?.chatbox)}>
 			{components?.header ?
 				<components.header changeIsExpanded={changeIsExpandedFn} /> :
-				<div className={classes.header}>
-					<div className={classes.headerAgentName}>
-						{agentAvatar || (agentData?.name && <div className={classes.headerAgentNameInitials}>{agentData.name[0]?.toUpperCase()}</div>)}
-						{agentData?.name && <div>{agentData.name}</div>}
-					</div>
-					<img src={ExpandIcon} alt="expand" className={classes.expandIcon} height={40} width={40} onClick={changeIsExpandedFn} style={{objectFit: 'contain'}}/>
-					{/* <Expand className={classes.expandIcon}/> */}
-				</div>}
-			<div className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}>
-				<div className={clsx(classes.chatDescription, classNames?.chatDescription)}>
-					{chatDescription || defaultChatDescription}
-				</div>
-				{messages.map((message) => {
-					const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
-
-					return <Component agentAvatar={agentAvatar} agentName={agentData?.name} key={message.id} message={message} className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage} />;
-				})}
-				{showInfo && <div className={classes.bubblesWrapper}><div className={classes.bubbles}></div></div>}
-				 <div ref={lastMessageRef} />
-			</div>
-
-			<div className={clsx(classes.textareaWrapper, classNames?.textarea)}>
-				<img src={PenIcon} alt="pen" className={classes.penIcon} />
-				<Textarea
-					role="textbox"
-					ref={textareaRef}
-					placeholder="Message..."
-					value={message}
-					onKeyDown={handleTextareaKeydown}
-					onChange={(e) => setMessage(e.target.value)}
-					rows={1}
-					className={clsx(classes.textArea, classNames?.textarea)}
+				<ChatHeader
+					agentName={agentData?.name}
+					agentAvatar={agentAvatar}
+					changeIsExpanded={changeIsExpandedFn}
+					isExpanded={isExpanded}
+				/>}
+				<MessageList
+					messages={messages}
+					showInfo={showInfo}
+					agentName={agentData?.name}
+					agentAvatar={agentAvatar}
+					components={components}
+					classNames={classNames}
+					chatDescription={chatDescription}
 				/>
 
-				<div
-					role="button"
-					style={{pointerEvents: message?.trim() ? 'all' : 'none', cursor: message?.trim() ? 'pointer' : 'default', opacity: !message?.trim() ? 0.5 : 1}}
-					className={classes.sendButton}
-					ref={submitButtonRef}
-					tabIndex={!message?.trim() ? -1 : 0}
-					onClick={() => !!message?.trim() && postMessage(message)}
-					onKeyDown={(e) => e.key === 'Enter' && !!message?.trim() && postMessage(message)}
-				>
-					{sendIcon || (
-						<svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<title>Send message</title>
-							<path d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z" fill="#282828" />
-						</svg>
-					)}
-				</div>
-			</div>
-			<div className={clsx(classes.bottomLine)}>
-				<div className={clsx(classes.statusInvisible, showInfo && classes.statusVisible)}>{showInfo}</div>
-				<div className={classes.poweredBy}>
-					<div className={classes.poweredByContainer}>
-						Powered by
-						<img src={ParlantLogoFull} alt="Parlant"  height={17} width={68} style={{objectFit: 'contain'}}/>
-					</div>
-				</div>
-			</div>
+			<ChatInput
+				onSendMessage={postMessage}
+				sendIcon={sendIcon}
+				className={classNames?.textarea}
+				asPopup={asPopup}
+			/>
+			<ChatFooter
+				showInfo={showInfo}
+				className={classNames?.bottomLine}
+			/>
 		</div>
 	);
 };

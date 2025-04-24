@@ -74,7 +74,6 @@ export interface ChatProps {
 	agentAvatar?: JSX.Element;
 	chatDescription?: string;
 	asPopup?: boolean;
-	changeIsExpanded?: () => void;
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
 	classNames?: {
@@ -86,6 +85,7 @@ export interface ChatProps {
 		defaultPopupButton?: string;
 		defaultPopupButtonIcon?: string;
 		chatDescription?: string;
+		bottomLine?: string;
 	};
 	components?: {
 		popupButton?: (props: PopupButtonComponentProps) => ReactElement;
