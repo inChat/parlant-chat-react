@@ -2,7 +2,7 @@ import {groupBy} from '@/utils/object';
 import {useQuery} from '@tanstack/react-query';
 import {ParlantClient} from 'parlant-client';
 import type {Agent, Event, Session} from 'parlant-client/src/api';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState, useCallback, useMemo} from 'react';
 import type {JSX} from 'react';
 import Message from './message/message';
 import {Textarea} from '../ui/textarea';
@@ -296,6 +296,27 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 		enabled: !!sessionData?.agentId,
 	});
 
+	const correlationsMap = useMemo(
+		() => groupBy(data || [], (item: Event) => item?.correlationId.split('::')[0]),
+		[data]
+	);
+	const messageEvents = useMemo(
+		() => data?.filter((e) => e.kind === 'message') || [],
+		[data]
+	);
+	const withStatusMessages = useMemo(
+		() => messageEvents.map((newMessage, i) => {
+			const messageData: MessageInterface = { ...newMessage, status: '' };
+			const correlationItems = correlationsMap[newMessage.correlationId.split('::')[0]];
+			const lastCorrelationItem = (correlationItems?.at(-1)?.data) as StatusEventData | undefined;
+			messageData.status = lastCorrelationItem?.status || (messageEvents[i + 1] ? 'ready' : null);
+			if (messageData.status === 'error') {
+				messageData.error = lastCorrelationItem?.exception;
+			}
+			return messageData;
+		}),
+		[messageEvents, correlationsMap]
+	);
 
 	const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
 		if (e.key === 'Enter' && !e.shiftKey) {
@@ -324,7 +345,7 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 		});
 	};
 
-	const formatMessagesFromEvents = (): void => {
+	const formatMessagesFromEvents = useCallback((): void => {
 		const lastEvent = data?.at(-1);
 		const lastStatusEvent = data?.findLast((e) => e.kind === 'status');
 
@@ -333,28 +354,11 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 		const offset = lastEvent?.offset;
 		if (offset !== undefined) setLastOffset(offset + 1);
 
-		const correlationsMap = groupBy(data || [], (item: Event) => item?.correlationId.split('::')[0]);
-
-		const newMessages = data?.filter((e) => e.kind === 'message') || [];
-		const withStatusMessages = newMessages.map((newMessage, i) => {
-			const messageData: MessageInterface = {...newMessage, status: ''};
-			const correlationItems = correlationsMap?.[newMessage.correlationId.split('::')[0]];
-			const lastCorrelationItem = correlationItems?.at(-1)?.data as StatusEventData | undefined;
-
-			messageData.status = lastCorrelationItem?.status || (newMessages[i + 1] ? 'ready' : null);
-
-			if (messageData.status === 'error') {
-				messageData.error = lastCorrelationItem?.exception;
-			}
-
-			return messageData;
-		});
-
 		setMessages((currentMessages: MessageInterface[]) => {
 			const lastMessage = currentMessages.at(-1);
 
-			if (lastMessage?.source === 'customer' && correlationsMap?.[lastMessage?.correlationId]) {
-				const lastCorrelationItem = correlationsMap[lastMessage.correlationId].at(-1)?.data as StatusEventData;
+			if (lastMessage?.source === 'customer' && correlationsMap[lastMessage.correlationId]) {
+				const lastCorrelationItem = (correlationsMap[lastMessage.correlationId].at(-1)?.data) as StatusEventData;
 				lastMessage.status = lastCorrelationItem?.status || lastMessage.status;
 
 				if (lastMessage.status === 'error') {
@@ -362,7 +366,7 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 				}
 			}
 
-			if (!withStatusMessages?.length) return [...currentMessages];
+			if (!withStatusMessages.length) return [...currentMessages];
 
 			if ((pendingMessage?.data as {message?: string})?.message) {
 				setPendingMessage(createEmptyPendingMessage());
@@ -380,23 +384,22 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 		});
 
 		const lastStatusEventStatus = (lastStatusEvent?.data as StatusEventData)?.status;
-		setShowInfo(!!messages?.length && lastStatusEventStatus === 'processing' ? 'Thinking...' : lastStatusEventStatus === 'typing' ? 'Typing...' : '');
-	};
+		setShowInfo(
+			!!messages.length && lastStatusEventStatus === 'processing'
+				? 'Thinking...'
+				: lastStatusEventStatus === 'typing'
+				? 'Typing...'
+				: ''
+		);
+	}, [data, pendingMessage, withStatusMessages, correlationsMap]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		if (asPopup) textareaRef?.current?.focus();
-	}, []);
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		formatMessagesFromEvents();
-	}, [data?.length]);
+	}, [data, formatMessagesFromEvents]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (showInfo !== 'Typing...') lastMessageRef?.current?.scrollIntoView({block: 'nearest'});
-	}, [messages?.length, showInfo]);
+	}, [messages.length, showInfo]);
 
 	const changeIsExpandedFn = (): void => {
 		setIsExpanded(!isExpanded);
