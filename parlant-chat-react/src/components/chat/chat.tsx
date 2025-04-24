@@ -428,6 +428,7 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 				sendIcon={sendIcon}
 				className={classNames?.textarea}
 				asPopup={asPopup}
+				focusTrigger={isExpanded}
 			/>
 			<ChatFooter
 				showInfo={showInfo}

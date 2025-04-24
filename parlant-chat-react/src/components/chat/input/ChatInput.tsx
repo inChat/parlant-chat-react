@@ -11,6 +11,7 @@ interface ChatInputProps {
   sendIcon?: JSX.Element;
   className?: string;
   asPopup?: boolean;
+  focusTrigger?: boolean;
 }
 
 const useStyles = createUseStyles({
@@ -95,6 +96,7 @@ const ChatInput = ({
   sendIcon,
   className,
   asPopup,
+  focusTrigger,
 }: ChatInputProps): JSX.Element => {
   const classes = useStyles();
   const [message, setMessage] = useState('');
@@ -102,10 +104,10 @@ const ChatInput = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (asPopup) {
+    if (asPopup || focusTrigger) {
       textareaRef?.current?.focus();
     }
-  }, [asPopup]);
+  }, [asPopup, focusTrigger]);
 
   const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === 'Enter' && !e.shiftKey) {
