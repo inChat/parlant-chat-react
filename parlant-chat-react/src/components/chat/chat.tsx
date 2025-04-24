@@ -11,7 +11,6 @@ import ChatHeader from './header/ChatHeader';
 import MessageList from './message-list/MessageList';
 import ChatInput from './input/ChatInput';
 import ChatFooter from './footer/ChatFooter';
-import { COLORS } from '@/theme';
 
 const useStyles = createUseStyles({
 	chatbox: {
