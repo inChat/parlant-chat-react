@@ -105,7 +105,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
 	const [origin, setOrigin] = useState<string>('bottom right');
 	const isOriginInBottom = origin.includes('bottom');
-	const IconComponent = open ?  (isOriginInBottom ? ChevronDown : ChevronUp) : (isOriginInBottom ? ChevronUp : ChevronDown);
+	const IconComponent = open ?  (isOriginInBottom ? ChevronUp : ChevronDown) : (isOriginInBottom ? ChevronDown : ChevronUp);
 
 	const setTransformOrigin = (): void => {
 		if (!popupButtonRef.current) return;
