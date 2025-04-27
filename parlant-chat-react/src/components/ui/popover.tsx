@@ -61,11 +61,11 @@ const useStyles = createUseStyles({
 	'@keyframes slideInFromTop': {
 		from: {
 			opacity: 0,
-			transform: 'translateY(-10px)',
+			transform: 'scale(0)',
 		},
 		to: {
 			opacity: 1,
-			transform: 'translateY(0)',
+			transform: 'scale(1)',
 		},
 	},
 	'@keyframes slideInFromRight': {
@@ -91,11 +91,11 @@ const useStyles = createUseStyles({
 	'@keyframes slideInFromBottom': {
 		from: {
 			opacity: 0,
-			transform: 'translateY(10px)',
+			transform: 'scale(0)',
 		},
 		to: {
 			opacity: 1,
-			transform: 'translateY(0)',
+			transform: 'scale(1)',
 		},
 	},
 });
@@ -117,18 +117,18 @@ const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive
 					sideOffset={sideOffset} 
 					className={clsx(classes.popoverContent, className)} 
 					{...props}
-					onCloseAutoFocus={(event) => {
-						event.preventDefault();
-						props.onCloseAutoFocus?.(event);
-					}}
-					onEscapeKeyDown={(event) => {
-						event.preventDefault();
-						props.onEscapeKeyDown?.(event);
-					}}
-					onOpenAutoFocus={(event) => {
-						event.preventDefault();
-						props.onOpenAutoFocus?.(event);
-					}}
+					// onCloseAutoFocus={(event) => {
+					// 	event.preventDefault();
+					// 	props.onCloseAutoFocus?.(event);
+					// }}
+					// onEscapeKeyDown={(event) => {
+					// 	event.preventDefault();
+					// 	props.onEscapeKeyDown?.(event);
+					// }}
+					// onOpenAutoFocus={(event) => {
+					// 	event.preventDefault();
+					// 	props.onOpenAutoFocus?.(event);
+					// }}
 					forceMount
 				>
 					{props.children}

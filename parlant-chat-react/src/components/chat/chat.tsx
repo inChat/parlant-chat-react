@@ -107,15 +107,6 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 		[messageEvents, correlationsMap]
 	);
 
-	const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
-		if (e.key === 'Enter' && !e.shiftKey) {
-			e.preventDefault();
-			submitButtonRef?.current?.click();
-		} else if (e.key === 'Enter' && e.shiftKey) {
-			e.preventDefault();
-		}
-	};
-
 	const postMessage = async (content: string): Promise<void> => {
 		if (!content.trim()) return;
 

@@ -1,5 +1,5 @@
 import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
 import {ChevronDown} from 'lucide-react';
 import Chat from './components/chat/Chat';
@@ -100,14 +100,22 @@ const queryClient = new QueryClient();
 
 const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
-	
+	const popupButtonRef = useRef<HTMLButtonElement>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
+	const [origin, setOrigin] = useState<string>('bottom right');
 	const IconComponent = open ? ChevronDown : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
 
-	useEffect(() => {
-		loadFonts();
-	}, []);
+	const setTransformOrigin = (): void => {
+		if (!popupButtonRef.current) return;
+		const rect = popupButtonRef.current.getBoundingClientRect();
+		const vertical = rect.top < window.innerHeight / 2 ? 'top' : 'bottom';
+		const horizontal = rect.left < window.innerWidth / 2 ? 'left' : 'right';
+		setOrigin(`${vertical} ${horizontal}`);
+	};
+
+	useEffect(loadFonts, []);
+	useEffect(setTransformOrigin, []);
 
 	const toggleChat = (): void => {
 		setOpen((prevState) => !prevState);
@@ -125,7 +133,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 			<span className={classes.root}>
 				{asPopup ? (
 					<Popover open={open} onOpenChange={handleOnOpenChange}>
-						<PopoverTrigger asChild>
+						<PopoverTrigger ref={popupButtonRef} asChild>
 							<div>
 								{PopupButtonComponent || (
 									<Button onClick={toggleChat} className={clsx(classes.popupButton, classNames?.defaultPopupButton)}>
@@ -134,7 +142,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 								)}
 							</div>
 						</PopoverTrigger>
-						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} side="top" align="end" sideOffset={10}>
+						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={10}>
 							<Chat route={route} asPopup={asPopup} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 						</PopoverContent>
 					</Popover>
