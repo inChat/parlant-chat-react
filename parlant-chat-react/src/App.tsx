@@ -1,14 +1,13 @@
 import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
 import {useEffect, useRef, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
-import {ChevronDown} from 'lucide-react';
+import {ChevronDown, ChevronUp} from 'lucide-react';
 import Chat from './components/chat/Chat';
 import type {MessageInterface} from './components/chat/Chat';
 import {Button} from './components/ui/Button';
 import {Popover, PopoverContent, PopoverTrigger} from './components/ui/Popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
-import ParlantLogo from './assets/parlant-logo.png';
 
 import WebFont from 'webfontloader';
 import { COLORS } from './theme';
@@ -104,7 +103,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 	const [open, setOpen] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
 	const [origin, setOrigin] = useState<string>('bottom right');
-	const IconComponent = open ? ChevronDown : () => <img src={ParlantLogo} alt="Parlant Message"  height={30} width={30} style={{objectFit: 'contain', userSelect: 'none', pointerEvents: 'none'}}/>;
+	const IconComponent = open ? ChevronDown : ChevronUp;
 
 	const setTransformOrigin = (): void => {
 		if (!popupButtonRef.current) return;
