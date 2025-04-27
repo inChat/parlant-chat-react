@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
 			animation: '$animateIn 300ms cubic-bezier(0.16, 1, 0.3, 1)',
 		},
 		'&[data-state="closed"]': {
-			animation: '$animateOut 300ms ease-in',
+			animation: '$animateOut 100ms ease-in',
 		},
 	},
 	'@keyframes animateIn': {
