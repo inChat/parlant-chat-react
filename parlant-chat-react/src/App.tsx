@@ -141,7 +141,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 								)}
 							</div>
 						</PopoverTrigger>
-						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={10}>
+						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={53}>
 							<Chat route={route} asPopup={asPopup} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 						</PopoverContent>
 					</Popover>
