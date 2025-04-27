@@ -1,4 +1,4 @@
-import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useEffect, useRef, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
 import {ChevronDown, ChevronUp} from 'lucide-react';
@@ -101,6 +101,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 	const classes = useStyles();
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
 	const [open, setOpen] = useState<boolean>(false);
+	const [isClosing, setIsClosing] = useState<boolean>(false);
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
 	const [origin, setOrigin] = useState<string>('bottom right');
 	const IconComponent = open ? ChevronDown : ChevronUp;
@@ -117,7 +118,15 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 	useEffect(setTransformOrigin, []);
 
 	const toggleChat = (): void => {
-		setOpen((prevState) => !prevState);
+		if (open) {
+			setIsClosing(true);
+			setTimeout(() => {
+				setIsClosing(false);
+				setOpen(false);
+			}, 0);
+		} else {
+			setOpen(true);
+		}
 	};
 
 	const handleOnOpenChange = (open: boolean): void => {
@@ -131,7 +140,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 		<QueryClientProvider client={queryClient}>
 			<span className={classes.root}>
 				{asPopup ? (
-					<Popover open={open} onOpenChange={handleOnOpenChange}>
+					<Popover open={open || isClosing} onOpenChange={handleOnOpenChange}>
 						<PopoverTrigger ref={popupButtonRef} asChild>
 							<div>
 								{PopupButtonComponent || (
