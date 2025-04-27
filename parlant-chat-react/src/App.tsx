@@ -68,12 +68,12 @@ interface PopupButtonComponentProps {
 }
 
 export interface ChatProps {
-	route: string;
+	server: string;
 	sessionId: string;
 	agentName?: string;
 	agentAvatar?: JSX.Element;
 	chatDescription?: string;
-	asPopup?: boolean;
+	float?: boolean;
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
 	classNames?: {
@@ -97,7 +97,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asPopup = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbot = ({server, sessionId, agentName, agentAvatar, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
 	const [open, setOpen] = useState<boolean>(false);
@@ -140,7 +140,7 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 	return (
 		<QueryClientProvider client={queryClient}>
 			<span className={classes.root}>
-				{asPopup ? (
+				{float ? (
 					<Popover open={open || isClosing} onOpenChange={handleOnOpenChange}>
 						<PopoverTrigger ref={popupButtonRef} asChild>
 							<div>
@@ -152,12 +152,12 @@ const Chatbot = ({route, sessionId, agentName, agentAvatar, chatDescription, asP
 							</div>
 						</PopoverTrigger>
 						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={53}>
-							<Chat route={route} asPopup={asPopup} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+							<Chat server={server} float={float} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 						</PopoverContent>
 					</Popover>
 				) : (
 					<div className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)}>
-						<Chat route={route} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+						<Chat server={server} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 					</div>
 				)}
 			</span>

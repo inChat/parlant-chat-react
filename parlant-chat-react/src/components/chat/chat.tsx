@@ -52,7 +52,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, classNames, asPopup, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void;}): JSX.Element => {
+const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void;}): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -67,7 +67,7 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 	const lastMessageRef = useRef<HTMLDivElement>(null);
 
 	const parlantClient = new ParlantClient({
-		environment: route,
+		environment: server,
 	});
 
 	const {data} = useQuery<Event[]>({
@@ -81,7 +81,7 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 
 	const {data: agentData} = useQuery<Partial<Agent> | null>({
 		queryKey: ['agent'],
-		queryFn: () => agentName ? {name: agentName} : sessionData?.agentId ? fetch(`${route}/agents/${sessionData.agentId}`).then(res => res.json()) : null,
+		queryFn: () => agentName ? {name: agentName} : sessionData?.agentId ? fetch(`${server}/agents/${sessionData.agentId}`).then(res => res.json()) : null,
 		enabled: !!sessionData?.agentId,
 	});
 
@@ -210,7 +210,7 @@ const Chat = ({route, sessionId, agentName, agentAvatar, components, sendIcon, c
 				onSendMessage={postMessage}
 				sendIcon={sendIcon}
 				className={classNames?.textarea}
-				asPopup={asPopup}
+				float={float}
 				focusTrigger={isExpanded}
 			/>
 			<ChatFooter

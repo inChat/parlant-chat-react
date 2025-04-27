@@ -16,15 +16,15 @@ Here's how to quickly add the chat component to your React application:
 
 ```jsx
 import React from 'react';
-import ParlantChatbot from 'parlant-chat-react';
+import ParlantChatbox from 'parlant-chat-react';
 
 function App() {
   return (
     <div>
       <h1>My Application</h1>      
-      <ParlantChatbot 
+      <ParlantChatbox 
         sessionId="SESSION_ID" 
-        route="ROUTE" 
+        server="ROUTE" 
       />
     </div>
   );
@@ -40,9 +40,9 @@ export default App;
 Add a chat interface directly in your page layout:
 
 ```jsx
-<ParlantChatbot 
+<ParlantChatbox 
   sessionId="SESSION_ID" 
-  route="ROUTE" 
+  server="ROUTE" 
 />
 ```
 
@@ -51,10 +51,10 @@ Add a chat interface directly in your page layout:
 Display the chat as a popup that can be toggled with a button:
 
 ```jsx
-<ParlantChatbot 
-  asPopup 
+<ParlantChatbox 
+  float 
   sessionId="SESSION_ID" 
-  route="ROUTE" 
+  server="ROUTE" 
 />
 ```
 
@@ -65,10 +65,10 @@ Use a custom button component:
 ```jsx
 import { Send } from 'lucide-react';
 
-<ParlantChatbot 
-  asPopup 
+<ParlantChatbox 
+  float 
   sessionId="SESSION_ID" 
-  route="ROUTE"
+  server="ROUTE"
   popupButton={<Send color="white" size={24} />} 
 />
 ```
@@ -78,9 +78,9 @@ import { Send } from 'lucide-react';
 Apply custom class names to various parts of the chat:
 
 ```jsx
-<ParlantChatbot 
+<ParlantChatbox 
   sessionId="SESSION_ID" 
-  route="ROUTE"
+  server="ROUTE"
   classNames={{
     chatbox: "my-chatbox-class",
     messagesArea: "my-messages-class",
@@ -100,9 +100,9 @@ Apply custom class names to various parts of the chat:
 Replace default UI components with your own:
 
 ```jsx
-<ParlantChatbot 
+<ParlantChatbox 
   sessionId="SESSION_ID" 
-  route="ROUTE"
+  server="ROUTE"
   components={{
     popupButton: ({ toggleChatOpen }) => (
       <button onClick={toggleChatOpen}>Chat with us</button>
@@ -133,12 +133,12 @@ Replace default UI components with your own:
 
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
-| `route` | string | Yes | - | API endpoint for chat communication |
+| `server` | string | Yes | - | API endpoint for chat communication |
 | `sessionId` | string | Yes | - | Unique identifier for the chat session |
 | `agentName` | string | No | - | Name of the chat agent |
 | `agentAvatar` | JSX.Element | No | - | Custom avatar for the agent |
 | `chatDescription` | string | No | - | Description text shown at the top of the chat |
-| `asPopup` | boolean | No | `false` | Whether to display as a popup chat |
+| `float` | boolean | No | `false` | Whether to display as a popup chat |
 | `popupButton` | JSX.Element | No | - | Custom button element for popup mode |
 | `sendIcon` | JSX.Element | No | - | Custom send message icon |
 | `classNames` | object | No | - | Custom CSS class names for styling |

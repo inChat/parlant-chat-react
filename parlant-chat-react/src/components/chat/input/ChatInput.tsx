@@ -10,7 +10,7 @@ interface ChatInputProps {
   onSendMessage: (message: string) => Promise<void>;
   sendIcon?: JSX.Element;
   className?: string;
-  asPopup?: boolean;
+  float?: boolean;
   focusTrigger?: boolean;
 }
 
@@ -95,7 +95,7 @@ const ChatInput = ({
   onSendMessage,
   sendIcon,
   className,
-  asPopup,
+  float,
   focusTrigger,
 }: ChatInputProps): JSX.Element => {
   const classes = useStyles();
@@ -104,10 +104,10 @@ const ChatInput = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (asPopup || focusTrigger) {
+    if (float || focusTrigger) {
       textareaRef?.current?.focus();
     }
-  }, [asPopup, focusTrigger]);
+  }, [float, focusTrigger]);
 
   const handleTextareaKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === 'Enter' && !e.shiftKey) {
