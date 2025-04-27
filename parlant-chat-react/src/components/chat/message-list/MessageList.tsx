@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
-import type { MessageInterface } from '../chat';
-import Message from '../message/message';
+import type { MessageInterface } from '../Chat';
+import Message from '../message/Message';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { COLORS } from '../../../theme';

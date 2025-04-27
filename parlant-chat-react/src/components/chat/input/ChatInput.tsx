@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { Textarea } from '../../ui/textarea';
+import { Textarea } from '../../ui/Textarea';
 import PenIcon from '../../../assets/icons/pen.svg';
 import clsx from 'clsx';
 import { COLORS } from '../../../theme';

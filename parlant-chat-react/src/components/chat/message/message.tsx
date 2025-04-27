@@ -1,8 +1,8 @@
-import type {MessageInterface} from '../chat';
+import type {MessageInterface} from '../Chat';
 import type {JSX} from 'react';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
-import Markdown from '@/components/ui/markdown';
+import Markdown from '@/components/ui/Markdown';
 import { COLORS } from '@/theme';
 
 const useStyles = createUseStyles({

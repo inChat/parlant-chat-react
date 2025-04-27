@@ -2,10 +2,10 @@ import {QueryClient, QueryClientProvider, useQuery} from '@tanstack/react-query'
 import {useEffect, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
 import {ChevronDown} from 'lucide-react';
-import Chat from './components/chat/chat';
-import type {MessageInterface} from './components/chat/chat';
-import {Button} from './components/ui/button';
-import {Popover, PopoverContent, PopoverTrigger} from './components/ui/popover';
+import Chat from './components/chat/Chat';
+import type {MessageInterface} from './components/chat/Chat';
+import {Button} from './components/ui/Button';
+import {Popover, PopoverContent, PopoverTrigger} from './components/ui/Popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 import ParlantLogo from './assets/parlant-logo.png';
