@@ -88,7 +88,9 @@ Apply custom class names to various parts of the chat:
     customerMessage: "customer-bubble",
     textarea: "my-input-class",
     defaultPopupButton: "my-button-class",
-    defaultPopupButtonIcon: "my-icon-class"
+    defaultPopupButtonIcon: "my-icon-class",
+    chatDescription: "my-description-class",
+    bottomLine: "my-footer-class"
   }}
 />
 ```
@@ -116,6 +118,12 @@ Replace default UI components with your own:
         <p>{message.data.message}</p>
         <span>You</span>
       </div>
+    ),
+    header: ({ changeIsExpanded }) => (
+      <div>
+        <h2>Custom Header</h2>
+        <button onClick={changeIsExpanded}>Toggle Expanded</button>
+      </div>
     )
   }}
 />
@@ -127,6 +135,9 @@ Replace default UI components with your own:
 |------|------|----------|---------|-------------|
 | `route` | string | Yes | - | API endpoint for chat communication |
 | `sessionId` | string | Yes | - | Unique identifier for the chat session |
+| `agentName` | string | No | - | Name of the chat agent |
+| `agentAvatar` | JSX.Element | No | - | Custom avatar for the agent |
+| `chatDescription` | string | No | - | Description text shown at the top of the chat |
 | `asPopup` | boolean | No | `false` | Whether to display as a popup chat |
 | `popupButton` | JSX.Element | No | - | Custom button element for popup mode |
 | `sendIcon` | JSX.Element | No | - | Custom send message icon |
@@ -144,6 +155,8 @@ Replace default UI components with your own:
 | `textarea` | Message input field |
 | `defaultPopupButton` | Default popup toggle button |
 | `defaultPopupButtonIcon` | Icon in the default popup button |
+| `chatDescription` | Chat description container |
+| `bottomLine` | Footer of the chat |
 
 ### Components Object Properties
 
@@ -152,6 +165,7 @@ Replace default UI components with your own:
 | `popupButton` | Custom popup button component | `{ toggleChatOpen }` |
 | `agentMessage` | Custom agent message component | `{ message }` |
 | `customerMessage` | Custom customer message component | `{ message }` |
+| `header` | Custom header component | `{ changeIsExpanded }` |
 
 
 ## License
