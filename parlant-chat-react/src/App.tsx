@@ -11,6 +11,8 @@ import clsx from 'clsx';
 
 import WebFont from 'webfontloader';
 import { COLORS } from './theme';
+import { ParlantClient } from 'parlant-client';
+import { EventCreationParams } from 'parlant-client/src/api';
 
 const loadFonts = () => {
 	WebFont.load({
@@ -69,14 +71,16 @@ interface PopupButtonComponentProps {
 
 export interface ChatProps {
 	server: string;
-	sessionId: string;
+	sessionId?: string;
 	agentName?: string;
 	agentAvatar?: JSX.Element;
 	chatDescription?: string;
 	float?: boolean;
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
+	agentId?: string;
 	classNames?: {
+		chatboxWrapper?: string;
 		chatbox?: string;
 		messagesArea?: string;
 		agentMessage?: string;
@@ -97,8 +101,9 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-const Chatbot = ({server, sessionId, agentName, agentAvatar, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbot = ({server, agentId, sessionId, agentName, agentAvatar, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
+	const [sessionIdToUse, setSessionIdToUse] = useState(sessionId);
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [isClosing, setIsClosing] = useState<boolean>(false);
@@ -106,6 +111,10 @@ const Chatbot = ({server, sessionId, agentName, agentAvatar, chatDescription, fl
 	const [origin, setOrigin] = useState<string>('bottom right');
 	const isOriginInBottom = origin.includes('bottom');
 	const IconComponent = open ?  (isOriginInBottom ? ChevronUp : ChevronDown) : (isOriginInBottom ? ChevronDown : ChevronUp);
+
+	const parlantClient = new ParlantClient({
+		environment: server,
+	});
 
 	const setTransformOrigin = (): void => {
 		if (!popupButtonRef.current) return;
@@ -117,17 +126,18 @@ const Chatbot = ({server, sessionId, agentName, agentAvatar, chatDescription, fl
 
 	useEffect(loadFonts, []);
 	useEffect(setTransformOrigin, []);
+	
 
 	const toggleChat = (): void => {
-		if (open) {
-			setIsClosing(true);
-			setTimeout(() => {
-				setIsClosing(false);
-				setOpen(false);
-			}, 0);
-		} else {
-			setOpen(true);
-		}
+			if (open) {
+				setIsClosing(true);
+				setTimeout(() => {
+					setIsClosing(false);
+					setOpen(false);
+				}, 0);
+			} else {
+				setOpen(true);
+			}
 	};
 
 	const handleOnOpenChange = (open: boolean): void => {
@@ -135,7 +145,25 @@ const Chatbot = ({server, sessionId, agentName, agentAvatar, chatDescription, fl
 		setIsExpanded(false);
 	};
 
+	const createSession = async (message: EventCreationParams) => {
+		if (!agentId) {
+			console.error('agentId is required when sessionId is not provided');
+			return;
+		}
+		const newSession = await parlantClient.sessions.create({agentId, title: `Landing page - ${new Date().toISOString()}`});
+		if (!newSession?.id) {
+			console.error('session was not created');
+			return;
+
+		}
+		const event = await parlantClient.sessions.createEvent(newSession.id, message);
+		if (event?.id) {
+			setSessionIdToUse(newSession.id);
+		}
+	}
+
 	const PopupButtonComponent = components?.popupButton && <components.popupButton toggleChatOpen={toggleChat} />;
+	const sessionToUse = sessionId || sessionIdToUse;
 
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -145,19 +173,19 @@ const Chatbot = ({server, sessionId, agentName, agentAvatar, chatDescription, fl
 						<PopoverTrigger ref={popupButtonRef} asChild>
 							<div>
 								{PopupButtonComponent || (
-									<Button onClick={toggleChat} className={clsx(classes.popupButton, classNames?.defaultPopupButton)}>
+									<Button onClick={() => toggleChat()} className={clsx(classes.popupButton, classNames?.defaultPopupButton)}>
 										{popupButton || <IconComponent size={30} color="white" className={clsx(classes.iconComponent, classNames?.defaultPopupButtonIcon)} />}
 									</Button>
 								)}
 							</div>
 						</PopoverTrigger>
-						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={53}>
-							<Chat server={server} float={float} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper, classNames?.chatboxWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={53}>
+							<Chat createSession={createSession} server={server} float={float} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 						</PopoverContent>
 					</Popover>
 				) : (
-					<div className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper)}>
-						<Chat server={server} sessionId={sessionId} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
+					<div className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper, classNames?.chatboxWrapper)}>
+						<Chat createSession={createSession} server={server} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} />
 					</div>
 				)}
 			</span>

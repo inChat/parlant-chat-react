@@ -7,7 +7,7 @@ import clsx from 'clsx';
 
 const useStyles = createUseStyles({
 	popoverContent: {
-		zIndex: 50,
+		zIndex: 9999,
 		width: '18rem',
 		borderRadius: '0.375rem',
 		border: '1px solid var(--border)',

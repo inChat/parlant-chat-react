@@ -134,7 +134,8 @@ Replace default UI components with your own:
 | Prop | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
 | `server` | string | Yes | - | API endpoint for chat communication |
-| `sessionId` | string | Yes | - | Unique identifier for the chat session |
+| `sessionId` | string | No | - | Unique identifier for an existing chat session |
+| `agentId` | string | No | - | Unique identifier for creating a new chat session with a specific agent |
 | `agentName` | string | No | - | Name of the chat agent |
 | `agentAvatar` | JSX.Element | No | - | Custom avatar for the agent |
 | `chatDescription` | string | No | - | Description text shown at the top of the chat |

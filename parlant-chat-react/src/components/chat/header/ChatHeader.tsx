@@ -29,7 +29,6 @@ const useStyles = createUseStyles({
     color: COLORS.primaryText,
     display: 'flex',
     alignItems: 'center',
-    gap: '18px',
   },
   headerAgentNameInitials: {
     fontSize: '20px',
@@ -39,6 +38,7 @@ const useStyles = createUseStyles({
     borderRadius: '6.5px',
     paddingInline: '7.8px',
     paddingBlock: '5px',
+    marginInlineEnd: '18px',
     lineHeight: '100%',
     width: 'fit-content',
   },

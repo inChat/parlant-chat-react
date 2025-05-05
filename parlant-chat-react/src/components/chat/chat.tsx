@@ -1,7 +1,7 @@
 import {groupBy} from '@/utils/object';
 import {useQuery} from '@tanstack/react-query';
 import {ParlantClient} from 'parlant-client';
-import type {Agent, Event, Session} from 'parlant-client/src/api';
+import type {Agent, Event, EventCreationParams, Session} from 'parlant-client/src/api';
 import {useEffect, useRef, useState, useCallback, useMemo} from 'react';
 import type {JSX} from 'react';
 import type {ChatProps} from '@/App';
@@ -52,7 +52,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void;}): JSX.Element => {
+const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void}): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -71,12 +71,14 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 	});
 
 	const {data} = useQuery<Event[]>({
+		enabled: !!sessionId,
 		queryKey: ['events', lastOffset],
-		queryFn: () => parlantClient.sessions.listEvents(sessionId, {waitForData: 60, minOffset: lastOffset}),
+		queryFn: () => parlantClient.sessions.listEvents(sessionId || '', {waitForData: 60, minOffset: lastOffset}),
 	});
 	const {data: sessionData} = useQuery<Session>({
+		enabled: !!sessionId,
 		queryKey: ['session'],
-		queryFn: () => parlantClient.sessions.retrieve(sessionId),
+		queryFn: () => parlantClient.sessions.retrieve(sessionId || ''),
 	});
 
 	const {data: agentData} = useQuery<Partial<Agent> | null>({
@@ -117,12 +119,17 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 		}));
 
 		setMessage('');
-
-		await parlantClient.sessions.createEvent(sessionId, {
+		const message: EventCreationParams = {
 			kind: 'message',
 			message: content,
 			source: 'customer',
-		});
+		};
+
+		if (sessionId) {
+			await parlantClient.sessions.createEvent(sessionId, message);
+		} else {
+			createSession(message)
+		}
 	};
 
 	const formatMessagesFromEvents = useCallback((): void => {
@@ -191,7 +198,7 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 			{components?.header ?
 				<components.header changeIsExpanded={changeIsExpandedFn} /> :
 				<ChatHeader
-					agentName={agentData?.name}
+					agentName={agentData?.name || agentName}
 					agentAvatar={agentAvatar}
 					changeIsExpanded={changeIsExpandedFn}
 					isExpanded={isExpanded}
