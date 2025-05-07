@@ -52,7 +52,7 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void}): JSX.Element => {
+const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void}): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -78,12 +78,13 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 		queryFn: () => parlantClient.sessions.retrieve(sessionId || ''),
 	});
 
+	const agentIdToFetch = sessionData?.agentId || agentId;
 	const {data: agentData} = useQuery<Partial<Agent> | null>({
 		queryKey: ['agent'],
-		queryFn: () => agentName ? {name: agentName} : sessionData?.agentId ? fetch(`${server}/agents/${sessionData.agentId}`).then(res => res.json()) : null,
-		enabled: !!sessionData?.agentId,
+		queryFn: () => agentName ? {name: agentName} : agentIdToFetch ? fetch(`${server}/agents/${agentIdToFetch}`).then(res => res.json()) : null,
+		enabled: !!agentIdToFetch,
 	});
-
+console.log('agentData', agentData, agentIdToFetch);
 	const correlationsMap = useMemo(
 		() => groupBy(data || [], (item: Event) => item?.correlationId.split('::')[0]),
 		[data]
