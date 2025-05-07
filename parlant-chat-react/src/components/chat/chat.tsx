@@ -60,10 +60,7 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 	const [lastOffset, setLastOffset] = useState<number>(0);
 	const [showInfo, setShowInfo] = useState<string>('');
 	const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
-	const [message, setMessage] = useState<string>('');
 
-	const submitButtonRef = useRef<HTMLDivElement>(null);
-	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const lastMessageRef = useRef<HTMLDivElement>(null);
 
 	const parlantClient = new ParlantClient({
@@ -95,8 +92,7 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 		() => data?.filter((e) => e.kind === 'message') || [],
 		[data]
 	);
-	const withStatusMessages = useMemo(
-		() => messageEvents.map((newMessage, i) => {
+	const withStatusMessages = useMemo(() => messageEvents.map((newMessage, i) => {
 			const messageData: MessageInterface = { ...newMessage, status: '' };
 			const correlationItems = correlationsMap[newMessage.correlationId.split('::')[0]];
 			const lastCorrelationItem = (correlationItems?.at(-1)?.data) as StatusEventData | undefined;
@@ -118,18 +114,14 @@ const Chat = ({server, sessionId, agentName, agentAvatar, components, sendIcon, 
 			data: {message: content},
 		}));
 
-		setMessage('');
 		const message: EventCreationParams = {
 			kind: 'message',
 			message: content,
 			source: 'customer',
 		};
 
-		if (sessionId) {
-			await parlantClient.sessions.createEvent(sessionId, message);
-		} else {
-			createSession(message)
-		}
+		if (sessionId) await parlantClient.sessions.createEvent(sessionId, message);
+		else createSession(message);
 	};
 
 	const formatMessagesFromEvents = useCallback((): void => {
