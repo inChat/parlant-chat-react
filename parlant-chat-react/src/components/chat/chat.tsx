@@ -84,7 +84,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, s
 		queryFn: () => agentName ? {name: agentName} : agentIdToFetch ? fetch(`${server}/agents/${agentIdToFetch}`).then(res => res.json()) : null,
 		enabled: !!agentIdToFetch,
 	});
-console.log('agentData', agentData, agentIdToFetch);
+
 	const correlationsMap = useMemo(
 		() => groupBy(data || [], (item: Event) => item?.correlationId.split('::')[0]),
 		[data]
