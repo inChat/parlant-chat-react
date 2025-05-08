@@ -1,3 +1,3 @@
-import Chatbot from "./App";
+import Chatbot from '@/App';
 
 export default Chatbot;

@@ -1,8 +1,8 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
 import clsx from 'clsx';
-import ParlantLogoFull from '../../../assets/parlant-logo-full.svg';
-import { COLORS } from '../../../theme';
+import ParlantLogoFull from '@/assets/parlant-logo-full.svg';
+import { COLORS } from '@/theme';
 
 interface ChatFooterProps {
   showInfo?: string;
@@ -67,10 +67,11 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
           Powered by
           <img 
             src={ParlantLogoFull} 
-            alt="Parlant" 
+            alt="" 
             height={17} 
             width={68} 
             style={{ objectFit: 'contain' }}
+            aria-hidden="true"
           />
         </div>
       </div>

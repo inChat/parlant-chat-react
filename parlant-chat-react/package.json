@@ -1,13 +1,13 @@
 {
   "name": "parlant-chat-react",
   "private": false,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Parlant's chatbot seamlessly integrates into your website",
   "type": "module",
   "main": "dist/parlant-chat-react.umd.js",
   "module": "dist/parlant-chat-react.js",
   "types": "dist/types/index.d.ts",
-  "author": "Emcie-co",
+  "author": "MenachemBrichta",
   "license": "MIT",
   "repository": {
     "type": "git",

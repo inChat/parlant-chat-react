@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
-import ExpandIcon from '../../../assets/icons/expand.svg';
-import { COLORS } from '../../../theme';
+import ExpandIcon from '@/assets/icons/expand.svg';
+import { COLORS } from '@/theme';
 
 interface ChatHeaderProps {
   agentName?: string;
@@ -92,7 +92,7 @@ const ChatHeader = ({
         onClick={changeIsExpanded}
         aria-label={isExpanded ? 'Collapse chat window' : 'Expand chat window'}
       >
-        <img src={ExpandIcon} alt="" className={classes.expandIcon} />
+        <img src={ExpandIcon} alt="" className={classes.expandIcon} aria-hidden="true" />
       </button>
     </header>
   );

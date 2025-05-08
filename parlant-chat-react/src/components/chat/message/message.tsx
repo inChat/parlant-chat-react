@@ -1,4 +1,4 @@
-import type {MessageInterface} from '../Chat';
+import type {MessageInterface} from '@/components/chat/Chat';
 import type {JSX} from 'react';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';

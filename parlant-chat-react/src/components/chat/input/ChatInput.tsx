@@ -1,10 +1,10 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
 import { useRef, useState, useEffect } from 'react';
-import { Textarea } from '../../ui/Textarea';
-import PenIcon from '../../../assets/icons/pen.svg';
+import { Textarea } from '@/components/ui/Textarea';
+import PenIcon from '@/assets/icons/pen.svg';
 import clsx from 'clsx';
-import { COLORS } from '../../../theme';
+import { COLORS } from '@/theme';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => Promise<void>;

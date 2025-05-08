@@ -2,15 +2,15 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useEffect, useRef, useState} from 'react';
 import type {JSX, ReactElement} from 'react';
 import {ChevronDown, ChevronUp} from 'lucide-react';
-import Chat from './components/chat/Chat';
-import type {MessageInterface} from './components/chat/Chat';
-import {Button} from './components/ui/Button';
-import {Popover, PopoverContent, PopoverTrigger} from './components/ui/Popover';
+import Chat from '@/components/chat/Chat';
+import type {MessageInterface} from '@/components/chat/Chat';
+import {Button} from '@/components/ui/Button';
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/Popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 
 import WebFont from 'webfontloader';
-import { COLORS } from './theme';
+import { COLORS } from '@/theme';
 import { ParlantClient } from 'parlant-client';
 import { EventCreationParams } from 'parlant-client/src/api';
 

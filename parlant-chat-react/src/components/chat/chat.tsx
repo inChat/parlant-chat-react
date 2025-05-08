@@ -7,10 +7,10 @@ import type {JSX} from 'react';
 import type {ChatProps} from '@/App';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
-import ChatHeader from './header/ChatHeader';
-import MessageList from './message-list/MessageList';
-import ChatInput from './input/ChatInput';
-import ChatFooter from './footer/ChatFooter';
+import ChatHeader from '@/components/chat/header/ChatHeader';
+import MessageList from '@/components/chat/message-list/MessageList';
+import ChatInput from '@/components/chat/input/ChatInput';
+import ChatFooter from '@/components/chat/footer/ChatFooter';
 
 const useStyles = createUseStyles({
 	chatbox: {

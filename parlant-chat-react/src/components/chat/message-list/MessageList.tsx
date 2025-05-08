@@ -1,10 +1,10 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
-import type { MessageInterface } from '../Chat';
-import Message from '../message/Message';
+import type { MessageInterface } from '@/components/chat/Chat';
+import Message from '@/components/chat/message/Message';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
-import { COLORS } from '../../../theme';
+import { COLORS } from '@/theme';
 
 interface MessageListProps {
   messages: MessageInterface[];
@@ -144,6 +144,7 @@ const MessageList = ({
       {showInfo && (
         <div className={classes.bubblesWrapper} aria-hidden="true">
           <div className={classes.bubbles} />
+          <span style={{position: 'absolute', left: '-9999px'}} aria-live="polite">{showInfo}</span>
         </div>
       )}
       <div ref={lastMessageRef} />
