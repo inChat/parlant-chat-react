@@ -52,7 +52,26 @@ export const createEmptyPendingMessage = (): Partial<Event & {serverStatus: stri
 	},
 });
 
-const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void}): JSX.Element => {
+export const getInitialMessages = (agentOpeningMessage?: string): MessageInterface[] => {
+	if (!agentOpeningMessage) return [];
+	return [
+		{
+			kind:'message',
+			source: 'human_agent_on_behalf_of_ai_agent',
+			creationUtc: new Date(),
+			id: '',
+			deleted: false,
+			offset: 0,
+			correlationId: '',
+			data: {
+				message: agentOpeningMessage,
+			},
+			status: 'ready',
+		},
+	];
+}
+
+const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, agentOpeningMessage, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void}): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -60,7 +79,6 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, s
 	const [lastOffset, setLastOffset] = useState<number>(0);
 	const [showInfo, setShowInfo] = useState<string>('');
 	const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
-
 	const lastMessageRef = useRef<HTMLDivElement>(null);
 
 	const parlantClient = new ParlantClient({
@@ -120,7 +138,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, s
 			message: content,
 			source: 'customer',
 		};
-
+		
 		if (sessionId) await parlantClient.sessions.createEvent(sessionId, message);
 		else createSession(message);
 	};
@@ -197,7 +215,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, s
 					isExpanded={isExpanded}
 				/>}
 				<MessageList
-					messages={messages}
+					messages={!messages?.length && agentOpeningMessage? getInitialMessages(agentOpeningMessage) : messages}
 					showInfo={showInfo}
 					agentName={agentData?.name}
 					agentAvatar={agentAvatar}
