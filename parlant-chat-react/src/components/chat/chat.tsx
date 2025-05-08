@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
 		width: '27.75rem',
 	},
 	expandedChatbot: {
-		width: '899px',
+		width: '920px',
 		height: 'min(880px,80vh)',
 		maxWidth: '95vw',
 	}
@@ -203,6 +203,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, s
 					agentAvatar={agentAvatar}
 					components={components}
 					classNames={classNames}
+					isExpanded={isExpanded}
 					chatDescription={chatDescription}
 				/>
 

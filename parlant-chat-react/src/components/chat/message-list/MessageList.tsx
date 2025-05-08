@@ -22,6 +22,7 @@ interface MessageListProps {
     chatDescription?: string;
   };
   chatDescription?: string;
+  isExpanded?: boolean;
 }
 
 const useStyles = createUseStyles({
@@ -41,6 +42,9 @@ const useStyles = createUseStyles({
       background: COLORS.accent,
       borderRadius: '3px',
     },
+  },
+  messageAreagExpanded: {
+    marginInline: '20px'
   },
   chatDescription: {
     width: '340px',
@@ -101,6 +105,7 @@ const MessageList = ({
   agentName,
   agentAvatar,
   components,
+  isExpanded,
   classNames,
   chatDescription,
 }: MessageListProps): JSX.Element => {
@@ -115,7 +120,7 @@ const MessageList = ({
 
   return (
     <div 
-      className={clsx('fixed-scroll', classes.messagesArea, classNames?.messagesArea)}
+      className={clsx('fixed-scroll', classes.messagesArea, isExpanded && classes.messageAreagExpanded, classNames?.messagesArea)}
       role="log"
       aria-live="polite"
       aria-label="Chat messages"
