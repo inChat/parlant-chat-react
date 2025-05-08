@@ -177,6 +177,3 @@ Replace default UI components with your own:
 | `customerMessage`| Custom customer message component| `{ message }`                 |
 | `header`         | Custom header component          | `{ changeIsExpanded }`        |
 
-## License
-
-MIT © Emcie-co
