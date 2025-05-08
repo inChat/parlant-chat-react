@@ -16,13 +16,13 @@ Here's how to quickly add the chat component to your React application:
 
 ```jsx
 import React from 'react';
-import ParlantChatbox from 'parlant-chat-react';
+import Chatbot from 'parlant-chat-react';
 
 function App() {
   return (
     <div>
       <h1>My Application</h1>      
-      <ParlantChatbox 
+      <Chatbot 
         sessionId="SESSION_ID" 
         server="ROUTE" 
       />
@@ -40,7 +40,7 @@ export default App;
 Add a chat interface directly in your page layout:
 
 ```jsx
-<ParlantChatbox 
+<Chatbot 
   sessionId="SESSION_ID" 
   server="ROUTE" 
 />
@@ -51,7 +51,7 @@ Add a chat interface directly in your page layout:
 Display the chat as a popup that can be toggled with a button:
 
 ```jsx
-<ParlantChatbox 
+<Chatbot 
   float 
   sessionId="SESSION_ID" 
   server="ROUTE" 
@@ -65,7 +65,7 @@ Use a custom button component:
 ```jsx
 import { Send } from 'lucide-react';
 
-<ParlantChatbox 
+<Chatbot 
   float 
   sessionId="SESSION_ID" 
   server="ROUTE"
@@ -78,10 +78,11 @@ import { Send } from 'lucide-react';
 Apply custom class names to various parts of the chat:
 
 ```jsx
-<ParlantChatbox 
+<Chatbot 
   sessionId="SESSION_ID" 
   server="ROUTE"
   classNames={{
+    chatboxWrapper: "my-chatbox-wrapper-class",
     chatbox: "my-chatbox-class",
     messagesArea: "my-messages-class",
     agentMessage: "agent-bubble",
@@ -131,42 +132,45 @@ Replace default UI components with your own:
 
 ## Props
 
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| `server` | string | Yes | - | API endpoint for chat communication |
-| `sessionId` | string | No | - | Unique identifier for an existing chat session |
-| `agentId` | string | No | - | Unique identifier for creating a new chat session with a specific agent |
-| `agentName` | string | No | - | Name of the chat agent |
-| `agentAvatar` | JSX.Element | No | - | Custom avatar for the agent |
-| `chatDescription` | string | No | - | Description text shown at the top of the chat |
-| `float` | boolean | No | `false` | Whether to display as a popup chat |
-| `popupButton` | JSX.Element | No | - | Custom button element for popup mode |
-| `sendIcon` | JSX.Element | No | - | Custom send message icon |
-| `classNames` | object | No | - | Custom CSS class names for styling |
-| `components` | object | No | - | Custom React components to replace defaults |
+| Prop                   | Type           | Required | Default | Description                                                                 |
+|------------------------|----------------|----------|---------|-----------------------------------------------------------------------------|
+| `server`               | string         | Yes      | -       | API endpoint for chat communication                                         |
+| `sessionId`            | string         | No       | -       | Unique identifier for an existing chat session                              |
+| `agentId`              | string         | No       | -       | Unique identifier for creating a new chat session with a specific agent     |
+| `agentName`            | string         | No       | -       | Name of the chat agent                                                      |
+| `agentAvatar`          | JSX.Element    | No       | -       | Custom avatar for the agent                                                 |
+| `chatDescription`      | string         | No       | -       | Description text shown at the top of the chat                               |
+| `float`                | boolean        | No       | `false` | Whether to display as a popup chat                                          |
+| `popupButton`          | JSX.Element    | No       | -       | Custom button element for popup mode                                        |
+| `sendIcon`             | JSX.Element    | No       | -       | Custom send message icon                                                    |
+| `classNames`           | object         | No       | -       | Custom CSS class names for styling                                          |
+| `components`           | object         | No       | -       | Custom React components to replace defaults                                 |
+| `onPopupButtonClick`   | function       | No       | -       | Callback fired when the popup button is clicked (in popup mode)             |
+| `agentOpeningMessage`  | string         | No       | -       | Message shown as the first message from the agent when starting a session   |
 
 ### ClassNames Object Properties
 
-| Property | Description |
-|----------|-------------|
-| `chatbox` | Main chat container |
-| `messagesArea` | Messages list container |
-| `agentMessage` | Agent message bubble |
-| `customerMessage` | Customer message bubble |
-| `textarea` | Message input field |
-| `defaultPopupButton` | Default popup toggle button |
-| `defaultPopupButtonIcon` | Icon in the default popup button |
-| `chatDescription` | Chat description container |
-| `bottomLine` | Footer of the chat |
+| Property                | Description                        |
+|-------------------------|------------------------------------|
+| `chatboxWrapper`        | Wrapper around the main chatbox    |
+| `chatbox`               | Main chat container                |
+| `messagesArea`          | Messages list container            |
+| `agentMessage`          | Agent message bubble               |
+| `customerMessage`       | Customer message bubble            |
+| `textarea`              | Message input field                |
+| `defaultPopupButton`    | Default popup toggle button        |
+| `defaultPopupButtonIcon`| Icon in the default popup button   |
+| `chatDescription`       | Chat description container         |
+| `bottomLine`            | Footer of the chat                 |
 
 ### Components Object Properties
 
-| Property | Description | Props Passed |
-|----------|-------------|--------------|
-| `popupButton` | Custom popup button component | `{ toggleChatOpen }` |
-| `agentMessage` | Custom agent message component | `{ message }` |
-| `customerMessage` | Custom customer message component | `{ message }` |
-| `header` | Custom header component | `{ changeIsExpanded }` |
+| Property         | Description                      | Props Passed                  |
+|------------------|----------------------------------|-------------------------------|
+| `popupButton`    | Custom popup button component    | `{ toggleChatOpen }`          |
+| `agentMessage`   | Custom agent message component   | `{ message }`                 |
+| `customerMessage`| Custom customer message component| `{ message }`                 |
+| `header`         | Custom header component          | `{ changeIsExpanded }`        |
 
 
 ## License
