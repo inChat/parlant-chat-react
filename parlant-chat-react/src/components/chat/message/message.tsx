@@ -133,17 +133,6 @@ const useStyles = createUseStyles({
 	},
 });
 
-const timeAgo = (date: Date): string => {
-	const dateObj = new Date(date);
-	const now = new Date();
-	const seconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000);
-	const minutes = Math.floor(seconds / 60);
-	const hours = Math.floor(minutes / 60);
-
-	if (hours < 24) return dateObj.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: false});
-	return dateObj.toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false});
-};
-
 interface MessageProps {
 	message: MessageInterface;
 	agentName?: string;
@@ -165,10 +154,9 @@ const Message = ({message, agentName, agentAvatar, className}: MessageProps): JS
 				{!isCustomerMessage &&
 				<div className="message-metadata">
 					<div className={classes.agentName}>
-						 {agentAvatar || <div className={classes.agentNameInitial}>{formattedUserName?.[0]?.toUpperCase()}</div>}
+						 {agentAvatar || <div aria-hidden className={classes.agentNameInitial}>{formattedUserName?.[0]?.toUpperCase()}</div>}
 						{formattedUserName}
 					</div>
-					{/* <div className={classes.messageTime}>{timeAgo(new Date(message?.creationUtc))}</div> */}
 				</div>}
 				<Markdown className={classes.markdown}>{messageContent}</Markdown>
 			</div>
