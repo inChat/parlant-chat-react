@@ -78,6 +78,7 @@ export interface ChatProps {
 	float?: boolean;
 	onPopupButtonClick?: () => void;
 	agentOpeningMessage?: string;
+	titleFn?: () => string;
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
 	agentId?: string;
@@ -103,7 +104,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-const Chatbot = ({server, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const [sessionIdToUse, setSessionIdToUse] = useState(sessionId);
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
@@ -153,7 +154,7 @@ const Chatbot = ({server, agentId, sessionId, agentName, agentAvatar, onPopupBut
 			console.error('agentId is required when sessionId is not provided');
 			return;
 		}
-		const newSession = await parlantClient.sessions.create({agentId, title: `Landing page - ${new Date().toISOString()}`});
+		const newSession = await parlantClient.sessions.create({agentId, title: titleFn?.() || `New Session - ${new Date().toISOString()}`});
 		if (!newSession?.id) {
 			console.error('session was not created');
 			return;
