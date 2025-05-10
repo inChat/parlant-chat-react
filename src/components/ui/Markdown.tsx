@@ -5,14 +5,28 @@ import 'highlight.js/styles/github.css';
 import remarkBreaks from 'remark-breaks';
 import remarkEmoji from 'remark-emoji';
 import clsx from 'clsx';
+import type { JSX } from 'react';
 
-const Markdown = ({children, className}: {children: string; className?: string}) => {
+interface MarkdownProps {
+	children: string;
+	className?: string;
+}
+
+const Markdown = ({ children, className }: MarkdownProps): JSX.Element => {
 	return (
 		<div className={clsx('leading-[19px]', className)}>
 			<ReactMarkdown
 				components={{
-					p: 'div', 
-					img: ({node, ...props}) => <img {...props} loading='lazy' alt='' style={{maxWidth: '100%'}}/>
+					p: 'div',
+					img: ({ node, src, alt, ...props }) => (
+						<img 
+							{...props} 
+							src={src} 
+							alt={alt || 'Image'} 
+							loading="lazy" 
+							style={{ maxWidth: '100%' }}
+						/>
+					),
 				}}
 				rehypePlugins={[rehypeHighlight]}
 				remarkPlugins={[remarkGfm, remarkBreaks, remarkEmoji]}>

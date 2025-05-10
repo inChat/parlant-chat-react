@@ -110,11 +110,15 @@ const MessageList = ({
   chatDescription,
 }: MessageListProps): JSX.Element => {
   const classes = useStyles();
-  const lastMessageRef = useRef<HTMLDivElement>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (agentName) messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight});
+  }, [agentName])
 
   useEffect(() => {
     if (showInfo !== 'Typing...') {
-      lastMessageRef?.current?.scrollIntoView({ block: 'nearest' });
+      messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
     }
   }, [messages?.length, showInfo]);
 
@@ -122,32 +126,39 @@ const MessageList = ({
     <div 
       className={clsx('fixed-scroll', classes.messagesArea, isExpanded && classes.messageAreagExpanded, classNames?.messagesArea)}
       role="log"
+      ref={messageListRef}
       aria-live="polite"
       aria-label="Chat messages"
+      aria-relevant="additions"
     >
       <div className={clsx(classes.chatDescription, classNames?.chatDescription)}>
         {chatDescription || defaultChatDescription}
       </div>
-      {messages.map((message) => {
-        const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
+      <div role="list">
+        {messages.map((message, index) => {
+          const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 
-        return (
-          <Component
-            agentAvatar={agentAvatar}
-            agentName={agentName}
-            key={message.id}
-            message={message}
-            className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage}
-          />
-        );
-      })}
+          return (
+            <div key={message.id || index}>
+              <Component
+                agentAvatar={agentAvatar}
+                agentName={agentName}
+                message={message}
+                className={message?.source === 'customer' ? classNames?.customerMessage : classNames?.agentMessage}
+              />
+            </div>
+          );
+        })}
+      </div>
       {showInfo && (
-        <div className={classes.bubblesWrapper} aria-hidden="true">
+        <div 
+          className={classes.bubblesWrapper} 
+          aria-hidden="true"
+        >
           <div className={classes.bubbles} />
           <span style={{position: 'absolute', left: '-9999px'}} aria-live="polite">{showInfo}</span>
         </div>
       )}
-      <div ref={lastMessageRef} />
     </div>
   );
 };

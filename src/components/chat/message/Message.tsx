@@ -147,18 +147,37 @@ const Message = ({message, agentName, agentAvatar, className}: MessageProps): JS
 	const messageContent = (message.data as {message?: string})?.message || '';
 	const userName = agentName || (message?.data as any)?.participant?.display_name;
 	const formattedUserName = userName === '<guest>' ? 'Guest' : userName;
+	
+	const messageId = `message-${message.id || Math.random().toString(36).substring(2, 9)}`;
+	const sourceText = isCustomerMessage ? 'You' : formattedUserName || 'Agent';
 
 	return (
-		<div className={clsx(classes.wrapper, isCustomerMessage && classes.customerWrapper)}>
-			<div className={clsx(classes.messageWrapper, isCustomerMessage && classes.customerMessageWrapper, className)}>
+		<div 
+			className={clsx(classes.wrapper, isCustomerMessage && classes.customerWrapper)}
+			role="listitem"
+			aria-labelledby={messageId}
+		>
+			<div 
+				className={clsx(classes.messageWrapper, isCustomerMessage && classes.customerMessageWrapper, className)}
+				role="group"
+				aria-label={`Message from ${sourceText}`}
+			>
 				{!isCustomerMessage &&
 				<div className="message-metadata">
-					<div className={classes.agentName}>
-						 {agentAvatar || <div aria-hidden className={classes.agentNameInitial}>{formattedUserName?.[0]?.toUpperCase()}</div>}
-						{formattedUserName}
+					<div className={classes.agentName} id={messageId}>
+						 {agentAvatar || 
+						 <div 
+						 	aria-hidden="true" 
+							className={classes.agentNameInitial}
+						 >
+							{formattedUserName?.[0]?.toUpperCase()}
+						 </div>}
+						<span>{formattedUserName}</span>
 					</div>
 				</div>}
-				<Markdown className={classes.markdown}>{messageContent}</Markdown>
+				<div aria-live={isCustomerMessage ? "off" : "polite"}>
+					<Markdown className={classes.markdown}>{messageContent}</Markdown>
+				</div>
 			</div>
 		</div>
 	);

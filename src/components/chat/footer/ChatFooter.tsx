@@ -54,7 +54,7 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <footer className={clsx(classes.bottomLine, className)}>
+    <footer className={clsx(classes.bottomLine, className)} role="contentinfo">
       <div 
         role="status"
         aria-live="polite"

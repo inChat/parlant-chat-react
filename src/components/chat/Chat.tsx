@@ -79,7 +79,6 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 	const [lastOffset, setLastOffset] = useState<number>(0);
 	const [showInfo, setShowInfo] = useState<string>('');
 	const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
-	const lastMessageRef = useRef<HTMLDivElement>(null);
 
 	const parlantClient = new ParlantClient({
 		environment: server,
@@ -194,10 +193,6 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 	useEffect(() => {
 		formatMessagesFromEvents();
 	}, [data, formatMessagesFromEvents]);
-
-	useEffect(() => {
-		if (showInfo !== 'Typing...') lastMessageRef?.current?.scrollIntoView({block: 'nearest'});
-	}, [messages.length, showInfo]);
 
 	const changeIsExpandedFn = (): void => {
 		setIsExpanded(!isExpanded);

@@ -102,6 +102,7 @@ const ChatInput = ({
   const [message, setMessage] = useState('');
   const submitButtonRef = useRef<HTMLButtonElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (float || focusTrigger) {
@@ -118,14 +119,22 @@ const ChatInput = ({
     }
   };
 
-  const handleSubmit = async (): Promise<void> => {
+  const handleSubmit = async (e?: React.FormEvent): Promise<void> => {
+    if (e) e.preventDefault();
     if (!message.trim()) return;
     await onSendMessage(message);
     setMessage('');
+    // Refocus the textarea after sending for better UX
+    textareaRef?.current?.focus();
   };
 
   return (
-    <div className={clsx(classes.textareaWrapper, className)}>
+    <form 
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className={clsx(classes.textareaWrapper, className)}
+      aria-label="Message input form"
+    >
       <img src={PenIcon} alt="" className={classes.penIcon} aria-hidden="true" />
       <Textarea
         role="textbox"
@@ -137,17 +146,18 @@ const ChatInput = ({
         rows={1}
         className={classes.textArea}
         aria-label="Type your message"
+        aria-multiline="false"
+        aria-autocomplete="none"
       />
       <button
-        type="button"
+        type="submit"
         ref={submitButtonRef}
         className={classes.sendButton}
-        onClick={handleSubmit}
         disabled={!message.trim()}
         aria-label="Send message"
       >
         {sendIcon || (
-          <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path
               d="M0.533203 0.333373L22.5332 10.3334L0.533202 20.3334L2.40554 12.3334L9.42682 10.3334L2.40554 8.33337L0.533203 0.333373Z"
               fill={COLORS.darkGrey}
@@ -155,7 +165,7 @@ const ChatInput = ({
           </svg>
         )}
       </button>
-    </div>
+    </form>
   );
 };
 

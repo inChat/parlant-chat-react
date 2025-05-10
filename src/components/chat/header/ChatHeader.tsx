@@ -75,14 +75,20 @@ const ChatHeader = ({
   className
 }: ChatHeaderProps): JSX.Element => {
   const classes = useStyles();
+  
+  const ariaLabel = isExpanded ? 'Collapse chat window' : 'Expand chat window';
 
   return (
-    <header className={`${classes.header} ${className || ''}`}>
-      <div className={classes.headerAgentName}>
+    <header 
+      className={`${classes.header} ${className || ''}`}
+      role="banner"
+      aria-labelledby="chat-header-title"
+    >
+      <div className={classes.headerAgentName} id="chat-header-title">
         {agentAvatar || (agentName && (
-          <div className={classes.headerAgentNameInitials}>
-            {agentName[0]?.toUpperCase()}
-          </div>
+            <div className={classes.headerAgentNameInitials} aria-hidden="true">
+              {agentName?.[0]?.toUpperCase()}
+            </div>
         ))}
         {agentName && <div>{agentName}</div>}
       </div>
@@ -90,7 +96,9 @@ const ChatHeader = ({
         type="button"
         className={classes.expandButton}
         onClick={changeIsExpanded}
-        aria-label={isExpanded ? 'Collapse chat window' : 'Expand chat window'}
+        aria-label={ariaLabel}
+        aria-expanded={isExpanded}
+        title={ariaLabel}
       >
         <img src={ExpandIcon} alt="" className={classes.expandIcon} aria-hidden="true" />
       </button>
