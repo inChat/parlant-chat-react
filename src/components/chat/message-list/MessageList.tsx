@@ -113,12 +113,19 @@ const MessageList = ({
   const messageListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setTimeout(() => messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight}), 0);
+    // const top = messageListRef?.current?.scrollHeight;
+    setTimeout(() => {
+      messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight})
+    }, 0);
+    setTimeout(() => {
+      messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight})
+    }, 500);
+    // setTimeout(() => messageListRef?.current?.scrollTo({top}), 500);
   }, [agentName])
 
   useEffect(() => {
     if (showInfo !== 'Typing...') {
-      messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
+      messageListRef?.current?.scrollTo({top: (messageListRef.current.scrollHeight || 0) * 2, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
     }
   }, [messages?.length, showInfo]);
 
