@@ -50,15 +50,13 @@
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "remark-breaks": "^4.0.0",
-    "remark-emoji": "^5.0.1",
-    "webfontloader": "^1.6.28"
+    "remark-emoji": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@ladle/react": "^5.0.2",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
-    "@types/webfontloader": "^1.6.38",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
     "biome": "^0.2.2",

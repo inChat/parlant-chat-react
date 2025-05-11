@@ -9,18 +9,9 @@ import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/Popover';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 
-import WebFont from 'webfontloader';
 import { COLORS } from '@/theme';
 import { ParlantClient } from 'parlant-client';
 import { EventCreationParams } from 'parlant-client/src/api';
-
-const loadFonts = () => {
-	WebFont.load({
-		google: {
-			families: ['Inter:400,500,600,700'],
-		},
-	});
-};
 
 const useStyles = createUseStyles({
 	root: {
@@ -127,7 +118,6 @@ const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 		setOrigin(`${vertical} ${horizontal}`);
 	};
 
-	useEffect(loadFonts, []);
 	useEffect(setTransformOrigin, []);
 	
 
@@ -174,6 +164,7 @@ const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 
 	return (
 		<QueryClientProvider client={queryClient}>
+			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 			<span className={classes.root}>
 				{float ? (
 					<Popover open={open || isClosing} onOpenChange={handleOnOpenChange}>

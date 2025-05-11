@@ -113,7 +113,7 @@ const MessageList = ({
   const messageListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (agentName) messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight});
+    setTimeout(() => messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight}), 0);
   }, [agentName])
 
   useEffect(() => {
