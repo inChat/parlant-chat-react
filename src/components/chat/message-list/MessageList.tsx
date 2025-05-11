@@ -125,7 +125,9 @@ const MessageList = ({
 
   useEffect(() => {
     if (showInfo !== 'Typing...') {
-      messageListRef?.current?.scrollTo({top: (messageListRef.current.scrollHeight || 0) * 2, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
+      setTimeout(() => {
+        messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
+      }, 100);
     }
   }, [messages?.length, showInfo]);
 
