@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { COLORS } from '@/theme';
 import { ParlantClient } from 'parlant-client';
 import { EventCreationParams } from 'parlant-client/src/api';
+import { messageSound } from './utils/utils';
 
 const useStyles = createUseStyles({
 	root: {
@@ -157,6 +158,7 @@ const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 		if (event?.id) {
 			setSessionIdToUse(newSession.id);
 		}
+		messageSound();
 	}
 
 	const PopupButtonComponent = components?.popupButton && <components.popupButton toggleChatOpen={toggleChat} />;

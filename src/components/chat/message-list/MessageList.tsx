@@ -5,6 +5,7 @@ import Message from '@/components/chat/message/Message';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { COLORS } from '@/theme';
+import { messageSound } from '@/utils/utils';
 
 interface MessageListProps {
   messages: MessageInterface[];
@@ -97,7 +98,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const defaultChatDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquet et magna nec imperdiet.';
+const defaultChatDescription = 'I’m an AI-powered agent that’s here to help you with your questions! Let me know if I can help.';
 
 const MessageList = ({
   messages,
@@ -124,11 +125,9 @@ const MessageList = ({
   }, [agentName])
 
   useEffect(() => {
-    if (showInfo !== 'Typing...') {
-      setTimeout(() => {
-        messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
-      }, 100);
-    }
+    setTimeout(() => {
+      messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
+    }, 100);
   }, [messages?.length, showInfo]);
 
   return (
@@ -150,6 +149,7 @@ const MessageList = ({
           return (
             <div key={message.id || index}>
               <Component
+                isSameSourceAsPrevious={message?.source === messages[index - 1]?.source}
                 agentAvatar={agentAvatar}
                 agentName={agentName}
                 message={message}

@@ -11,6 +11,7 @@ import ChatHeader from '@/components/chat/header/ChatHeader';
 import MessageList from '@/components/chat/message-list/MessageList';
 import ChatInput from '@/components/chat/input/ChatInput';
 import ChatFooter from '@/components/chat/footer/ChatFooter';
+import { messageSound } from '@/utils/utils';
 
 const useStyles = createUseStyles({
 	chatbox: {
@@ -138,8 +139,10 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 			source: 'customer',
 		};
 		
-		if (sessionId) await parlantClient.sessions.createEvent(sessionId, message);
-		else createSession(message);
+		if (sessionId) {
+			await parlantClient.sessions.createEvent(sessionId, message);
+			messageSound();
+		} else createSession(message);
 	};
 
 	const formatMessagesFromEvents = useCallback((): void => {
@@ -177,7 +180,11 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 				}
 			}
 
-			return mergedMessages.filter((message): message is MessageInterface => !!message);
+			const newMessages = mergedMessages.filter((message): message is MessageInterface => !!message);
+			if (newMessages.length > currentMessages.length && newMessages[newMessages.length - 1].source === 'ai_agent') {
+				messageSound(true);
+			}
+			return newMessages;
 		});
 
 		const lastStatusEventStatus = (lastStatusEvent?.data as StatusEventData)?.status;
@@ -201,6 +208,12 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 
 	return (
 		<div className={clsx(classes.chatbox, isExpanded && classes.expandedChatbot, classNames?.chatbox)}>
+			{(!sessionId && !agentId) ? 
+			<div className='flex justify-center mt-[20px] h-full text-[20px] font-medium'>
+				<h1>Either sessionId or agentId is required</h1>
+			</div>
+			:
+			<>
 			{components?.header ?
 				<components.header changeIsExpanded={changeIsExpandedFn} /> :
 				<ChatHeader
@@ -231,6 +244,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 				showInfo={showInfo}
 				className={classNames?.bottomLine}
 			/>
+			</>}
 		</div>
 	);
 };

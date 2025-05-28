@@ -137,10 +137,11 @@ interface MessageProps {
 	message: MessageInterface;
 	agentName?: string;
 	agentAvatar?: JSX.Element;
+	isSameSourceAsPrevious?: boolean;
 	className?: string;
 }
 
-const Message = ({message, agentName, agentAvatar, className}: MessageProps): JSX.Element => {
+const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrevious}: MessageProps): JSX.Element => {
 	const classes = useStyles();
 	const isCustomerMessage = message?.source === 'customer';
 
@@ -162,7 +163,7 @@ const Message = ({message, agentName, agentAvatar, className}: MessageProps): JS
 				role="group"
 				aria-label={`Message from ${sourceText}`}
 			>
-				{!isCustomerMessage &&
+				{!isCustomerMessage && !isSameSourceAsPrevious &&
 				<div className="message-metadata">
 					<div className={classes.agentName} id={messageId}>
 						 {agentAvatar || 

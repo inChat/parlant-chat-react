@@ -46,6 +46,7 @@ const useStyles = createUseStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'end',
+    whiteSpace: 'nowrap',
     gap: '0.375rem',
   },
 });
@@ -64,7 +65,7 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
       </div>
       <div className={classes.poweredBy}>
         <div className={classes.poweredByContainer}>
-          Powered by
+          Powered by open-source
           <img 
             src={ParlantLogoFull} 
             alt="" 
