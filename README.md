@@ -20,15 +20,15 @@ Here's how to quickly add the chat component to your React application:
 
 ```jsx
 import React from 'react';
-import Chatbot from 'parlant-chat-react';
+import ParlantChatbox from 'parlant-chat-react';
 
 function App() {
   return (
     <div>
       <h1>My Application</h1>      
-      <Chatbot 
-        sessionId="SESSION_ID" 
-        server="ROUTE" 
+      <ParlantChatbox 
+        agentId="AGENT_ID"
+        server="PARLANT_SERVER_URL" 
       />
     </div>
   );
@@ -44,9 +44,9 @@ export default App;
 Add a chat interface directly in your page layout:
 
 ```jsx
-<Chatbot 
-  sessionId="SESSION_ID" 
-  server="ROUTE" 
+<ParlantChatbox 
+  agentId="AGENT_ID"
+  server="PARLANT_SERVER_URL" 
 />
 ```
 
@@ -55,10 +55,10 @@ Add a chat interface directly in your page layout:
 Display the chat as a popup that can be toggled with a button:
 
 ```jsx
-<Chatbot 
+<ParlantChatbox 
   float 
-  sessionId="SESSION_ID" 
-  server="ROUTE" 
+  agentId="AGENT_ID"
+  server="PARLANT_SERVER_URL" 
 />
 ```
 
@@ -69,10 +69,10 @@ Use a custom button component:
 ```jsx
 import { Send } from 'lucide-react';
 
-<Chatbot 
+<ParlantChatbox 
   float 
-  sessionId="SESSION_ID" 
-  server="ROUTE"
+  agentId="AGENT_ID"
+  server="PARLANT_SERVER_URL"
   popupButton={<Send color="white" size={24} />} 
 />
 ```
@@ -82,9 +82,9 @@ import { Send } from 'lucide-react';
 Apply custom class names to various parts of the chat:
 
 ```jsx
-<Chatbot 
-  sessionId="SESSION_ID" 
-  server="ROUTE"
+<ParlantChatbox 
+  agentId="AGENT_ID"
+  server="PARLANT_SERVER_URL"
   classNames={{
     chatboxWrapper: "my-chatbox-wrapper-class",
     chatbox: "my-chatbox-class",
@@ -106,8 +106,8 @@ Replace default UI components with your own:
 
 ```jsx
 <ParlantChatbox 
-  sessionId="SESSION_ID" 
-  server="ROUTE"
+  agentId="AGENT_ID"
+  server="PARLANT_SERVER_URL"
   components={{
     popupButton: ({ toggleChatOpen }) => (
       <button onClick={toggleChatOpen}>Chat with us</button>
