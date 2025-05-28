@@ -97,7 +97,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const defaultChatDescription = 'I’m an AI-powered agent here to help you with your questions! Let me know if I can help.';
+const defaultChatDescription = 'I’m an AI-powered agent here to help you with your questions. Let me know if I can help!';
 
 const MessageList = ({
   messages,
