@@ -92,8 +92,8 @@ Apply custom class names to various parts of the chat:
     agentMessage: "agent-bubble",
     customerMessage: "customer-bubble",
     textarea: "my-input-class",
-    defaultPopupButton: "my-button-class",
-    defaultPopupButtonIcon: "my-icon-class",
+    popupButton: "my-button-class",
+    popupButtonIcon: "my-icon-class",
     chatDescription: "my-description-class",
     bottomLine: "my-footer-class"
   }}
@@ -163,8 +163,8 @@ Replace default UI components with your own:
 | `agentMessage`          | Agent message bubble               |
 | `customerMessage`       | Customer message bubble            |
 | `textarea`              | Message input field                |
-| `defaultPopupButton`    | Default popup toggle button        |
-| `defaultPopupButtonIcon`| Icon in the default popup button   |
+| `popupButton`           | Popup toggle button                |
+| `popupButtonIcon`       | Icon in the popup button           |
 | `chatDescription`       | Chat description container         |
 | `bottomLine`            | Footer of the chat                 |
 
@@ -176,4 +176,3 @@ Replace default UI components with your own:
 | `agentMessage`   | Custom agent message component   | `{ message }`                 |
 | `customerMessage`| Custom customer message component| `{ message }`                 |
 | `header`         | Custom header component          | `{ changeIsExpanded }`        |
-
