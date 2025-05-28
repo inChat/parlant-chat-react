@@ -48,6 +48,7 @@ const useStyles = createUseStyles({
     justifyContent: 'end',
     whiteSpace: 'nowrap',
     gap: '0.375rem',
+    height: '20px'
   },
 });
 
@@ -72,7 +73,7 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
               alt="" 
               height={17} 
               width={72} 
-              style={{ objectFit: 'contain', marginBottom: '2px' }}
+              style={{ objectFit: 'contain', marginTop: '2px' }}
               aria-hidden="true"
             />
           </a>

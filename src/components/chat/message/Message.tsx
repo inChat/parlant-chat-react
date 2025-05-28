@@ -77,29 +77,6 @@ const useStyles = createUseStyles({
 		color: COLORS.primaryText,
 		paddingBlock: '20px',
 	},
-	customerWrapper: {
-		justifyContent: 'end',
-		paddingTop: '0rem',
-	},
-	agentName: {
-		display: 'flex',
-		fontSize: '14px',
-		alignItems: 'center',
-		fontWeight: '500',
-		color: COLORS.darkGrey,
-	},
-	agentNameInitial: {
-		backgroundColor: COLORS.darkGrey,
-		color: 'white',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		width: '26px',
-		height: '26px',
-		lineHeight: '100%',
-		borderRadius: '6.5px',
-		marginInlineEnd: '8px',
-	},
 	messageWrapper: {
 		minWidth: 'min(50%, 384px)',
 		maxWidth: 'min(80%, 384px)',
@@ -124,6 +101,41 @@ const useStyles = createUseStyles({
 			fontSize: '0.85rem',
 		},
 	},
+	continuationWrapper: {
+		paddingTop: '0px',
+	},
+	continuationMessageWrapper: {
+		marginTop: '5px',
+	},
+	nextSourceSameWrapper: {
+		paddingBottom: '0px',
+	},
+	customerWrapper: {
+		justifyContent: 'end',
+		paddingTop: '0rem',
+	},
+	nextSourceSameMessageWrapper: {
+		marginBottom: '0px',
+	},
+	agentName: {
+		display: 'flex',
+		fontSize: '14px',
+		alignItems: 'center',
+		fontWeight: '500',
+		color: COLORS.darkGrey,
+	},
+	agentNameInitial: {
+		backgroundColor: COLORS.darkGrey,
+		color: 'white',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '26px',
+		height: '26px',
+		lineHeight: '100%',
+		borderRadius: '6.5px',
+		marginInlineEnd: '8px',
+	},
 	messageTime: {
 		color: COLORS.mutedText,
 	},
@@ -138,10 +150,11 @@ interface MessageProps {
 	agentName?: string;
 	agentAvatar?: JSX.Element;
 	isSameSourceAsPrevious?: boolean;
+	isNextSourceSame?: boolean;
 	className?: string;
 }
 
-const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrevious}: MessageProps): JSX.Element => {
+const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrevious, isNextSourceSame}: MessageProps): JSX.Element => {
 	const classes = useStyles();
 	const isCustomerMessage = message?.source === 'customer';
 
@@ -154,12 +167,12 @@ const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrev
 
 	return (
 		<div 
-			className={clsx(classes.wrapper, isCustomerMessage && classes.customerWrapper)}
+			className={clsx(classes.wrapper, isSameSourceAsPrevious && classes.continuationWrapper, isNextSourceSame && classes.nextSourceSameWrapper, isCustomerMessage && classes.customerWrapper)}
 			role="listitem"
 			aria-labelledby={messageId}
 		>
 			<div 
-				className={clsx(classes.messageWrapper, isCustomerMessage && classes.customerMessageWrapper, className)}
+				className={clsx(classes.messageWrapper, isNextSourceSame && classes.nextSourceSameMessageWrapper, isSameSourceAsPrevious && classes.continuationMessageWrapper, isCustomerMessage && classes.customerMessageWrapper, className)}
 				role="group"
 				aria-label={`Message from ${sourceText}`}
 			>

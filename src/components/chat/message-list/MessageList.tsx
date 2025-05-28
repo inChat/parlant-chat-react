@@ -149,6 +149,7 @@ const MessageList = ({
             <div key={message.id || index}>
               <Component
                 isSameSourceAsPrevious={message?.source === messages[index - 1]?.source}
+                isNextSourceSame={message?.source === messages[index + 1]?.source}
                 agentAvatar={agentAvatar}
                 agentName={agentName}
                 message={message}
