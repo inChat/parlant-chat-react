@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/github/license/menachembrich/parlant-chat-react)
 ![npm version](https://img.shields.io/npm/v/parlant-chat-react) -->
 
-a flexible and customizable React chat component for integrating Parlant's chatbot seamlessly into your website.
+A flexible and customizable React chat component for integrating Parlant agents seamlessly into your website.
 
 ## Installation
 
