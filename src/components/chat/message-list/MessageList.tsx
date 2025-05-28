@@ -5,7 +5,6 @@ import Message from '@/components/chat/message/Message';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { COLORS } from '@/theme';
-import { messageSound } from '@/utils/utils';
 
 interface MessageListProps {
   messages: MessageInterface[];
@@ -98,7 +97,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const defaultChatDescription = 'I’m an AI-powered agent that’s here to help you with your questions! Let me know if I can help.';
+const defaultChatDescription = 'I’m an AI-powered agent here to help you with your questions! Let me know if I can help.';
 
 const MessageList = ({
   messages,

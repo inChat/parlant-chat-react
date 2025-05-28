@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
 		},
 	},
 	popupButton: {
-		backgroundColor: COLORS.primaryText,
+		background: COLORS.primaryText,
 		border: 'none',
 		outline: '0 !important',
 		borderRadius: '50%',
@@ -81,8 +81,8 @@ export interface ChatProps {
 		agentMessage?: string;
 		customerMessage?: string;
 		textarea?: string;
-		defaultPopupButton?: string;
-		defaultPopupButtonIcon?: string;
+		popupButton?: string;
+		popupButtonIcon?: string;
 		chatDescription?: string;
 		bottomLine?: string;
 	};
@@ -173,8 +173,8 @@ const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 						<PopoverTrigger ref={popupButtonRef} asChild>
 							<div>
 								{PopupButtonComponent || (
-									<Button onClick={() => toggleChat()} className={clsx(classes.popupButton, classNames?.defaultPopupButton)}>
-										{popupButton || <IconComponent size={30} color="white" className={clsx(classes.iconComponent, classNames?.defaultPopupButtonIcon)} />}
+									<Button onClick={() => toggleChat()} className={clsx(classes.popupButton, classNames?.popupButton)}>
+										{popupButton || <IconComponent size={30} color="white" className={clsx(classes.iconComponent, classNames?.popupButtonIcon)} />}
 									</Button>
 								)}
 							</div>
