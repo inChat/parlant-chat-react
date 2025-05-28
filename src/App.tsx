@@ -144,7 +144,7 @@ const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 			console.error('agentId is required when sessionId is not provided');
 			return;
 		}
-		const newSession = await parlantClient.sessions.create({agentId, title: titleFn?.() || `New Session - ${new Date().toISOString()}`});
+		const newSession = await parlantClient.sessions.create({agentId, allowGreeting: false, title: titleFn?.() || `New Session - ${new Date().toISOString()}`});
 		if (!newSession?.id) {
 			console.error('session was not created');
 			return;
