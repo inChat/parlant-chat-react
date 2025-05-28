@@ -96,7 +96,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const [sessionIdToUse, setSessionIdToUse] = useState(sessionId);
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
@@ -193,4 +193,4 @@ const Chatbot = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 	);
 };
 
-export default Chatbot;
+export default Chatbox;

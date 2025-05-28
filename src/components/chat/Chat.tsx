@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
 		transition: 'all 0.3s ease-in-out',
 		width: '27.75rem',
 	},
-	expandedChatbot: {
+	expandedChatbox: {
 		width: '920px',
 		height: 'min(880px,80vh)',
 		maxWidth: '95vw',
@@ -207,7 +207,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 	};
 
 	return (
-		<div className={clsx(classes.chatbox, isExpanded && classes.expandedChatbot, classNames?.chatbox)}>
+		<div className={clsx(classes.chatbox, isExpanded && classes.expandedChatbox, classNames?.chatbox)}>
 			{(!sessionId && !agentId) ? 
 			<div className='flex justify-center mt-[20px] h-full text-[20px] font-medium'>
 				<h1>Either sessionId or agentId is required</h1>

@@ -2,7 +2,7 @@
   "name": "parlant-chat-react",
   "private": false,
   "version": "1.0.0",
-  "description": "Parlant's chatbot seamlessly integrates into your website",
+  "description": "Parlant's chatbox seamlessly integrates into your website",
   "type": "module",
   "main": "dist/parlant-chat-react.umd.js",
   "module": "dist/parlant-chat-react.js",
