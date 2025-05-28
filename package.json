@@ -2,16 +2,16 @@
   "name": "parlant-chat-react",
   "private": false,
   "version": "1.0.0",
-  "description": "Parlant's chatbox seamlessly integrates into your website",
+  "description": "Integrate Parlant agents seamlessly into your React app",
   "type": "module",
   "main": "dist/parlant-chat-react.umd.js",
   "module": "dist/parlant-chat-react.js",
   "types": "dist/types/index.d.ts",
-  "author": "MenachemBrichta",
+  "author": "Menachem Brichta <menachem@emcie.co>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/emcie-co/parlant-chat-react/tree/main/parlant-chat-react"
+    "url": "https://github.com/emcie-co/parlant-chat-react"
   },
   "exports": {
     ".": {
@@ -25,7 +25,7 @@
     "dist"
   ],
   "keywords": [],
-  "homepage": "https://github.com/emcie-co/parlant-chat-react/blob/main/parlant-chat-react/README.md",
+  "homepage": "https://parlant.io",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
