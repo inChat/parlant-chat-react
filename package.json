@@ -1,7 +1,7 @@
 {
   "name": "parlant-chat-react",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Integrate Parlant agents seamlessly into your React app",
   "type": "module",
   "main": "dist/parlant-chat-react.umd.js",
