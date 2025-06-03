@@ -181,7 +181,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 			}
 
 			const newMessages = mergedMessages.filter((message): message is MessageInterface => !!message);
-			if (newMessages.length > currentMessages.length && newMessages[newMessages.length - 1].source === 'ai_agent') {
+			if (currentMessages.length && newMessages.length > currentMessages.length && newMessages[newMessages.length - 1].source === 'ai_agent') {
 				messageSound(true);
 			}
 			return newMessages;
