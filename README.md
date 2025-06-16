@@ -1,5 +1,7 @@
 # parlant-chat-react
 
+![Parlant Chatbox Demo](src/assets/chatbox.gif)
+
 <!-- ![Build Status](https://img.shields.io/github/actions/workflow/status/menachembrich/parlant-chat-react/ci.yml?branch=main)
 ![License](https://img.shields.io/github/license/menachembrich/parlant-chat-react)
 ![npm version](https://img.shields.io/npm/v/parlant-chat-react) -->
@@ -141,38 +143,4 @@ Replace default UI components with your own:
 | `server`               | string         | Yes      | -       | API endpoint for chat communication                                         |
 | `sessionId`            | string         | No       | -       | Unique identifier for an existing chat session                              |
 | `titleFn`              | function       | No       | -       | Function that returns a string to generate dynamic chat session titles       |
-| `agentId`              | string         | No       | -       | Unique identifier for creating a new chat session with a specific agent     |
-| `agentName`            | string         | No       | -       | Name of the chat agent                                                      |
-| `agentAvatar`          | JSX.Element    | No       | -       | Custom avatar for the agent                                                 |
-| `chatDescription`      | string         | No       | -       | Description text shown at the top of the chat                               |
-| `float`                | boolean        | No       | `false` | Whether to display as a popup chat                                          |
-| `popupButton`          | JSX.Element    | No       | -       | Custom button element for popup mode                                        |
-| `sendIcon`             | JSX.Element    | No       | -       | Custom send message icon                                                    |
-| `classNames`           | object         | No       | -       | Custom CSS class names for styling                                          |
-| `components`           | object         | No       | -       | Custom React components to replace defaults                                 |
-| `onPopupButtonClick`   | function       | No       | -       | Callback fired when the popup button is clicked (in popup mode)             |
-| `agentOpeningMessage`  | string         | No       | -       | Message shown as the first message from the agent when starting a session   |
-
-### ClassNames Object Properties
-
-| Property                | Description                        |
-|-------------------------|------------------------------------|
-| `chatboxWrapper`        | Wrapper around the main chatbox    |
-| `chatbox`               | Main chat container                |
-| `messagesArea`          | Messages list container            |
-| `agentMessage`          | Agent message bubble               |
-| `customerMessage`       | Customer message bubble            |
-| `textarea`              | Message input field                |
-| `popupButton`           | Popup toggle button                |
-| `popupButtonIcon`       | Icon in the popup button           |
-| `chatDescription`       | Chat description container         |
-| `bottomLine`            | Footer of the chat                 |
-
-### Components Object Properties
-
-| Property         | Description                      | Props Passed                  |
-|------------------|----------------------------------|-------------------------------|
-| `popupButton`    | Custom popup button component    | `{ toggleChatOpen }`          |
-| `agentMessage`   | Custom agent message component   | `{ message }`                 |
-| `customerMessage`| Custom customer message component| `{ message }`                 |
-| `header`         | Custom header component          | `{ changeIsExpanded }`        |
+| `agentId`
