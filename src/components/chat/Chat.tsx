@@ -3,7 +3,7 @@ import {useQuery} from '@tanstack/react-query';
 import {ParlantClient} from 'parlant-client';
 import type {Agent, Event, EventCreationParams, Session} from 'parlant-client/src/api';
 import {useEffect, useRef, useState, useCallback, useMemo} from 'react';
-import type {JSX} from 'react';
+import React, {type JSX} from 'react';
 import type {ChatProps} from '@/App';
 import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
@@ -72,11 +72,10 @@ export const getInitialMessages = (agentOpeningMessage?: string): MessageInterfa
 	];
 }
 
-const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, agentOpeningMessage, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void}): JSX.Element => {
+const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, agentOpeningMessage, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription, messages, setMessages}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void; messages: MessageInterface[]; setMessages: React.Dispatch<React.SetStateAction<MessageInterface[]>>}): JSX.Element => {
 	const classes = useStyles();
 
 	const [isExpanded, setIsExpanded] = useState<boolean>(false);
-	const [messages, setMessages] = useState<MessageInterface[]>([]);
 	const [lastOffset, setLastOffset] = useState<number>(0);
 	const [showInfo, setShowInfo] = useState<string>('');
 	const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
