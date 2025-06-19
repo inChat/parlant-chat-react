@@ -6,7 +6,7 @@
 
 A flexible and customizable React chat component for integrating Parlant agents seamlessly into your website.
 
-<img src="src/assets/chatbox.gif" style="border-radius:10px;" alt="Parlant Chatbox Demo" width="300">
+<img src="src/assets/chatbox.gif" alt="Parlant Chatbox Demo" width="300">
 
 
 ## Installation
