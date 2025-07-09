@@ -71,8 +71,8 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
             <img 
               src={ParlantLogoFull} 
               alt="" 
-              height={17} 
-              width={72} 
+              height={15} 
+              width={65} 
               style={{ objectFit: 'contain', marginTop: '2px' }}
               aria-hidden="true"
             />
