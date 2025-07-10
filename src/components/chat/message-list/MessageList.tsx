@@ -31,6 +31,7 @@ const useStyles = createUseStyles({
     overflow: 'auto',
     scrollbarWidth: 'thin',
     scrollbarColor: 'gray transparent',
+    scrollbarGutter: 'stable',
     marginTop: '10px',
     '&::-webkit-scrollbar': {
       width: '6px',
