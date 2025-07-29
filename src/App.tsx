@@ -159,7 +159,7 @@ const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 		if (event?.id) {
 			setSessionIdToUse(newSession.id);
 		}
-		messageSound();
+		// messageSound();
 	}
 
 	const PopupButtonComponent = components?.popupButton && <components.popupButton toggleChatOpen={toggleChat} />;
