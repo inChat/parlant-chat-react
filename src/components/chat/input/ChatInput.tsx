@@ -135,7 +135,6 @@ const ChatInput = ({
       className={clsx(classes.textareaWrapper, className)}
       aria-label="Message input form"
     >
-      <img src={PenIcon} alt="" className={classes.penIcon} aria-hidden="true" />
       <Textarea
         role="textbox"
         ref={textareaRef}

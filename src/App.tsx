@@ -180,7 +180,7 @@ const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 								)}
 							</div>
 						</PopoverTrigger>
-						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper, classNames?.chatboxWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={53}>
+						<PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper, classNames?.chatboxWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={18}>
 							<Chat createSession={createSession} agentId={agentId} server={server} float={float} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} agentOpeningMessage={agentOpeningMessage} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} messages={messages} setMessages={setMessages} />
 						</PopoverContent>
 					</Popover>
