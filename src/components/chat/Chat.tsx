@@ -214,7 +214,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 			:
 			<>
 			{components?.header ?
-				<components.header changeIsExpanded={changeIsExpandedFn} /> :
+				<components.header changeIsExpanded={changeIsExpandedFn} agentName={agentData?.name || agentName} /> :
 				<ChatHeader
 					agentName={agentData?.name || agentName}
 					agentAvatar={agentAvatar}
