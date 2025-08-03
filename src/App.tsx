@@ -90,7 +90,7 @@ export interface ChatProps {
 		popupButton?: (props: PopupButtonComponentProps) => ReactElement;
 		agentMessage?: (props: MessageComponentProps) => ReactElement;
 		customerMessage?: (props: MessageComponentProps) => ReactElement;
-		header?: ({changeIsExpanded}: {changeIsExpanded: () => void; agentName: string | undefined}) => ReactElement;
+		header?: ({changeIsExpanded, agentName}: {changeIsExpanded: () => void; agentName: string | undefined;}) => ReactElement;
 	};
 }
 
