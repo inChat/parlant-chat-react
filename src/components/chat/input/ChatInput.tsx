@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     backgroundColor: 'white',
     lineHeight: '3rem',
-    paddingLeft: '0.85rem',
+    paddingInlineStart: '1.125rem',
     marginTop: '1rem',
     boxShadow: '0px 3px 3px 0px #00000005',
     paddingRight: '0',
@@ -65,6 +65,7 @@ const useStyles = createUseStyles({
     color: COLORS.darkGrey,
   },
   sendButton: {
+    marginRight: '10px',
     maxWidth: '60px',
     background: 'none',
     borderRadius: '100%',
