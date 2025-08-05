@@ -92,11 +92,12 @@ export interface ChatProps {
 		customerMessage?: (props: MessageComponentProps) => ReactElement;
 		header?: ({changeIsExpanded, agentName}: {changeIsExpanded: () => void; agentName: string | undefined;}) => ReactElement;
 	};
+	onSessionCreated?: (sessionId: string) => void;
 }
 
 const queryClient = new QueryClient();
 
-const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames}: ChatProps): JSX.Element => {
+const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames, onSessionCreated}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const [sessionIdToUse, setSessionIdToUse] = useState(sessionId);
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
@@ -158,6 +159,7 @@ const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 		const event = await parlantClient.sessions.createEvent(newSession.id, message);
 		if (event?.id) {
 			setSessionIdToUse(newSession.id);
+			onSessionCreated?.(newSession.id);
 		}
 		// messageSound();
 	}
