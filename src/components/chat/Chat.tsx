@@ -189,7 +189,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
 		const lastStatusEventStatus = (lastStatusEvent?.data as StatusEventData)?.status;
 		setShowInfo(
 			!!messages.length && lastStatusEventStatus === 'processing'
-				? 'Thinking...'
+				? `${(lastStatusEvent?.data as any)?.data?.stage || 'Thinking'}...`
 				: lastStatusEventStatus === 'typing'
 				? 'Typing...'
 				: ''
