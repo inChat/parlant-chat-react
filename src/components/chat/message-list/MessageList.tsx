@@ -64,7 +64,8 @@ const useStyles = createUseStyles({
     backgroundColor: COLORS.backgroundLight,
     padding: '10px',
     margin: '10px',
-    marginInline: '20px',
+    marginInlineStart: '20px',
+    marginInlineEnd: '0px',
     borderRadius: '15px',
   },
   bubbles: {
@@ -75,6 +76,16 @@ const useStyles = createUseStyles({
     background: 'var(--_g), var(--_g), var(--_g)',
     backgroundSize: '25% 50%',
     animation: '$l43 1s infinite linear',
+  },
+  statusInfoWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    marginTop: '-25px'
+  },
+  infoText: {
+    fontSize: '11px',
+    color: COLORS.mutedText,
   },
   '@keyframes l43': {
     '0%': {
@@ -161,12 +172,14 @@ const MessageList = ({
         })}
       </div>
       {showInfo && (
-        <div 
-          className={classes.bubblesWrapper} 
-          aria-hidden="true"
-        >
-          <div className={classes.bubbles} />
-          <span style={{position: 'absolute', left: '-9999px'}} aria-live="polite">{showInfo}</span>
+        <div className={classes.statusInfoWrapper}>
+          <div 
+            className={classes.bubblesWrapper} 
+            aria-hidden="true"
+          >
+            <div className={classes.bubbles} />
+          </div>
+          <span className={classes.infoText} aria-live="polite">{showInfo}</span>
         </div>
       )}
     </div>

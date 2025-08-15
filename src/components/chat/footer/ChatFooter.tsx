@@ -60,7 +60,7 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
       <div 
         role="status"
         aria-live="polite"
-        className={clsx(classes.statusInvisible, showInfo && classes.statusVisible)}
+        className={clsx(classes.statusInvisible)}
       >
         {showInfo}
       </div>
