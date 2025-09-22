@@ -143,5 +143,6 @@ Replace default UI components with your own:
 |------------------------|----------------|----------|---------|-----------------------------------------------------------------------------|
 | `server`               | string         | Yes      | -       | API endpoint for chat communication                                         |
 | `sessionId`            | string         | No       | -       | Unique identifier for an existing chat session                              |
+| `customerId`           | string         | No       | -       | Unique identifier for the customer                                          |
 | `titleFn`              | function       | No       | -       | Function that returns a string to generate dynamic chat session titles       |
 | `agentId`
