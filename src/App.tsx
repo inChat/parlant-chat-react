@@ -11,7 +11,7 @@ import clsx from 'clsx';
 
 import { COLORS } from '@/theme';
 import { ParlantClient } from 'parlant-client';
-import { EventCreationParams } from 'parlant-client/src/api';
+import { EventCreationParams, SessionCreationParams } from 'parlant-client/src/api';
 import { messageSound } from './utils/utils';
 
 const useStyles = createUseStyles({
@@ -74,6 +74,7 @@ export interface ChatProps {
 	popupButton?: JSX.Element;
 	sendIcon?: JSX.Element;
 	agentId?: string;
+	customerId?: string;
 	classNames?: {
 		chatboxWrapper?: string;
 		chatbox?: string;
@@ -97,7 +98,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames, onSessionCreated}: ChatProps): JSX.Element => {
+const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames, onSessionCreated}: ChatProps): JSX.Element => {
 	const classes = useStyles();
 	const [sessionIdToUse, setSessionIdToUse] = useState(sessionId);
 	const popupButtonRef = useRef<HTMLButtonElement>(null);
@@ -147,7 +148,9 @@ const Chatbox = ({server, titleFn, agentId, sessionId, agentName, agentAvatar, o
 			console.error('agentId is required when sessionId is not provided');
 			return;
 		}
-		const newSession = await parlantClient.sessions.create({agentId, allowGreeting: false, title: titleFn?.() || `New Session - ${new Date().toISOString()}`});
+		const newSessionData: SessionCreationParams = {agentId, allowGreeting: false, title: titleFn?.() || `New Session - ${new Date().toISOString()}`};
+		if (customerId) newSessionData.customerId = customerId;
+		const newSession = await parlantClient.sessions.create(newSessionData);
 		if (!newSession?.id) {
 			console.error('session was not created');
 			return;
