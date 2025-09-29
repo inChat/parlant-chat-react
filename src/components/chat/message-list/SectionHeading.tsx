@@ -117,8 +117,13 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({ title, data }) => {
   };
 
   return (
-    <div className={clsx(classes.sectionHeading, getThemeClass(data?.theme))}>
-      <div className={classes.iconContainer}>
+    <div 
+      className={clsx(classes.sectionHeading, getThemeClass(data?.theme))}
+      role="heading"
+      aria-level={3}
+      aria-label={`Section: ${title}`}
+    >
+      <div className={classes.iconContainer} aria-hidden="true">
         {data?.icon || getDefaultIcon(data?.theme)}
       </div>
       <div className={classes.textContent}>
