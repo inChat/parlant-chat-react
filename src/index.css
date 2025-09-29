@@ -1,0 +1,36 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Ensure the chat component styles work properly */
+.fixed-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #ebecf0 transparent;
+}
+
+.fixed-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fixed-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fixed-scroll::-webkit-scrollbar-thumb {
+  background-color: #ebecf0;
+  border-radius: 3px;
+}
