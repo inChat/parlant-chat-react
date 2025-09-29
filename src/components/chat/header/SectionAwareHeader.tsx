@@ -18,9 +18,9 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     paddingInline: '20px',
     fontSize: '1.2rem',
-    // Enhanced transitions for smooth section changes
-    transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-    willChange: 'background, color', // Optimize for animations
+    // Enhanced transitions for ALL changing properties
+    transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s ease, padding 0.3s ease, border-bottom-color 0.3s ease',
+    willChange: 'background, color, height, padding, border-bottom-color',
   },
   headerContent: {
     fontSize: '1rem',
@@ -31,6 +31,18 @@ const useStyles = createUseStyles({
     // Add smooth text transitions
     transition: 'color 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out',
     willChange: 'color, opacity',
+  },
+  // New collapsed state (replaces empty element)
+  collapsed: {
+    height: '0',
+    paddingInline: '0',
+    paddingBlock: '0',
+    overflow: 'hidden',
+    borderBottomColor: 'transparent',
+  },
+  // New content hidden state
+  contentHidden: {
+    opacity: 0,
   },
   // Theme-based styles matching SectionHeading component
   supportTheme: {
@@ -60,14 +72,6 @@ const useStyles = createUseStyles({
   defaultTheme: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     color: 'white',
-  },
-  // Empty state when no section heading exists
-  empty: {
-    background: 'transparent',
-    borderBottom: 'none',
-    height: '0',
-    padding: '0',
-    overflow: 'hidden',
   },
 });
 
@@ -101,21 +105,21 @@ const SectionAwareHeader: React.FC<SectionAwareHeaderProps> = ({
   // Use the currentVisibleSection prop instead of calculating from messages
   const visibleSection = currentVisibleSection;
 
-  // If no section heading is visible, render empty header
-  if (!visibleSection) {
-    return <div className={classes.empty} />;
-  }
-
-  const themeClass = getThemeClass(visibleSection.data?.theme, classes);
+  // Always render the same header element, use classes to control appearance
+  const isCollapsed = !visibleSection;
+  const themeClass = visibleSection ? getThemeClass(visibleSection.data?.theme, classes) : '';
 
   return (
     <header 
-      className={`${classes.header} ${themeClass}`}
+      className={`${classes.header} ${isCollapsed ? classes.collapsed : themeClass}`}
       role="banner"
       aria-labelledby="section-header-title"
     >
-      <div className={classes.headerContent} id="section-header-title">
-        <div>{visibleSection.title}</div>
+      <div 
+        className={`${classes.headerContent} ${isCollapsed ? classes.contentHidden : ''}`} 
+        id="section-header-title"
+      >
+        <div>{visibleSection?.title || ''}</div>
       </div>
     </header>
   );
