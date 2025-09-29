@@ -1,7 +1,8 @@
 import { createUseStyles } from 'react-jss';
 import type { JSX } from 'react';
-import type { MessageInterface } from '@/components/chat/Chat';
+import type { MessageInterface, SectionHeadingData } from '@/components/chat/Chat';
 import Message from '@/components/chat/message/Message';
+import SectionHeading from './SectionHeading';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { COLORS } from '@/theme';
@@ -111,6 +112,16 @@ const useStyles = createUseStyles({
 
 const defaultChatDescription = 'I’m an AI-powered agent here to help you with your questions. Let me know if I can help!';
 
+// Helper function to check if a message is a section heading
+const isSectionHeading = (message: MessageInterface): boolean => {
+  return !!(message.data as any)?.section_heading;
+};
+
+// Helper function to get section heading data
+const getSectionHeadingData = (message: MessageInterface): SectionHeadingData | undefined => {
+  return (message.data as any)?.section_heading;
+};
+
 const MessageList = ({
   messages,
   showInfo,
@@ -155,6 +166,22 @@ const MessageList = ({
       </div>
       <div role="list">
         {messages.map((message, index) => {
+          // Check if this is a section heading
+          if (isSectionHeading(message)) {
+            const messageText = (message.data as any)?.message || '';
+            const sectionData = getSectionHeadingData(message);
+            
+            return (
+              <div key={message.id || index} style={{ padding: '0 16px' }}>
+                <SectionHeading 
+                  title={messageText}
+                  data={sectionData}
+                />
+              </div>
+            );
+          }
+          
+          // Regular message rendering
           const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 
           return (
