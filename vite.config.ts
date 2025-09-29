@@ -10,6 +10,7 @@ export default defineConfig({
         server: {
                 host: '0.0.0.0',
                 port: 5000,
+                allowedHosts: true,
                 hmr: {
                         port: 5000,
                 },
@@ -17,6 +18,7 @@ export default defineConfig({
         preview: {
                 host: '0.0.0.0',
                 port: 5000,
+                allowedHosts: true,
         },
         resolve: {
                 alias: {
