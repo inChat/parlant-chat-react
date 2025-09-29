@@ -6,17 +6,28 @@ import dts from 'vite-plugin-dts';
 
 // https://vite.dev/config/
 export default defineConfig({
-	plugins: [react(), dts({ insertTypesEntry: true })],
-	resolve: {
-		alias: {
-			"@": path.resolve(".", "./src"),
+        plugins: [react(), dts({ insertTypesEntry: true })],
+        server: {
+                host: '0.0.0.0',
+                port: 5000,
+                hmr: {
+                        port: 5000,
+                },
+        },
+        preview: {
+                host: '0.0.0.0',
+                port: 5000,
+        },
+        resolve: {
+                alias: {
+                        "@": path.resolve(".", "./src"),
       "node-fetch": "cross-fetch",
-		},
-	},
+                },
+        },
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
-      entry: resolve(__dirname, 'src/index.js'), // Your library's entry point
+      entry: resolve(__dirname, 'src/index.ts'), // Your library's entry point
       name: 'ParlantChatReact', // The UMD global variable name
       // the proper extensions will be added
       // (fileName) => `my-lib.${format}.js` // More specific naming if needed
