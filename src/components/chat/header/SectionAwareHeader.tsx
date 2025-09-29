@@ -18,7 +18,9 @@ const useStyles = createUseStyles({
     alignItems: 'center',
     paddingInline: '20px',
     fontSize: '1.2rem',
-    transition: 'all 0.3s ease-in-out',
+    // Enhanced transitions for smooth section changes
+    transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    willChange: 'background, color', // Optimize for animations
   },
   headerContent: {
     fontSize: '1rem',
@@ -26,6 +28,9 @@ const useStyles = createUseStyles({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
+    // Add smooth text transitions
+    transition: 'color 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out',
+    willChange: 'color, opacity',
   },
   // Theme-based styles matching SectionHeading component
   supportTheme: {

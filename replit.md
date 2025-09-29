@@ -49,4 +49,7 @@ This is a React component library for integrating Parlant chat agents into React
 - Configured Vite for Replit environment with proper host settings
 - Set up workflow for development server
 - Configured deployment for production builds
+- **NEW**: Implemented visual section headings with themed styling and full-width separators
+- **NEW**: Created scroll-aware header component that dynamically shows current visible section
+- **NEW**: Added smooth CSS transitions for header background/text color changes between sections
 - Project successfully imported and running (Sept 29, 2025)
