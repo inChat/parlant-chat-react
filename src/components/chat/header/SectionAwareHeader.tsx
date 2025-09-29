@@ -6,6 +6,7 @@ interface SectionAwareHeaderProps {
   changeIsExpanded: () => void;
   agentName: string | undefined;
   messages: MessageInterface[];
+  currentVisibleSection?: { title: string; data: SectionHeadingData } | null;
 }
 
 const useStyles = createUseStyles({
@@ -87,33 +88,20 @@ const getThemeClass = (theme: string | undefined, classes: any): string => {
 const SectionAwareHeader: React.FC<SectionAwareHeaderProps> = ({ 
   changeIsExpanded, 
   agentName, 
-  messages 
+  messages, 
+  currentVisibleSection 
 }) => {
   const classes = useStyles();
 
-  // Find the most recent section heading message
-  const mostRecentSectionHeading = React.useMemo(() => {
-    // Iterate through messages in reverse order to find the most recent section heading
-    for (let i = messages.length - 1; i >= 0; i--) {
-      const message = messages[i];
-      if (message.data && typeof message.data === 'object' && 'section_heading' in message.data) {
-        // The message title is in the data.message field for section headings
-        const messageData = message.data as { message?: string; section_heading: SectionHeadingData };
-        return {
-          title: messageData.message || '',
-          data: messageData.section_heading
-        };
-      }
-    }
-    return null;
-  }, [messages]);
+  // Use the currentVisibleSection prop instead of calculating from messages
+  const visibleSection = currentVisibleSection;
 
-  // If no section heading exists, render empty header
-  if (!mostRecentSectionHeading) {
+  // If no section heading is visible, render empty header
+  if (!visibleSection) {
     return <div className={classes.empty} />;
   }
 
-  const themeClass = getThemeClass(mostRecentSectionHeading.data?.theme, classes);
+  const themeClass = getThemeClass(visibleSection.data?.theme, classes);
 
   return (
     <header 
@@ -122,7 +110,7 @@ const SectionAwareHeader: React.FC<SectionAwareHeaderProps> = ({
       aria-labelledby="section-header-title"
     >
       <div className={classes.headerContent} id="section-header-title">
-        <div>{mostRecentSectionHeading.title}</div>
+        <div>{visibleSection.title}</div>
       </div>
     </header>
   );

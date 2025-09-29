@@ -4,7 +4,7 @@ import type { MessageInterface, SectionHeadingData } from '@/components/chat/Cha
 import Message from '@/components/chat/message/Message';
 import SectionHeading from './SectionHeading';
 import clsx from 'clsx';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { COLORS } from '@/theme';
 
 interface MessageListProps {
@@ -24,6 +24,7 @@ interface MessageListProps {
   };
   chatDescription?: string;
   isExpanded?: boolean;
+  onCurrentSectionChange?: (section: { title: string; data: SectionHeadingData } | null) => void;
 }
 
 const useStyles = createUseStyles({
@@ -131,9 +132,89 @@ const MessageList = ({
   isExpanded,
   classNames,
   chatDescription,
+  onCurrentSectionChange,
 }: MessageListProps): JSX.Element => {
   const classes = useStyles();
   const messageListRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const [currentVisibleSection, setCurrentVisibleSection] = useState<{ title: string; data: SectionHeadingData } | null>(null);
+
+  // Function to determine which section is currently visible
+  const getCurrentVisibleSection = useCallback(() => {
+    if (!messageListRef.current) return null;
+
+    const container = messageListRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const containerTop = container.scrollTop;
+
+    // Get all section headings in order
+    const sectionMessages = messages.filter(isSectionHeading);
+    let visibleSection = null;
+
+    // Check which section is currently visible in the viewport
+    // We want to find the section that is currently "active" based on scroll position
+    for (let i = sectionMessages.length - 1; i >= 0; i--) {
+      const sectionMessage = sectionMessages[i];
+      const sectionKey = sectionMessage.id || `section-${i}`;
+      const sectionElement = sectionRefs.current.get(sectionKey);
+      
+      if (sectionElement) {
+        // Use getBoundingClientRect for more accurate position calculation
+        const sectionRect = sectionElement.getBoundingClientRect();
+        const sectionTop = sectionRect.top - containerRect.top + containerTop;
+        
+        // If this section is above or at the current scroll position, it's the active one
+        if (sectionTop <= containerTop + 100) { // 100px offset for better UX
+          const messageText = (sectionMessage.data as any)?.message || '';
+          const sectionData = getSectionHeadingData(sectionMessage);
+          
+          if (sectionData) {
+            visibleSection = {
+              key: sectionKey,
+              title: messageText,
+              data: sectionData
+            };
+          }
+          break;
+        }
+      }
+    }
+
+    return visibleSection;
+  }, [messages]);
+
+  // Handle scroll events with throttling using requestAnimationFrame
+  const handleScroll = useCallback(() => {
+    if (!messageListRef.current) return;
+    
+    requestAnimationFrame(() => {
+      const newVisibleSection = getCurrentVisibleSection();
+      
+      // Compare by unique key instead of just title for better change detection
+      const currentKey = (currentVisibleSection as any)?.key;
+      const newKey = (newVisibleSection as any)?.key;
+      
+      if (newKey !== currentKey) {
+        setCurrentVisibleSection(newVisibleSection);
+        onCurrentSectionChange?.(newVisibleSection);
+      }
+    });
+  }, [getCurrentVisibleSection, currentVisibleSection, onCurrentSectionChange]);
+
+  // Add scroll event listener with passive option for better performance
+  useEffect(() => {
+    const container = messageListRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check after a brief delay to ensure refs are set
+    setTimeout(handleScroll, 50);
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   useEffect(() => {
     // const top = messageListRef?.current?.scrollHeight;
@@ -171,8 +252,18 @@ const MessageList = ({
             const messageText = (message.data as any)?.message || '';
             const sectionData = getSectionHeadingData(message);
             
+            const sectionKey = message.id || `section-${index}`;
+            
             return (
-              <div key={message.id || index} style={{ padding: '0 16px' }}>
+              <div 
+                key={sectionKey} 
+                style={{ padding: '0 16px' }}
+                ref={(el) => {
+                  if (el) {
+                    sectionRefs.current.set(sectionKey, el);
+                  }
+                }}
+              >
                 <SectionHeading 
                   title={messageText}
                   data={sectionData}

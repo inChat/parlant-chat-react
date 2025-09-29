@@ -86,6 +86,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
         const [lastOffset, setLastOffset] = useState<number>(0);
         const [showInfo, setShowInfo] = useState<string>('');
         const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
+        const [currentVisibleSection, setCurrentVisibleSection] = useState<{ title: string; data: SectionHeadingData } | null>(null);
 
         const parlantClient = new ParlantClient({
                 environment: server,
@@ -221,7 +222,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
                         :
                         <>
                         {components?.header ?
-                                <components.header changeIsExpanded={changeIsExpandedFn} agentName={agentData?.name || agentName} messages={messages} /> :
+                                <components.header changeIsExpanded={changeIsExpandedFn} agentName={agentData?.name || agentName} messages={messages} currentVisibleSection={currentVisibleSection} /> :
                                 <ChatHeader
                                         agentName={agentData?.name || agentName}
                                         agentAvatar={agentAvatar}
@@ -237,6 +238,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
                                         classNames={classNames}
                                         isExpanded={isExpanded}
                                         chatDescription={chatDescription}
+                                        onCurrentSectionChange={setCurrentVisibleSection}
                                 />
 
                         <ChatInput

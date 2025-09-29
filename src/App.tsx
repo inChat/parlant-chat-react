@@ -93,7 +93,7 @@ export interface ChatProps {
                 popupButton?: (props: PopupButtonComponentProps) => ReactElement;
                 agentMessage?: (props: MessageComponentProps) => ReactElement;
                 customerMessage?: (props: MessageComponentProps) => ReactElement;
-                header?: ({changeIsExpanded, agentName, messages}: {changeIsExpanded: () => void; agentName: string | undefined; messages?: MessageInterface[];}) => ReactElement;
+                header?: ({changeIsExpanded, agentName, messages, currentVisibleSection}: {changeIsExpanded: () => void; agentName: string | undefined; messages?: MessageInterface[]; currentVisibleSection?: { title: string; data: any } | null;}) => ReactElement;
         };
         onSessionCreated?: (sessionId: string) => void;
 }
@@ -102,15 +102,17 @@ const queryClient = new QueryClient();
 
 // Helper function to create a section-aware header component
 export const createSectionAwareHeader = () => 
-  ({ changeIsExpanded, agentName, messages }: {
+  ({ changeIsExpanded, agentName, messages, currentVisibleSection }: {
     changeIsExpanded: () => void; 
     agentName: string | undefined; 
     messages?: MessageInterface[];
+    currentVisibleSection?: { title: string; data: any } | null;
   }) => (
     <SectionAwareHeader 
       changeIsExpanded={changeIsExpanded}
       agentName={agentName}
       messages={messages || []}
+      currentVisibleSection={currentVisibleSection}
     />
   );
 
