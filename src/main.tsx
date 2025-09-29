@@ -4,19 +4,19 @@ import Chatbox from './App';
 import type { MessageInterface } from './components/chat/Chat';
 import './index.css';
 
-// Mock conversation data for development testing
+// Mock conversation data for SEP MVP - Symptom Story Builder
 const createMockConversation = (): MessageInterface[] => {
   const baseTime = new Date();
   const messages: MessageInterface[] = [
     {
       kind: 'message',
       source: 'human_agent_on_behalf_of_ai_agent',
-      creationUtc: new Date(baseTime.getTime() - 300000), // 5 minutes ago
+      creationUtc: new Date(baseTime.getTime() - 300000),
       id: 'msg-1',
       deleted: false,
       offset: 0,
       correlationId: 'init-1',
-      data: { message: 'Hello! I\'m Sarah, your customer support agent. How can I help you today?' },
+      data: { message: 'Hello! I\'m here to help you explore and understand your experiences. This is a safe space to reflect on what you\'ve been going through. What brought you here today?' },
       status: 'ready',
     },
     {
@@ -27,7 +27,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 1,
       correlationId: 'cust-1',
-      data: { message: 'Hi! I\'m having trouble with my recent order. It was supposed to arrive yesterday but I haven\'t received it yet.' },
+      data: { message: 'Hi... I\'ve been struggling a lot with my studies lately. I can\'t seem to focus, and I keep missing deadlines even though I really want to do well. A friend mentioned I might have ADHD, but I\'m not sure.' },
       status: 'ready',
     },
     {
@@ -38,7 +38,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 2,
       correlationId: 'agent-1',
-      data: { message: 'I\'m sorry to hear about the delay with your order. Let me help you track that down. Could you please provide me with your order number?' },
+      data: { message: 'Thank you for sharing that with me. It takes courage to reach out when you\'re struggling. Focus and deadline challenges are experiences many people have, and it\'s completely valid to want to understand them better. Can you tell me more about when you first started noticing these difficulties?' },
       status: 'ready',
     },
     {
@@ -49,7 +49,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 3,
       correlationId: 'cust-2',
-      data: { message: 'Sure, it\'s #ORD-2024-789456' },
+      data: { message: 'I think it\'s been worse since I started university, but looking back, I remember having trouble in secondary school too. I was always the one who forgot homework or got distracted during lessons.' },
       status: 'ready',
     },
     {
@@ -60,7 +60,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 4,
       correlationId: 'agent-2',
-      data: { message: 'Thank you! Let me look that up for you right away. I can see your order for the wireless headphones was shipped on Monday via standard delivery. According to our tracking system, there appears to have been a delay at the sorting facility due to high volume.' },
+      data: { message: 'It sounds like you\'ve been dealing with these challenges for quite a while. University can definitely intensify existing difficulties because of the increased independence and workload. When you mention getting distracted, what does that typically look like for you? Are there particular situations where it happens more?' },
       status: 'ready',
     },
     {
@@ -71,7 +71,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 5,
       correlationId: 'cust-3',
-      data: { message: 'Oh no, that\'s frustrating. Do you know when I can expect to receive it?' },
+      data: { message: 'In lectures, my mind just wanders. I\'ll start thinking about something completely unrelated, or I\'ll notice sounds around me that others don\'t seem bothered by. At home, I\'ll sit down to study and end up cleaning my room or scrolling my phone for hours instead.' },
       status: 'ready',
     },
     {
@@ -82,7 +82,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 6,
       correlationId: 'agent-3',
-      data: { message: 'I completely understand your frustration. The good news is that your package is now back on track and should arrive by tomorrow afternoon. I\'ve also applied a 15% discount to your account as an apology for the inconvenience. You\'ll see this credit reflected in your next purchase.' },
+      data: { message: 'What you\'re describing - the mind wandering, sensitivity to sounds, and difficulty initiating tasks you intend to do - these are all very real experiences that many people with attention difficulties share. It\'s not about lack of willpower or intelligence. How do you feel after these situations happen?' },
       status: 'ready',
     },
     {
@@ -93,7 +93,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 7,
       correlationId: 'cust-4',
-      data: { message: 'That\'s very thoughtful, thank you! I appreciate the discount. Will I get a tracking notification when it\'s out for delivery?' },
+      data: { message: 'Frustrated, mainly. And guilty. I feel like I should be able to just... do better? Like other people don\'t seem to have such a hard time with basic things. Sometimes I wonder if I\'m just lazy or making excuses.' },
       status: 'ready',
     },
     {
@@ -104,7 +104,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 8,
       correlationId: 'agent-4',
-      data: { message: 'Absolutely! You\'ll receive both an email and SMS notification when your package is out for delivery. Plus, I\'ve set up a premium tracking alert so you\'ll get real-time updates throughout the day.' },
+      data: { message: 'Those feelings are so common and understandable. Many people with ADHD experience that internal criticism and self-doubt. But what you\'re describing isn\'t laziness - it sounds like your brain might be wired differently, which isn\'t your fault. Have you noticed if certain environments or times of day make focusing easier or harder?' },
       status: 'ready',
     },
     {
@@ -115,7 +115,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 9,
       correlationId: 'cust-5',
-      data: { message: 'Perfect! One more question - if the headphones don\'t fit well, what\'s your return policy?' },
+      data: { message: 'Actually, yes! I focus much better late at night when it\'s quiet. And if I\'m really interested in something, I can hyperfocus for hours - sometimes I even forget to eat. But that doesn\'t happen with coursework usually.' },
       status: 'ready',
     },
     {
@@ -126,7 +126,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 10,
       correlationId: 'agent-5',
-      data: { message: 'Great question! We offer a 30-day return policy with free return shipping. If they don\'t fit perfectly or you\'re not completely satisfied, just initiate a return through your account dashboard or contact us directly. We want you to love your purchase!' },
+      data: { message: 'That\'s a really important observation! The late-night focus and hyperfocus experiences you describe are very characteristic patterns. It shows your brain can focus intensely - it\'s just selective about when and on what. This interest-based attention is something many people with ADHD experience. How does this affect your daily routine and sleep?' },
       status: 'ready',
     },
     {
@@ -137,7 +137,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 11,
       correlationId: 'cust-6',
-      data: { message: 'Excellent! That gives me peace of mind. I think that covers all my questions.' },
+      data: { message: 'My sleep schedule is all over the place. I often stay up until 3 or 4 AM because that\'s when I finally feel productive, then I\'m exhausted the next day. I\'ve tried going to bed earlier but I just lie awake with racing thoughts.' },
       status: 'ready',
     },
     {
@@ -148,7 +148,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 12,
       correlationId: 'agent-6',
-      data: { message: 'Wonderful! I\'m so glad I could help resolve this for you. Just to recap: your headphones will arrive tomorrow afternoon, you\'ll get delivery notifications, there\'s a 15% credit on your account, and you have 30 days to return if needed. Is there anything else I can assist you with today?' },
+      data: { message: 'Sleep difficulties and racing thoughts at bedtime are very common experiences for people with ADHD. Your brain might be most calm and focused when the world is quiet, but this creates that cycle you described. Beyond focus and sleep, have you noticed challenges with things like organization, time management, or emotional regulation?' },
       status: 'ready',
     },
     {
@@ -159,7 +159,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 13,
       correlationId: 'cust-7',
-      data: { message: 'Actually, yes! I was thinking about ordering a phone case to go with my phone. Do you have any recommendations for iPhone 15 Pro?' },
+      data: { message: 'Oh yes, definitely. I\'m constantly running late even though I hate being late. I lose things all the time - keys, phone, important papers. And I can go from fine to overwhelmed really quickly, especially if plans change suddenly.' },
       status: 'ready',
     },
     {
@@ -170,7 +170,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 14,
       correlationId: 'agent-7',
-      data: { message: 'Absolutely! For the iPhone 15 Pro, I\'d highly recommend our TechGuard Pro series. It offers military-grade drop protection, wireless charging compatibility, and comes in several stylish colors. We also have a more budget-friendly option called FlexiCase that still provides excellent protection. Would you like me to show you both options?' },
+      data: { message: 'You\'re building a really comprehensive picture of your experiences. Time blindness, difficulty with organization, and sensitivity to changes - these all fit into a pattern that many people with ADHD recognize. The fact that you hate being late but still struggle with it shows this isn\'t about not caring. How has this been affecting your relationships and university experience?' },
       status: 'ready',
     },
     {
@@ -181,7 +181,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 15,
       correlationId: 'cust-8',
-      data: { message: 'The TechGuard Pro sounds interesting! What colors are available and what\'s the price?' },
+      data: { message: 'I worry my friends think I\'m unreliable. And I feel like I\'m not living up to my potential at uni. I know I\'m smart, but my grades don\'t reflect that. I\'ve even thought about dropping out because I feel so behind and overwhelmed.' },
       status: 'ready',
     },
     {
@@ -192,7 +192,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 16,
       correlationId: 'agent-8',
-      data: { message: 'The TechGuard Pro is $49.99 and comes in Midnight Black, Ocean Blue, Forest Green, and Rose Gold. It features a raised camera bump protection, precision cutouts for all buttons and ports, and a lifetime warranty against manufacturer defects. Plus, with your existing 15% discount, it would be just $42.49!' },
+      data: { message: 'Thank you for sharing something so personal. That disconnect between knowing you\'re capable and not seeing it reflected in your performance is heartbreaking and exhausting. Please know that considering dropping out doesn\'t mean you\'re not strong enough - it means you\'re recognizing you need different support. Have you been able to talk to anyone at university about these struggles?' },
       status: 'ready',
     },
     {
@@ -203,7 +203,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 17,
       correlationId: 'cust-9',
-      data: { message: 'Ocean Blue sounds perfect! Can I add that to my account for my next order?' },
+      data: { message: 'I\'ve thought about it, but I don\'t really know where to start. I\'m worried they\'ll think I\'m just making excuses or that I can\'t handle university. What if I\'m wrong about the ADHD thing?' },
       status: 'ready',
     },
     {
@@ -214,7 +214,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 18,
       correlationId: 'agent-9',
-      data: { message: 'Absolutely! I\'ve added the TechGuard Pro in Ocean Blue to your wishlist and applied the 15% discount. You can complete the purchase anytime from your account dashboard. The case would ship within 1-2 business days with free standard shipping, or next-day delivery for $4.99.' },
+      data: { message: 'Those concerns make complete sense. Seeking help can feel vulnerable, especially when you\'ve been struggling for a while. But what you\'ve shared with me today - the specific patterns, the impact on your life, the timeline - these aren\'t excuses, they\'re valid experiences that deserve attention regardless of what the outcome might be.' },
       status: 'ready',
     },
     {
@@ -225,7 +225,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 19,
       correlationId: 'cust-10',
-      data: { message: 'Perfect! Thank you so much for all your help today. You\'ve been incredibly helpful and patient.' },
+      data: { message: 'I hadn\'t thought about it that way. This conversation has helped me realize I\'m not just imagining things. What would you suggest as a next step?' },
       status: 'ready',
     },
     {
@@ -236,7 +236,7 @@ const createMockConversation = (): MessageInterface[] => {
       deleted: false,
       offset: 20,
       correlationId: 'agent-10',
-      data: { message: 'It was my absolute pleasure helping you today! I\'m so glad we could get everything sorted out. Enjoy your new headphones when they arrive tomorrow, and don\'t hesitate to reach out if you have any questions about them or anything else. Have a wonderful day! 😊' },
+      data: { message: 'I\'m so glad this has been helpful. You\'ve articulated your experiences really clearly today, which is exactly the kind of self-reflection that will serve you well. Consider reaching out to your university\'s disability services or student counseling - they\'re there to support you, not judge you. You might also keep a brief daily log of your experiences to share with a healthcare provider. Remember, seeking answers is a sign of strength, not weakness.' },
       status: 'ready',
     },
   ];
@@ -251,8 +251,8 @@ const MockChatbox = ({ float = false }: { float?: boolean }) => {
   return (
     <Chatbox 
       server="mock://demo" 
-      agentName="Sarah (Support Agent)"
-      chatDescription="Customer Support Chat"
+      agentName="SEP Support Assistant"
+      chatDescription="Smart Encouragement Platform - ADHD Support"
       float={float}
       mockMessages={mockMessages}
       // Use a mock sessionId to prevent real server calls
