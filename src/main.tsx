@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import Chatbox from './App';
+import Chatbox, { createSectionAwareHeader } from './App';
 import type { MessageInterface } from './components/chat/Chat';
 import './index.css';
 
@@ -293,6 +293,9 @@ const MockChatbox = ({ float = false }: { float?: boolean }) => {
       mockMessages={mockMessages}
       // Use a mock sessionId to prevent real server calls
       sessionId="mock-session-12345"
+      components={{
+        header: createSectionAwareHeader()
+      }}
     />
   );
 };

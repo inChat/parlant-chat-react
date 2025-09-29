@@ -4,6 +4,7 @@ import type {JSX, ReactElement} from 'react';
 import {ChevronDown, ChevronUp} from 'lucide-react';
 import Chat from '@/components/chat/Chat';
 import type {MessageInterface} from '@/components/chat/Chat';
+import SectionAwareHeader from '@/components/chat/header/SectionAwareHeader';
 import {Button} from '@/components/ui/Button';
 import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/Popover';
 import {createUseStyles} from 'react-jss';
@@ -92,12 +93,26 @@ export interface ChatProps {
                 popupButton?: (props: PopupButtonComponentProps) => ReactElement;
                 agentMessage?: (props: MessageComponentProps) => ReactElement;
                 customerMessage?: (props: MessageComponentProps) => ReactElement;
-                header?: ({changeIsExpanded, agentName}: {changeIsExpanded: () => void; agentName: string | undefined;}) => ReactElement;
+                header?: ({changeIsExpanded, agentName, messages}: {changeIsExpanded: () => void; agentName: string | undefined; messages?: MessageInterface[];}) => ReactElement;
         };
         onSessionCreated?: (sessionId: string) => void;
 }
 
 const queryClient = new QueryClient();
+
+// Helper function to create a section-aware header component
+export const createSectionAwareHeader = () => 
+  ({ changeIsExpanded, agentName, messages }: {
+    changeIsExpanded: () => void; 
+    agentName: string | undefined; 
+    messages?: MessageInterface[];
+  }) => (
+    <SectionAwareHeader 
+      changeIsExpanded={changeIsExpanded}
+      agentName={agentName}
+      messages={messages || []}
+    />
+  );
 
 const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames, onSessionCreated, mockMessages}: ChatProps): JSX.Element => {
         const classes = useStyles();
