@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import Chatbox, { createSectionAwareHeader } from './App';
+import SEPChatbox, { createSectionAwareHeader } from './SEPChatbox';
 import type { MessageInterface } from './components/chat/Chat';
 import './index.css';
 
@@ -285,7 +285,7 @@ const MockChatbox = ({ float = false }: { float?: boolean }) => {
   const mockMessages = createMockConversation();
   
   return (
-    <Chatbox 
+    <SEPChatbox 
       server="mock://demo" 
       agentName="SEP Support Assistant"
       chatDescription="Smart Encouragement Platform - ADHD Support"
@@ -293,6 +293,7 @@ const MockChatbox = ({ float = false }: { float?: boolean }) => {
       mockMessages={mockMessages}
       // Use a mock sessionId to prevent real server calls
       sessionId="mock-session-12345"
+      persistSession={false}
       components={{
         header: createSectionAwareHeader()
       }}
@@ -331,11 +332,15 @@ function App() {
           {useMockData ? (
             <MockChatbox />
           ) : (
-            <Chatbox 
+            <SEPChatbox 
               server="https://demo.parlant.io" 
               agentId="demo-agent"
               agentName="Demo Agent"
               chatDescription="Chat with our demo agent"
+              persistSession={true}
+              components={{
+                header: createSectionAwareHeader()
+              }}
             />
           )}
         </div>
@@ -347,12 +352,16 @@ function App() {
         {useMockData ? (
           <MockChatbox float />
         ) : (
-          <Chatbox 
+          <SEPChatbox 
             float
             server="https://demo.parlant.io" 
             agentId="demo-agent"
             agentName="Demo Agent"
             chatDescription="Chat with our demo agent"
+            persistSession={true}
+            components={{
+              header: createSectionAwareHeader()
+            }}
           />
         )}
       </div>
