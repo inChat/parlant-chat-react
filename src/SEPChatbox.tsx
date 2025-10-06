@@ -40,6 +40,17 @@ const SEPChatbox = ({
         const daysSinceLastAccess = (Date.now() - data.lastAccessed) / (1000 * 60 * 60 * 24);
         if (daysSinceLastAccess < sessionExpiryDays) {
           setPersistedData(data);
+          
+          // Update lastAccessed timestamp to refresh the expiry window
+          const updatedData: StoredSessionData = {
+            ...data,
+            lastAccessed: Date.now()
+          };
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
+          } catch (updateError) {
+            console.error('Failed to update session timestamp:', updateError);
+          }
         } else {
           // Clear expired session
           localStorage.removeItem(STORAGE_KEY);
