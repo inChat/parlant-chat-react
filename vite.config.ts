@@ -7,6 +7,9 @@ import dts from 'vite-plugin-dts';
 // https://vite.dev/config/
 export default defineConfig({
         plugins: [react(), dts({ insertTypesEntry: true })],
+        define: {
+          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+        },
         server: {
                 host: '0.0.0.0',
                 port: 5000,

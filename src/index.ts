@@ -1,3 +1,4 @@
-import Chatbox from '@/App';
+import Chatbox, { createSectionAwareHeader } from '@/App';
 
 export default Chatbox;
+export { createSectionAwareHeader };
