@@ -26,3 +26,6 @@ dist-ssr
 # VS Code settings
 .vscode/settings.json
 devnotes.md
+
+# Development preview file (not for production)
+dev-preview.html
