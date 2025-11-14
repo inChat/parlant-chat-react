@@ -283,7 +283,7 @@ const createMockConversation = (): MessageInterface[] => {
 // Mock Chat Component that uses predefined messages
 const MockChatbox = ({ float = false }: { float?: boolean }) => {
   const mockMessages = createMockConversation();
-  
+
   return (
     <SEPChatbox 
       server="mock://demo" 
