@@ -1,10 +1,13 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { MessageInterface, SectionHeadingData } from '@/components/chat/Chat';
+import { COLORS } from '@/theme';
+import type { JSX } from 'react';
 
 interface SectionAwareHeaderProps {
   changeIsExpanded: () => void;
   agentName: string | undefined;
+  agentAvatar?: JSX.Element;
   messages: MessageInterface[];
   currentVisibleSection?: { title: string; data: SectionHeadingData } | null;
 }
@@ -19,8 +22,8 @@ const useStyles = createUseStyles({
     paddingInline: '20px',
     fontSize: '1.2rem',
     // Enhanced transitions for ALL changing properties
-    transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s ease, padding 0.3s ease, border-bottom-color 0.3s ease',
-    willChange: 'background, color, height, padding, border-bottom-color',
+    transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    willChange: 'background, color',
   },
   headerContent: {
     fontSize: '1rem',
@@ -32,17 +35,23 @@ const useStyles = createUseStyles({
     transition: 'color 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out',
     willChange: 'color, opacity',
   },
-  // New collapsed state (replaces empty element)
-  collapsed: {
-    height: '0',
-    paddingInline: '0',
-    paddingBlock: '0',
-    overflow: 'hidden',
-    borderBottomColor: 'transparent',
+  // Fallback/default state - shows agent name
+  fallbackTheme: {
+    background: 'white',
+    color: COLORS.primaryText,
   },
-  // New content hidden state
-  contentHidden: {
-    opacity: 0,
+  // Agent initials avatar (matching ChatHeader)
+  agentInitials: {
+    fontSize: '20px',
+    fontWeight: '700',
+    color: 'white',
+    backgroundColor: COLORS.darkGrey,
+    borderRadius: '6.5px',
+    paddingInline: '7.8px',
+    paddingBlock: '5px',
+    marginInlineEnd: '18px',
+    lineHeight: '100%',
+    width: 'fit-content',
   },
   // Theme-based styles matching SectionHeading component
   supportTheme: {
@@ -96,7 +105,8 @@ const getThemeClass = (theme: string | undefined, classes: any): string => {
 
 const SectionAwareHeader: React.FC<SectionAwareHeaderProps> = ({ 
   changeIsExpanded, 
-  agentName, 
+  agentName,
+  agentAvatar, 
   messages, 
   currentVisibleSection 
 }) => {
@@ -105,21 +115,33 @@ const SectionAwareHeader: React.FC<SectionAwareHeaderProps> = ({
   // Use the currentVisibleSection prop instead of calculating from messages
   const visibleSection = currentVisibleSection;
 
-  // Always render the same header element, use classes to control appearance
-  const isCollapsed = !visibleSection;
-  const themeClass = visibleSection ? getThemeClass(visibleSection.data?.theme, classes) : '';
+  // Determine which theme to use: section theme or fallback
+  const themeClass = visibleSection 
+    ? getThemeClass(visibleSection.data?.theme, classes) 
+    : classes.fallbackTheme;
 
   return (
     <header 
-      className={`${classes.header} ${isCollapsed ? classes.collapsed : themeClass}`}
+      className={`${classes.header} ${themeClass}`}
       role="banner"
       aria-labelledby="section-header-title"
     >
       <div 
-        className={`${classes.headerContent} ${isCollapsed ? classes.contentHidden : ''}`} 
+        className={classes.headerContent} 
         id="section-header-title"
       >
-        <div>{visibleSection?.title || ''}</div>
+        {visibleSection ? (
+          <div>{visibleSection.title}</div>
+        ) : (
+          <>
+            {agentAvatar || (agentName && (
+              <div className={classes.agentInitials} aria-hidden="true">
+                {agentName[0]?.toUpperCase()}
+              </div>
+            ))}
+            {agentName && <div>{agentName}</div>}
+          </>
+        )}
       </div>
     </header>
   );

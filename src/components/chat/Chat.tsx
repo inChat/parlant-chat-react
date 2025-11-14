@@ -222,7 +222,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
                         :
                         <>
                         {components?.header ?
-                                <components.header changeIsExpanded={changeIsExpandedFn} agentName={agentData?.name || agentName} messages={messages} currentVisibleSection={currentVisibleSection} /> :
+                                <components.header changeIsExpanded={changeIsExpandedFn} agentName={agentData?.name || agentName} agentAvatar={agentAvatar} messages={messages} currentVisibleSection={currentVisibleSection} /> :
                                 <ChatHeader
                                         agentName={agentData?.name || agentName}
                                         agentAvatar={agentAvatar}

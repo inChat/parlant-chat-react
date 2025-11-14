@@ -52,4 +52,6 @@ This is a React component library for integrating Parlant chat agents into React
 - **NEW**: Implemented visual section headings with themed styling and full-width separators
 - **NEW**: Created scroll-aware header component that dynamically shows current visible section
 - **NEW**: Added smooth CSS transitions for header background/text color changes between sections
+- **NEW**: Implemented fallback header that shows agent name and avatar when no sections exist
+- **NEW**: Header seamlessly transitions between fallback (white background) and section themes
 - Project successfully imported and running (Sept 29, 2025)

@@ -37,7 +37,7 @@ const createMockConversation = (): MessageInterface[] => {
       data: { message: 'Hello! I\'m here to help you explore and understand your experiences. This is a safe space to reflect on what you\'ve been going through. What brought you here today?' },
       status: 'ready',
     },
-    {
+    /*{
       kind: 'message',
       source: 'customer',
       creationUtc: new Date(baseTime.getTime() - 290000),
@@ -275,6 +275,7 @@ const createMockConversation = (): MessageInterface[] => {
       data: { message: 'I\'m so glad this has been helpful. You\'ve articulated your experiences really clearly today, which is exactly the kind of self-reflection that will serve you well. Consider reaching out to your university\'s disability services or student counseling - they\'re there to support you, not judge you. You might also keep a brief daily log of your experiences to share with a healthcare provider. Remember, seeking answers is a sign of strength, not weakness.' },
       status: 'ready',
     },
+    */
   ];
   
   return messages;

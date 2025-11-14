@@ -101,15 +101,17 @@ const SEPChatbox = ({
 
 // Helper function to create a section-aware header component
 export const createSectionAwareHeader = () => 
-  ({ changeIsExpanded, agentName, messages, currentVisibleSection }: {
+  ({ changeIsExpanded, agentName, agentAvatar, messages, currentVisibleSection }: {
     changeIsExpanded: () => void; 
-    agentName: string | undefined; 
+    agentName: string | undefined;
+    agentAvatar?: ReactElement;
     messages?: MessageInterface[];
     currentVisibleSection?: { title: string; data: any } | null;
   }): ReactElement => (
     <SectionAwareHeader 
       changeIsExpanded={changeIsExpanded}
       agentName={agentName}
+      agentAvatar={agentAvatar}
       messages={messages || []}
       currentVisibleSection={currentVisibleSection}
     />
