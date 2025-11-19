@@ -29,6 +29,7 @@ const useStyles = createUseStyles({
     lineHeight: '3rem',
     paddingInlineStart: '1.125rem',
     marginTop: '1rem',
+    marginBottom: '1rem',
     boxShadow: '0px 3px 3px 0px #00000005',
     paddingRight: '0',
     height: '3.375rem',
@@ -37,7 +38,7 @@ const useStyles = createUseStyles({
     '@media (max-width: 768px)': {
       marginInline: '10px',
       marginTop: '0.5rem',
-      marginBottom: '0.5rem',
+      marginBottom: '0.75rem',
     },
   },
   textArea: {
