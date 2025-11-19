@@ -16,7 +16,7 @@ import { messageSound } from '@/utils/utils';
 const useStyles = createUseStyles({
         chatbox: {
                 background: 'white',
-                height: 'min(48.75rem,70vh)',
+                height: 'min(48.75rem,70dvh)',
                 maxHeight: '100dvh',
                 borderRadius: '20px',
                 display: 'flex',
@@ -34,7 +34,7 @@ const useStyles = createUseStyles({
         },
         expandedChatbox: {
                 width: '920px',
-                height: 'min(880px,80vh)',
+                height: 'min(880px,80dvh)',
                 maxWidth: '95vw',
         }
 });

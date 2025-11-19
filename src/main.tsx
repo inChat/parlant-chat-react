@@ -313,7 +313,7 @@ function App() {
       padding: '20px', 
       fontFamily: 'Inter, sans-serif',
       backgroundColor: '#f5f5f5',
-      minHeight: '100vh'
+      minHeight: '100dvh'
     }}>
       <h1>Parlant Chat React - Development Demo</h1>
       <p>This is a development environment for the Parlant Chat React component.</p>
