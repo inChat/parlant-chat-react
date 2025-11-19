@@ -12,19 +12,24 @@ interface ChatFooterProps {
 const useStyles = createUseStyles({
   bottomLine: {
     paddingInline: '25px',
-    left: '1rem',
-    bottom: '-20px',
     margin: 0,
     lineHeight: 'normal',
     fontSize: '11px',
     fontWeight: '500',
     color: COLORS.mutedText,
     alignItems: 'center',
-    height: '37px',
+    minHeight: '37px',
     display: 'flex',
+    flexShrink: 0,
+    paddingBottom: '8px',
     '& > div': {
       flex: 1,
-    }
+    },
+    '@media (max-width: 768px)': {
+      paddingInline: '10px',
+      minHeight: '32px',
+      fontSize: '10px',
+    },
   },
   statusInvisible: {
     visibility: 'hidden',

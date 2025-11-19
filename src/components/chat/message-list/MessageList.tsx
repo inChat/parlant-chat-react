@@ -30,6 +30,7 @@ interface MessageListProps {
 const useStyles = createUseStyles({
   messagesArea: {
     flex: 1,
+    minHeight: 0,
     overflow: 'auto',
     scrollbarWidth: 'thin',
     scrollbarColor: 'gray transparent',

@@ -18,6 +18,7 @@ const useStyles = createUseStyles({
   textareaWrapper: {
     marginInline: '20px',
     flex: 'none',
+    flexShrink: 0,
     position: 'relative',
     border: `1px solid #EEEEEE`,
     borderRadius: '10px',
@@ -33,6 +34,11 @@ const useStyles = createUseStyles({
     height: '3.375rem',
     maxWidth: '1000px',
     gap: '4px',
+    '@media (max-width: 768px)': {
+      marginInline: '10px',
+      marginTop: '0.5rem',
+      marginBottom: '0.5rem',
+    },
   },
   textArea: {
     boxShadow: 'none',

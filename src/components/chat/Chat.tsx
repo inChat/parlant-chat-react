@@ -17,12 +17,20 @@ const useStyles = createUseStyles({
         chatbox: {
                 background: 'white',
                 height: 'min(48.75rem,70vh)',
+                maxHeight: '100dvh',
                 borderRadius: '20px',
                 display: 'flex',
                 fontFamily: 'Inter',
                 flexDirection: 'column',
                 transition: 'all 0.3s ease-in-out',
                 width: '27.75rem',
+                overflow: 'hidden',
+                '@media (max-width: 768px)': {
+                        height: '100dvh',
+                        maxHeight: '100dvh',
+                        width: '100vw',
+                        borderRadius: 0,
+                },
         },
         expandedChatbox: {
                 width: '920px',
