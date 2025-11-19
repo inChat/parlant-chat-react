@@ -37,6 +37,7 @@ export interface MessageInterface extends Event {
 }
 
 export interface SectionHeadingData {
+        title?: string;
         subtitle?: string;
         image_url?: string;
         theme?: string;

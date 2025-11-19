@@ -17,8 +17,9 @@ const createMockConversation = (): MessageInterface[] => {
       offset: 0,
       correlationId: 'section-1',
       data: { 
-        message: 'Welcome & Initial Exploration',
+        message: 'I\'m here to help you think through your lived experience so you can clarify and validate your thoughts. Let\'s get started!',
         section_heading: {
+          title: 'Welcome & Initial Exploration',
           subtitle: 'Let\'s start by understanding what brought you here',
           theme: 'support',
           icon: '🌟'
@@ -90,8 +91,9 @@ const createMockConversation = (): MessageInterface[] => {
       offset: 5,
       correlationId: 'section-2',
       data: { 
-        message: 'Understanding Your Challenges',
+        message: 'Now let\'s dive deeper into what you\'re experiencing day-to-day.',
         section_heading: {
+          title: 'Understanding Your Challenges',
           subtitle: 'Let\'s explore what focus and attention feel like for you',
           theme: 'focus',
           icon: '🎯'

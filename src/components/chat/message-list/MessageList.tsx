@@ -165,13 +165,13 @@ const MessageList = ({
         
         // If this section is above or at the current scroll position, it's the active one
         if (sectionTop <= containerTop + 100) { // 100px offset for better UX
-          const messageText = (sectionMessage.data as any)?.message || '';
           const sectionData = getSectionHeadingData(sectionMessage);
+          const sectionTitle = sectionData?.title || (sectionMessage.data as any)?.message || '';
           
           if (sectionData) {
             visibleSection = {
               key: sectionKey,
-              title: messageText,
+              title: sectionTitle,
               data: sectionData
             };
           }
@@ -247,36 +247,32 @@ const MessageList = ({
       </div>
       <div role="list">
         {messages.map((message, index) => {
-          // Check if this is a section heading
-          if (isSectionHeading(message)) {
-            const messageText = (message.data as any)?.message || '';
-            const sectionData = getSectionHeadingData(message);
-            
-            const sectionKey = message.id || `section-${index}`;
-            
-            return (
-              <div 
-                key={sectionKey} 
-                style={{ padding: '0 16px' }}
-                ref={(el) => {
-                  if (el) {
-                    sectionRefs.current.set(sectionKey, el);
-                  }
-                }}
-              >
-                <SectionHeading 
-                  title={messageText}
-                  data={sectionData}
-                />
-              </div>
-            );
-          }
+          const isSection = isSectionHeading(message);
+          const sectionKey = message.id || `section-${index}`;
           
-          // Regular message rendering
+          // Regular message rendering component
           const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 
           return (
             <div key={message.id || index}>
+              {/* Render section heading if this message has section metadata */}
+              {isSection && (
+                <div 
+                  style={{ padding: '0 16px' }}
+                  ref={(el) => {
+                    if (el) {
+                      sectionRefs.current.set(sectionKey, el);
+                    }
+                  }}
+                >
+                  <SectionHeading 
+                    title={(message.data as any)?.section_heading?.title || ''}
+                    data={getSectionHeadingData(message)}
+                  />
+                </div>
+              )}
+              
+              {/* Always render the message itself */}
               <Component
                 isSameSourceAsPrevious={message?.source === messages[index - 1]?.source}
                 isNextSourceSame={message?.source === messages[index + 1]?.source}
