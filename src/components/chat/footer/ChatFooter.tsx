@@ -61,28 +61,13 @@ const ChatFooter = ({ showInfo, className }: ChatFooterProps): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <footer className={clsx(classes.bottomLine, className)} role="contentinfo">
+    <footer className={clsx(classes.bottomLine, className)} role="contentinfo" style={{ display: 'none' }}>
       <div 
         role="status"
         aria-live="polite"
         className={clsx(classes.statusInvisible)}
       >
         {showInfo}
-      </div>
-      <div className={classes.poweredBy}>
-        <div className={classes.poweredByContainer}>
-          Powered by open-source
-          <a href="https://parlant.io" target="_blank" style={{width: 'max-content'}}>
-            <img 
-              src={ParlantLogoFull} 
-              alt="" 
-              height={15} 
-              width={65} 
-              style={{ objectFit: 'contain', marginTop: '2px' }}
-              aria-hidden="true"
-            />
-          </a>
-        </div>
       </div>
     </footer>
   );
