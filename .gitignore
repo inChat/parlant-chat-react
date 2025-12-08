@@ -29,3 +29,6 @@ devnotes.md
 
 # Development preview file (not for production)
 dev-preview.html
+
+# Attached assets - SEP test files
+attached_assets/sep_*.html
