@@ -1,5 +1,5 @@
 import Chatbox from '@/App';
-import { createSectionAwareHeader } from '@/SEPChatbox';
+import SEPChatbox, { createSectionAwareHeader } from '@/SEPChatbox';
 
 export default Chatbox;
-export { createSectionAwareHeader };
+export { SEPChatbox, createSectionAwareHeader };
