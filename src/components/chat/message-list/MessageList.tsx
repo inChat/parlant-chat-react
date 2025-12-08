@@ -272,7 +272,7 @@ const MessageList = ({
                   />
                 </div>
               )}
-              
+
               {/* Always render the message itself */}
               <Component
                 isSameSourceAsPrevious={message?.source === messages[index - 1]?.source}

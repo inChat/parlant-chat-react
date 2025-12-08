@@ -5,7 +5,7 @@ import type { SectionHeadingData } from '../Chat';
 
 const useStyles = createUseStyles({
   sectionHeading: {
-    width: '100%',
+    width: '95%',
     padding: '20px 16px',
     margin: '16px 0 8px 0',
     background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
