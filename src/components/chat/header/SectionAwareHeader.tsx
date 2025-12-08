@@ -15,7 +15,7 @@ interface SectionAwareHeaderProps {
 const useStyles = createUseStyles({
   header: {
     height: '4rem',
-    borderRadius: '20px 20px 0 0',
+    borderRadius: '0',
     borderBottom: '1px solid #EEEEEE',
     display: 'flex',
     alignItems: 'center',
