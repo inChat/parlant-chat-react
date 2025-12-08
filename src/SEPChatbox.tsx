@@ -15,21 +15,27 @@ interface StoredSessionData {
 interface SEPChatProps extends ChatProps {
   persistSession?: boolean;
   sessionExpiryDays?: number;
+  autoGreeting?: string;
 }
 
 const SEPChatbox = ({ 
   persistSession = true,
   sessionExpiryDays = 30,
+  autoGreeting,
   customerId: providedCustomerId,
   sessionId: providedSessionId,
   onSessionCreated,
   ...chatboxProps 
 }: SEPChatProps): JSX.Element => {
   const [persistedData, setPersistedData] = useState<StoredSessionData | null>(null);
+  const [isNewSession, setIsNewSession] = useState<boolean | null>(null);
 
   // Load persisted session data on mount
   useEffect(() => {
-    if (!persistSession) return;
+    if (!persistSession) {
+      setIsNewSession(true);
+      return;
+    }
     
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -40,6 +46,7 @@ const SEPChatbox = ({
         const daysSinceLastAccess = (Date.now() - data.lastAccessed) / (1000 * 60 * 60 * 24);
         if (daysSinceLastAccess < sessionExpiryDays) {
           setPersistedData(data);
+          setIsNewSession(false);
           
           // Update lastAccessed timestamp to refresh the expiry window
           const updatedData: StoredSessionData = {
@@ -54,11 +61,15 @@ const SEPChatbox = ({
         } else {
           // Clear expired session
           localStorage.removeItem(STORAGE_KEY);
+          setIsNewSession(true);
         }
+      } else {
+        setIsNewSession(true);
       }
     } catch (error) {
       console.error('Failed to load persisted session:', error);
       localStorage.removeItem(STORAGE_KEY);
+      setIsNewSession(true);
     }
   }, [persistSession, sessionExpiryDays]);
 
@@ -89,11 +100,17 @@ const SEPChatbox = ({
   const customerIdToUse = providedCustomerId || persistedData?.customerId;
   const sessionIdToUse = providedSessionId || persistedData?.sessionId;
 
+  // Wait until we know if this is a new session before rendering
+  if (isNewSession === null) {
+    return <></>;
+  }
+
   return (
     <Chatbox
       {...chatboxProps}
       customerId={customerIdToUse}
       sessionId={sessionIdToUse}
+      initialCustomerMessage={isNewSession ? autoGreeting : undefined}
       onSessionCreated={handleSessionCreated}
     />
   );

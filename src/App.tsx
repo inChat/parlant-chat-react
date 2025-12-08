@@ -71,6 +71,7 @@ export interface ChatProps {
         float?: boolean;
         onPopupButtonClick?: () => void;
         agentOpeningMessage?: string;
+        initialCustomerMessage?: string;
         titleFn?: () => string;
         popupButton?: JSX.Element;
         sendIcon?: JSX.Element;
@@ -100,7 +101,7 @@ export interface ChatProps {
 
 const queryClient = new QueryClient();
 
-const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames, onSessionCreated, mockMessages}: ChatProps): JSX.Element => {
+const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, agentAvatar, onPopupButtonClick, agentOpeningMessage, initialCustomerMessage, chatDescription, float = false, popupButton, components, sendIcon, classNames, onSessionCreated, mockMessages}: ChatProps): JSX.Element => {
         const classes = useStyles();
         const [sessionIdToUse, setSessionIdToUse] = useState(sessionId);
         const popupButtonRef = useRef<HTMLButtonElement>(null);
@@ -205,12 +206,12 @@ const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, ag
                                                         </div>
                                                 </PopoverTrigger>
                                                 <PopoverContent className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper, classNames?.chatboxWrapper)} style={{transformOrigin: origin, margin: '0 10px'}} sideOffset={18}>
-                                                        <Chat createSession={createSession} agentId={agentId} server={server} float={float} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} agentOpeningMessage={agentOpeningMessage} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} messages={messages} setMessages={setMessages} />
+                                                        <Chat createSession={createSession} agentId={agentId} server={server} float={float} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} agentOpeningMessage={agentOpeningMessage} initialCustomerMessage={initialCustomerMessage} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} messages={messages} setMessages={setMessages} />
                                                 </PopoverContent>
                                         </Popover>
                                 ) : (
                                         <div className={clsx(classes.chatWrapper, isExpanded && classes.expandedChatWrapper, classNames?.chatboxWrapper)}>
-                                                <Chat createSession={createSession} agentId={agentId} server={server} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} agentOpeningMessage={agentOpeningMessage} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} messages={messages} setMessages={setMessages} />
+                                                <Chat createSession={createSession} agentId={agentId} server={server} sessionId={sessionToUse} agentName={agentName} agentAvatar={agentAvatar} agentOpeningMessage={agentOpeningMessage} initialCustomerMessage={initialCustomerMessage} chatDescription={chatDescription} classNames={classNames} components={components} sendIcon={sendIcon} changeIsExpanded={() => setIsExpanded(!isExpanded)} messages={messages} setMessages={setMessages} />
                                         </div>
                                 )}
                         </span>

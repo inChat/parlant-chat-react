@@ -88,7 +88,7 @@ export const getInitialMessages = (agentOpeningMessage?: string): MessageInterfa
         ];
 }
 
-const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, agentOpeningMessage, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription, messages, setMessages}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void; messages: MessageInterface[]; setMessages: React.Dispatch<React.SetStateAction<MessageInterface[]>>}): JSX.Element => {
+const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, agentOpeningMessage, initialCustomerMessage, sendIcon, createSession, classNames, float, changeIsExpanded, chatDescription, messages, setMessages}: ChatProps & {changeIsExpanded?: () => void; createSession: (message: EventCreationParams) => void; messages: MessageInterface[]; setMessages: React.Dispatch<React.SetStateAction<MessageInterface[]>>}): JSX.Element => {
         const classes = useStyles();
 
         const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -96,6 +96,7 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
         const [showInfo, setShowInfo] = useState<string>('');
         const [pendingMessage, setPendingMessage] = useState<Partial<Event>>(createEmptyPendingMessage());
         const [currentVisibleSection, setCurrentVisibleSection] = useState<{ title: string; data: SectionHeadingData } | null>(null);
+        const [hasAutoGreeted, setHasAutoGreeted] = useState<boolean>(false);
 
         const parlantClient = new ParlantClient({
                 environment: server,
@@ -216,6 +217,18 @@ const Chat = ({server, sessionId, agentId, agentName, agentAvatar, components, a
         useEffect(() => {
                 formatMessagesFromEvents();
         }, [data, formatMessagesFromEvents]);
+
+        useEffect(() => {
+                if (initialCustomerMessage && !sessionId && !hasAutoGreeted) {
+                        setHasAutoGreeted(true);
+                        const message: EventCreationParams = {
+                                kind: 'message',
+                                message: initialCustomerMessage,
+                                source: 'customer',
+                        };
+                        createSession(message);
+                }
+        }, [initialCustomerMessage, sessionId, hasAutoGreeted, createSession]);
 
         const changeIsExpandedFn = (): void => {
                 setIsExpanded(!isExpanded);
