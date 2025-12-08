@@ -35,7 +35,7 @@
       top: 0 !important;
       left: 0 !important;
       width: 100vw !important;
-      height: 100vh !important;
+      height: 100dvh !important;
       border: none !important;
       border-radius: 0 !important;
       box-shadow: none !important;
@@ -45,7 +45,7 @@
     }
 
     #app .parlant-chatbox {
-      height: 100vh !important;
+      height: 100dvh !important;
       width: 100vw !important;
       border-radius: 0 !important;
       max-height: none !important;
@@ -57,7 +57,7 @@
     }
 
     #app .parlant-messages-area {
-      height: calc(100vh - 120px) !important;
+      height: calc(100dvh - 120px) !important;
       max-height: none !important;
     }
 
@@ -88,7 +88,7 @@
     // Import React and the Parlant widget
     import React from 'react';
     import ReactDOM from 'react-dom/client';
-    import ParlantChatbox, { createSectionAwareHeader } from 'parlant-chat-react';
+    import { SEPChatbox, createSectionAwareHeader } from 'parlant-chat-react';
 
     const { createElement: h } = React;
     const { createRoot } = ReactDOM;
@@ -99,6 +99,8 @@
       agentName: "Nalcom",
       chatDescription: "Figuring out ADHD starts with a chat...",
       float: false,
+      persistSession: true,  // Enable session persistence
+      sessionExpiryDays: 30, // Sessions expire after 30 days
       components: {
         header: createSectionAwareHeader()
       },
@@ -118,7 +120,7 @@
 
     function App() {
       return h('div', { id: 'app' },
-        h(ParlantChatbox, chatboxOptions)
+        h(SEPChatbox, chatboxOptions)
       );
     }
 
