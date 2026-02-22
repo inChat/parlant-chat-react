@@ -6,6 +6,19 @@ import Markdown from '@/components/ui/Markdown';
 import { COLORS } from '@/theme';
 
 const useStyles = createUseStyles({
+	'@keyframes blink': {
+		'0%, 100%': {opacity: 1},
+		'50%': {opacity: 0},
+	},
+	cursor: {
+		display: 'inline-block',
+		width: '2px',
+		height: '1em',
+		backgroundColor: 'currentColor',
+		verticalAlign: 'text-bottom',
+		marginLeft: '1px',
+		animation: '$blink 1s step-end infinite',
+	},
 	markdown: {
 		'& *': {
 			fontSize: 'revert',
@@ -158,7 +171,11 @@ const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrev
 	const classes = useStyles();
 	const isCustomerMessage = message?.source === 'customer';
 
-	const messageContent = (message.data as {message?: string})?.message || '';
+	const chunks = (message.data as {chunks?: (string | null)[]})?.chunks;
+	const isStreaming = chunks !== undefined && (chunks.length === 0 || chunks[chunks.length - 1] !== null);
+	const messageContent = (message.data as {message?: string})?.message ||
+		(chunks ? chunks.filter((c): c is string => c !== null).join('') : '');
+
 	const userName = agentName || (message?.data as any)?.participant?.display_name;
 	const formattedUserName = userName === '<guest>' ? 'Guest' : userName;
 	
@@ -190,7 +207,14 @@ const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrev
 					</div>
 				</div>}
 				<div aria-live={isCustomerMessage ? "off" : "polite"}>
-					<Markdown className={classes.markdown}>{messageContent}</Markdown>
+					{isStreaming ? (
+						<span>
+							{messageContent}
+							<span className={classes.cursor} aria-hidden="true" />
+						</span>
+					) : (
+						<Markdown className={classes.markdown}>{messageContent}</Markdown>
+					)}
 				</div>
 			</div>
 		</div>

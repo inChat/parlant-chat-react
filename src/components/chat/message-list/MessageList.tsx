@@ -23,6 +23,7 @@ interface MessageListProps {
   };
   chatDescription?: string;
   isExpanded?: boolean;
+  hasActiveStreaming?: boolean;
 }
 
 const useStyles = createUseStyles({
@@ -120,19 +121,18 @@ const MessageList = ({
   isExpanded,
   classNames,
   chatDescription,
+  hasActiveStreaming,
 }: MessageListProps): JSX.Element => {
   const classes = useStyles();
   const messageListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // const top = messageListRef?.current?.scrollHeight;
     setTimeout(() => {
       messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight})
     }, 0);
     setTimeout(() => {
       messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight})
     }, 500);
-    // setTimeout(() => messageListRef?.current?.scrollTo({top}), 500);
   }, [agentName])
 
   useEffect(() => {
@@ -140,6 +140,32 @@ const MessageList = ({
       messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
     }, 100);
   }, [messages?.length, showInfo]);
+
+  // Auto-scroll when the last message content grows (message or chunks), including when streaming ends (final null chunk)
+  const lastMessageContentKey = (() => {
+    const last = messages.at(-1);
+    if (!last?.data) return '';
+    const d = last.data as { message?: string; chunks?: (string | null)[] };
+    if (d.message !== undefined) return `msg-${d.message.length}`;
+    if (d.chunks?.length) {
+      const textLen = d.chunks.filter((c): c is string => c !== null).join('').length;
+      return `chunks-${d.chunks.length}-${textLen}`;
+    }
+    return '';
+  })();
+  useEffect(() => {
+    const container = messageListRef.current;
+    if (!container) return;
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    if (scrollHeight - scrollTop - clientHeight >= 100) return;
+    // Defer until after layout so scrollHeight includes the latest chunk content
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        container.scrollTo({ top: container.scrollHeight, behavior: 'auto' });
+      });
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, [lastMessageContentKey, hasActiveStreaming]);
 
   return (
     <div 
