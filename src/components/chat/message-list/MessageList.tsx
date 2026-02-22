@@ -85,7 +85,7 @@ const useStyles = createUseStyles({
     marginTop: '-25px'
   },
   infoText: {
-    fontSize: '11px',
+    fontSize: '13px',
     color: COLORS.mutedText,
   },
   '@keyframes l43': {
@@ -125,6 +125,23 @@ const MessageList = ({
 }: MessageListProps): JSX.Element => {
   const classes = useStyles();
   const messageListRef = useRef<HTMLDivElement>(null);
+  const listContentRef = useRef<HTMLDivElement>(null);
+
+  // Scroll with content growth (e.g. typing animation revealing text) when user is near bottom
+  useEffect(() => {
+    const container = messageListRef.current;
+    const listContent = listContentRef.current;
+    if (!container || !listContent) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      if (scrollHeight - scrollTop - clientHeight < 100) {
+        container.scrollTo({ top: container.scrollHeight, behavior: 'auto' });
+      }
+    });
+    resizeObserver.observe(listContent);
+    return () => resizeObserver.disconnect();
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -179,7 +196,7 @@ const MessageList = ({
       <div className={clsx(classes.chatDescription, classNames?.chatDescription)}>
         {chatDescription || defaultChatDescription}
       </div>
-      <div role="list">
+      <div ref={listContentRef} role="list">
         {messages.map((message, index) => {
           const Component = (message?.source === 'customer' ? components?.customerMessage : components?.agentMessage) || Message;
 

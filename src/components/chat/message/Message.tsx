@@ -4,6 +4,7 @@ import {createUseStyles} from 'react-jss';
 import clsx from 'clsx';
 import Markdown from '@/components/ui/Markdown';
 import { COLORS } from '@/theme';
+import { useTypingAnimation } from '@/components/chat/hooks/useTypingAnimation';
 
 const useStyles = createUseStyles({
 	'@keyframes blink': {
@@ -172,9 +173,18 @@ const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrev
 	const isCustomerMessage = message?.source === 'customer';
 
 	const chunks = (message.data as {chunks?: (string | null)[]})?.chunks;
-	const isStreaming = chunks !== undefined && (chunks.length === 0 || chunks[chunks.length - 1] !== null);
+	const hasChunks = chunks !== undefined;
+	const isStreaming = hasChunks && (chunks.length === 0 || chunks[chunks.length - 1] !== null);
 	const messageContent = (message.data as {message?: string})?.message ||
 		(chunks ? chunks.filter((c): c is string => c !== null).join('') : '');
+
+	// Animate whenever we have chunk-based content (including when server sends one big array with stream already ended)
+	const displayedContent = useTypingAnimation(messageContent, hasChunks, {
+		charsPerSecond: 100,
+		resetKey: message.id,
+	});
+	const stillRevealing = hasChunks && displayedContent.length < messageContent.length;
+	const showStreamingUI = hasChunks && (isStreaming || stillRevealing);
 
 	const userName = agentName || (message?.data as any)?.participant?.display_name;
 	const formattedUserName = userName === '<guest>' ? 'Guest' : userName;
@@ -207,9 +217,9 @@ const Message = ({message, agentName, agentAvatar, className, isSameSourceAsPrev
 					</div>
 				</div>}
 				<div aria-live={isCustomerMessage ? "off" : "polite"}>
-					{isStreaming ? (
+					{showStreamingUI ? (
 						<span>
-							{messageContent}
+							{displayedContent}
 							<span className={classes.cursor} aria-hidden="true" />
 						</span>
 					) : (
