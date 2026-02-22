@@ -53,6 +53,10 @@ const useStyles = createUseStyles({
     lineHeight: '100%',
     width: 'fit-content',
   },
+  avatarScaled: {
+    transform: 'scale(1.1)',
+    transformOrigin: 'center',
+  },
   // Theme-based styles matching SectionHeading component
   supportTheme: {
     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -134,7 +138,9 @@ const SectionAwareHeader: React.FC<SectionAwareHeaderProps> = ({
           <div>{visibleSection.title}</div>
         ) : (
           <>
-            {agentAvatar || (agentName && (
+            {agentAvatar 
+              ? <div className={classes.avatarScaled}>{agentAvatar}</div>
+              : (agentName && (
               <div className={classes.agentInitials} aria-hidden="true">
                 {agentName[0]?.toUpperCase()}
               </div>
