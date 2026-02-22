@@ -49,9 +49,27 @@ This is a React component library for integrating Parlant chat agents into React
 - Configured Vite for Replit environment with proper host settings
 - Set up workflow for development server
 - Configured deployment for production builds
-- **NEW**: Implemented visual section headings with themed styling and full-width separators
-- **NEW**: Created scroll-aware header component that dynamically shows current visible section
-- **NEW**: Added smooth CSS transitions for header background/text color changes between sections
-- **NEW**: Implemented fallback header that shows agent name and avatar when no sections exist
-- **NEW**: Header seamlessly transitions between fallback (white background) and section themes
+- Implemented visual section headings with themed styling and full-width separators
+- Created scroll-aware header component that dynamically shows current visible section
+- Added smooth CSS transitions for header background/text color changes between sections
+- Implemented fallback header that shows agent name and avatar when no sections exist
+- Header seamlessly transitions between fallback (white background) and section themes
+- Replaced all 100vh with 100dvh for mobile viewport compatibility
+- Hidden "Powered by parlant" footer, added bottom padding to message input
+- Session persistence via localStorage (SEPChatbox with 30-day default expiry)
+- Auto-greeting: sends "Hi!" for new sessions only (not restored sessions)
+- **NEW**: AgentAvatar component with image URL and first-letter fallback (Feb 2026)
+- **NEW**: `agentAvatarUrl` prop on SEPChatbox for easy avatar configuration
+- **NEW**: Exported AgentAvatar component from library for standalone use
 - Project successfully imported and running (Sept 29, 2025)
+
+## Key Components
+- **SEPChatbox** (`src/SEPChatbox.tsx`): Wrapper with session persistence, auto-greeting, and agentAvatarUrl support
+- **AgentAvatar** (`src/components/chat/AgentAvatar.tsx`): Image avatar with first-letter fallback on load error
+- **SectionAwareHeader** (`src/components/chat/header/SectionAwareHeader.tsx`): Scroll-aware themed header
+- **dev-preview.html**: Full-screen preview using built dist files
+
+## User Preferences
+- SVG avatars: sep_looks_white.svg (white fill) for dark backgrounds
+- Mobile-first: use 100dvh, not 100vh
+- File patterns to gitignore: dev-preview.html, attached_assets/sep_*.html

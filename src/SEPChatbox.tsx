@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ReactElement, JSX } from 'react';
 import Chatbox, { type ChatProps } from './App';
 import SectionAwareHeader from './components/chat/header/SectionAwareHeader';
+import AgentAvatar from './components/chat/AgentAvatar';
 import type { MessageInterface } from './components/chat/Chat';
 
 const STORAGE_KEY = 'sep_parlant_session_data';
@@ -16,15 +17,18 @@ interface SEPChatProps extends ChatProps {
   persistSession?: boolean;
   sessionExpiryDays?: number;
   autoGreeting?: string;
+  agentAvatarUrl?: string;
 }
 
 const SEPChatbox = ({ 
   persistSession = true,
   sessionExpiryDays = 30,
   autoGreeting,
+  agentAvatarUrl,
   customerId: providedCustomerId,
   sessionId: providedSessionId,
   onSessionCreated,
+  agentAvatar: providedAgentAvatar,
   ...chatboxProps 
 }: SEPChatProps): JSX.Element => {
   const [persistedData, setPersistedData] = useState<StoredSessionData | null>(null);
@@ -100,6 +104,10 @@ const SEPChatbox = ({
   const customerIdToUse = providedCustomerId || persistedData?.customerId;
   const sessionIdToUse = providedSessionId || persistedData?.sessionId;
 
+  const avatarElement = providedAgentAvatar || (agentAvatarUrl 
+    ? <AgentAvatar avatarUrl={agentAvatarUrl} agentName={chatboxProps.agentName} />
+    : undefined);
+
   // Wait until we know if this is a new session before rendering
   if (isNewSession === null) {
     return <></>;
@@ -108,6 +116,7 @@ const SEPChatbox = ({
   return (
     <Chatbox
       {...chatboxProps}
+      agentAvatar={avatarElement}
       customerId={customerIdToUse}
       sessionId={sessionIdToUse}
       initialCustomerMessage={isNewSession ? autoGreeting : undefined}
