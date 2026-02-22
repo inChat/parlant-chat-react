@@ -45,7 +45,7 @@ const useStyles = createUseStyles({
       borderRadius: '3px',
     },
   },
-  messageAreagExpanded: {
+  messageAreaExpanded: {
     marginInline: '20px'
   },
   chatDescription: {
@@ -154,7 +154,7 @@ const MessageList = ({
 
   useEffect(() => {
     setTimeout(() => {
-      messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
+      messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight, behavior: !messageListRef?.current?.scrollTop ? 'auto' : 'smooth'});
     }, 100);
   }, [messages?.length, showInfo]);
 
@@ -186,7 +186,7 @@ const MessageList = ({
 
   return (
     <div 
-      className={clsx('fixed-scroll', classes.messagesArea, isExpanded && classes.messageAreagExpanded, classNames?.messagesArea)}
+      className={clsx('fixed-scroll', classes.messagesArea, isExpanded && classes.messageAreaExpanded, classNames?.messagesArea)}
       role="log"
       ref={messageListRef}
       aria-live="polite"
