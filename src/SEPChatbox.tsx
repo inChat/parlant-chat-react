@@ -78,10 +78,10 @@ const SEPChatbox = ({
   }, [persistSession, sessionExpiryDays]);
 
   // Handle session creation with persistence
-  const handleSessionCreated = (sessionId: string) => {
+  const handleSessionCreated = (sessionId: string, customerIdFromSession?: string) => {
     if (persistSession) {
-      const customerIdToStore = providedCustomerId || persistedData?.customerId || `customer-${Date.now()}`;
-      
+      const customerIdToStore = customerIdFromSession ?? providedCustomerId ?? persistedData?.customerId ?? `customer-${Date.now()}`;
+
       const sessionData: StoredSessionData = {
         customerId: customerIdToStore,
         sessionId: sessionId,
@@ -97,7 +97,7 @@ const SEPChatbox = ({
     }
 
     // Call the original callback if provided
-    onSessionCreated?.(sessionId);
+    onSessionCreated?.(sessionId, customerIdFromSession);
   };
 
   // Determine which customerId and sessionId to use

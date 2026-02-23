@@ -96,7 +96,7 @@ export interface ChatProps {
                 customerMessage?: (props: MessageComponentProps) => ReactElement;
                 header?: ({changeIsExpanded, agentName, agentAvatar, messages, currentVisibleSection}: {changeIsExpanded: () => void; agentName: string | undefined; agentAvatar?: JSX.Element; messages?: MessageInterface[]; currentVisibleSection?: { title: string; data: any } | null;}) => ReactElement;
         };
-        onSessionCreated?: (sessionId: string) => void;
+        onSessionCreated?: (sessionId: string, customerId?: string) => void;
 }
 
 const queryClient = new QueryClient();
@@ -168,8 +168,18 @@ const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, ag
                         console.error('agentId is required when sessionId is not provided');
                         return;
                 }
-                const newSessionData: SessionCreationParams = {agentId, allowGreeting: false, title: titleFn?.() || `New Session - ${new Date().toISOString()}`};
-                if (customerId) newSessionData.customerId = customerId;
+                const customerIdForSession = customerId ?? crypto.randomUUID();
+                const baseUrl = server.replace(/\/$/, '');
+                const createCustomerRes = await fetch(`${baseUrl}/customers`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: 'Guest', id: customerIdForSession }),
+                });
+                if (!createCustomerRes.ok && createCustomerRes.status !== 409) {
+                        console.error('Failed to create customer', createCustomerRes.status, await createCustomerRes.text());
+                        return;
+                }
+                const newSessionData: SessionCreationParams = { agentId, allowGreeting: false, title: titleFn?.() || `New Session - ${new Date().toISOString()}`, customerId: customerIdForSession };
                 const newSession = await parlantClient.sessions.create(newSessionData);
                 if (!newSession?.id) {
                         console.error('session was not created');
@@ -182,7 +192,7 @@ const Chatbox = ({server, titleFn, agentId, customerId, sessionId, agentName, ag
                 const event = await parlantClient.sessions.createEvent(newSession.id, message);
                 if (event?.id) {
                         setSessionIdToUse(newSession.id);
-                        onSessionCreated?.(newSession.id);
+                        onSessionCreated?.(newSession.id, customerIdForSession);
                 }
                 // messageSound();
         }
