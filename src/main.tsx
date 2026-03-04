@@ -283,6 +283,15 @@ const createMockConversation = (): MessageInterface[] => {
   return messages;
 };
 
+// ---------------------------------------------------------------------------
+// Switch: Mock UI vs Local server (polly at http://localhost:8800)
+// ---------------------------------------------------------------------------
+// Set to true to talk to your local agent. Set to false to use mock/demo (and
+// the checkbox below). To return to mock mode: set USE_LOCAL_SERVER = false.
+const USE_LOCAL_SERVER = true;
+// Get your Nalcom agent ID from the polly terminal when you run bin/dev, or from GET http://localhost:8800/agents
+const LOCAL_AGENT_ID = 'v9dFwO95O3'; // e.g. paste the id printed after "Agent 'Nalcom' (ID: ...)"
+
 // Mock Chat Component that uses predefined messages
 const MockChatbox = ({ float = false }: { float?: boolean }) => {
   const mockMessages = createMockConversation();
@@ -304,39 +313,80 @@ const MockChatbox = ({ float = false }: { float?: boolean }) => {
   );
 };
 
+// Shared props when using local server
+const localChatboxProps = {
+  server: 'http://localhost:8800' as const,
+  agentId: LOCAL_AGENT_ID,
+  agentName: 'Nalcom',
+  chatDescription: 'ADHD support – connected to local polly',
+  persistSession: true as const,
+  components: { header: createSectionAwareHeader() },
+};
+
 // Development demo of the Parlant Chat React component
 function App() {
   const [useMockData, setUseMockData] = useState(true);
-  
+
+  // Local server mode: no checkbox, just the chat connected to localhost:8800
+  if (USE_LOCAL_SERVER) {
+    return (
+      <div style={{
+        padding: '20px',
+        fontFamily: 'Inter, sans-serif',
+        backgroundColor: '#f5f5f5',
+        minHeight: '100dvh'
+      }}>
+        <h1>Parlant Chat React – Local (polly)</h1>
+        <p>Connected to <code>http://localhost:8800</code>. To use mock UI instead, set <code>USE_LOCAL_SERVER = false</code> in main.tsx.</p>
+        {!LOCAL_AGENT_ID && (
+          <p style={{ color: 'var(--color-warning, #b45309)', marginBottom: '12px' }}>
+            Set <code>LOCAL_AGENT_ID</code> in main.tsx (from polly startup log or GET http://localhost:8800/agents).
+          </p>
+        )}
+        <div style={{ marginTop: '24px' }}>
+          <h2>Embedded Chat</h2>
+          <div style={{ maxWidth: '500px', margin: '20px 0' }}>
+            <SEPChatbox {...localChatboxProps} />
+          </div>
+        </div>
+        <div style={{ marginTop: '40px' }}>
+          <h2>Floating Chat Button</h2>
+          <SEPChatbox float {...localChatboxProps} />
+        </div>
+      </div>
+    );
+  }
+
+  // Mock / demo mode: checkbox to switch between mock data and demo.parlant.io
   return (
-    <div style={{ 
-      padding: '20px', 
+    <div style={{
+      padding: '20px',
       fontFamily: 'Inter, sans-serif',
       backgroundColor: '#f5f5f5',
       minHeight: '100dvh'
     }}>
       <h1>Parlant Chat React - Development Demo</h1>
       <p>This is a development environment for the Parlant Chat React component.</p>
-      
+
       <div style={{ marginBottom: '20px' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-          <input 
-            type="checkbox" 
-            checked={useMockData} 
+          <input
+            type="checkbox"
+            checked={useMockData}
             onChange={(e) => setUseMockData(e.target.checked)}
           />
           Use mock conversation data (for UI testing)
         </label>
       </div>
-      
+
       <div style={{ marginTop: '40px' }}>
         <h2>Embedded Chat (non-floating)</h2>
         <div style={{ maxWidth: '500px', margin: '20px 0' }}>
           {useMockData ? (
             <MockChatbox />
           ) : (
-            <SEPChatbox 
-              server="https://demo.parlant.io" 
+            <SEPChatbox
+              server="https://demo.parlant.io"
               agentId="demo-agent"
               agentName="Demo Agent"
               chatDescription="Chat with our demo agent"
@@ -355,9 +405,9 @@ function App() {
         {useMockData ? (
           <MockChatbox float />
         ) : (
-          <SEPChatbox 
+          <SEPChatbox
             float
-            server="https://demo.parlant.io" 
+            server="https://demo.parlant.io"
             agentId="demo-agent"
             agentName="Demo Agent"
             chatDescription="Chat with our demo agent"

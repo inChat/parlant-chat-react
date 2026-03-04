@@ -25,6 +25,7 @@ interface MessageListProps {
   chatDescription?: string;
   isExpanded?: boolean;
   onCurrentSectionChange?: (section: { title: string; data: SectionHeadingData } | null) => void;
+  hasActiveStreaming?: boolean;
 }
 
 const useStyles = createUseStyles({
@@ -47,7 +48,7 @@ const useStyles = createUseStyles({
       borderRadius: '3px',
     },
   },
-  messageAreagExpanded: {
+  messageAreaExpanded: {
     marginInline: '20px'
   },
   chatDescription: {
@@ -87,7 +88,7 @@ const useStyles = createUseStyles({
     marginTop: '-25px'
   },
   infoText: {
-    fontSize: '11px',
+    fontSize: '13px',
     color: COLORS.mutedText,
   },
   '@keyframes l43': {
@@ -134,10 +135,12 @@ const MessageList = ({
   classNames,
   chatDescription,
   onCurrentSectionChange,
+  hasActiveStreaming,
 }: MessageListProps): JSX.Element => {
   const classes = useStyles();
   const messageListRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const listContentRef = useRef<HTMLDivElement>(null);
   const [currentVisibleSection, setCurrentVisibleSection] = useState<{ title: string; data: SectionHeadingData } | null>(null);
 
   // Function to determine which section is currently visible
@@ -148,27 +151,22 @@ const MessageList = ({
     const containerRect = container.getBoundingClientRect();
     const containerTop = container.scrollTop;
 
-    // Get all section headings in order
     const sectionMessages = messages.filter(isSectionHeading);
     let visibleSection = null;
 
-    // Check which section is currently visible in the viewport
-    // We want to find the section that is currently "active" based on scroll position
     for (let i = sectionMessages.length - 1; i >= 0; i--) {
       const sectionMessage = sectionMessages[i];
       const sectionKey = sectionMessage.id || `section-${i}`;
       const sectionElement = sectionRefs.current.get(sectionKey);
-      
+
       if (sectionElement) {
-        // Use getBoundingClientRect for more accurate position calculation
         const sectionRect = sectionElement.getBoundingClientRect();
         const sectionTop = sectionRect.top - containerRect.top + containerTop;
-        
-        // If this section is above or at the current scroll position, it's the active one
-        if (sectionTop <= containerTop + 100) { // 100px offset for better UX
+
+        if (sectionTop <= containerTop + 100) {
           const sectionData = getSectionHeadingData(sectionMessage);
           const sectionTitle = sectionData?.title || (sectionMessage.data as any)?.message || '';
-          
+
           if (sectionData) {
             visibleSection = {
               key: sectionKey,
@@ -184,17 +182,15 @@ const MessageList = ({
     return visibleSection;
   }, [messages]);
 
-  // Handle scroll events with throttling using requestAnimationFrame
   const handleScroll = useCallback(() => {
     if (!messageListRef.current) return;
-    
+
     requestAnimationFrame(() => {
       const newVisibleSection = getCurrentVisibleSection();
-      
-      // Compare by unique key instead of just title for better change detection
+
       const currentKey = (currentVisibleSection as any)?.key;
       const newKey = (newVisibleSection as any)?.key;
-      
+
       if (newKey !== currentKey) {
         setCurrentVisibleSection(newVisibleSection);
         onCurrentSectionChange?.(newVisibleSection);
@@ -202,14 +198,12 @@ const MessageList = ({
     });
   }, [getCurrentVisibleSection, currentVisibleSection, onCurrentSectionChange]);
 
-  // Add scroll event listener with passive option for better performance
   useEffect(() => {
     const container = messageListRef.current;
     if (!container) return;
 
     container.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Initial check after a brief delay to ensure refs are set
+
     setTimeout(handleScroll, 50);
 
     return () => {
@@ -217,26 +211,66 @@ const MessageList = ({
     };
   }, [handleScroll]);
 
+  // Scroll with content growth (e.g. typing animation revealing text) when user is near bottom
   useEffect(() => {
-    // const top = messageListRef?.current?.scrollHeight;
+    const container = messageListRef.current;
+    const listContent = listContentRef.current;
+    if (!container || !listContent) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      if (scrollHeight - scrollTop - clientHeight < 100) {
+        container.scrollTo({ top: container.scrollHeight, behavior: 'auto' });
+      }
+    });
+    resizeObserver.observe(listContent);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => {
       messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight})
     }, 0);
     setTimeout(() => {
       messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight})
     }, 500);
-    // setTimeout(() => messageListRef?.current?.scrollTo({top}), 500);
   }, [agentName])
 
   useEffect(() => {
     setTimeout(() => {
-      messageListRef?.current?.scrollTo({top: messageListRef.current.scrollHeight, behavior: !messageListRef.current.scrollTop ? 'auto' : 'smooth'});
+      messageListRef?.current?.scrollTo({top: messageListRef?.current?.scrollHeight, behavior: !messageListRef?.current?.scrollTop ? 'auto' : 'smooth'});
     }, 100);
   }, [messages?.length, showInfo]);
 
+  // Auto-scroll when the last message content grows (message or chunks), including when streaming ends (final null chunk)
+  const lastMessageContentKey = (() => {
+    const last = messages.at(-1);
+    if (!last?.data) return '';
+    const d = last.data as { message?: string; chunks?: (string | null)[] };
+    if (d.message !== undefined) return `msg-${d.message.length}`;
+    if (d.chunks?.length) {
+      const textLen = d.chunks.filter((c): c is string => c !== null).join('').length;
+      return `chunks-${d.chunks.length}-${textLen}`;
+    }
+    return '';
+  })();
+  useEffect(() => {
+    const container = messageListRef.current;
+    if (!container) return;
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    if (scrollHeight - scrollTop - clientHeight >= 100) return;
+    // Defer until after layout so scrollHeight includes the latest chunk content
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        container.scrollTo({ top: container.scrollHeight, behavior: 'auto' });
+      });
+    });
+    return () => cancelAnimationFrame(rafId);
+  }, [lastMessageContentKey, hasActiveStreaming]);
+
   return (
     <div 
-      className={clsx('fixed-scroll', classes.messagesArea, isExpanded && classes.messageAreagExpanded, classNames?.messagesArea)}
+      className={clsx('fixed-scroll', classes.messagesArea, isExpanded && classes.messageAreaExpanded, classNames?.messagesArea)}
       role="log"
       ref={messageListRef}
       aria-live="polite"
@@ -246,7 +280,7 @@ const MessageList = ({
       <div className={clsx(classes.chatDescription, classNames?.chatDescription)}>
         {chatDescription || defaultChatDescription}
       </div>
-      <div role="list">
+      <div ref={listContentRef} role="list">
         {messages.map((message, index) => {
           const isSection = isSectionHeading(message);
           const sectionKey = message.id || `section-${index}`;
